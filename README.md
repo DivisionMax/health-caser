@@ -8,8 +8,6 @@
 
 ### How do I get set up? ###
 
-* Summary of set up
-
 Java: jdk1.8.0_11
 Android Studio: 1.1.0
 
@@ -23,14 +21,3 @@ Android Studio: 1.1.0
 * Database configuration
 * How to run tests
 * Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
