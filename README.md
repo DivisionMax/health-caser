@@ -1,7 +1,5 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
 ### What is this repository for? ###
 
 * Quick summary
@@ -12,10 +10,13 @@ This README would normally document whatever steps are necessary to get your app
 
 * Summary of set up
 
-Create a directory on your local drive
-Run "git init" (create a local git repo)
-"git add remote origin ...."
-"git pull origin master"
+Java: jdk1.8.0_11
+Android Studio: 1.1.0
+
+1. Create a directory on your local drive
+2. Run "git init" (create a local git repo)
+3. "git add remote origin ...."
+4. "git pull origin master"
 
 * Configuration
 * Dependencies
