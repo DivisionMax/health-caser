@@ -13,7 +13,7 @@ Android Studio: 1.1.0
 
 1. Create a directory on your local drive
 2. Run "git init" (create a local git repo)
-3. "git add remote origin ...."
+3. "git remote add origin ...."
 4. "git pull origin master"
 
 * Configuration
