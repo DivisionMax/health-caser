@@ -1,5 +1,6 @@
 package com.csc3003.healthcaser;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -62,6 +63,10 @@ public class LoginActivity extends ActionBarActivity {
 //    Login
     public void login(View view) {
 
+        Intent intent = new Intent(this, ChooseCaseActivity.class);
+        startActivity(intent);
+
+/*
         emailStr = email.getText().toString();
         passwordStr = password.getText().toString();
 
@@ -73,6 +78,7 @@ public class LoginActivity extends ActionBarActivity {
         }
         else {
         }
+*/
     }
 
 //    Register
