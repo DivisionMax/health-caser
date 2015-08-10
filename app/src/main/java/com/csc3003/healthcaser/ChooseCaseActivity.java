@@ -17,6 +17,7 @@ public class ChooseCaseActivity extends ActionBarActivity {
 
     private ListView casesView;
     private List<String> cases;
+    private Random rand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +62,13 @@ public class ChooseCaseActivity extends ActionBarActivity {
     public void populateCasesView() {
 
         cases = new ArrayList<String>();
-        cases.add("list 1");
-        cases.add("list 2");
-        cases.add("list 3");
+         rand = new Random();
+        int k;
+        for (int i = 0 ; i < 5; i ++ ){
+             k = rand.nextInt(50) + 100;
+            cases.add("Case #" + k);
+        }
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, cases);
         casesView.setAdapter(dataAdapter);
@@ -79,7 +84,7 @@ public class ChooseCaseActivity extends ActionBarActivity {
     }
 
     public boolean randomCase(){
-        Random rand = new Random();
+        rand = new Random();
         int i = rand.nextInt(cases.size());
 
 //        cases.get(i);
