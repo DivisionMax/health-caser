@@ -25,6 +25,10 @@
             android:name=".ChooseCaseActivity"
             android:label="@string/title_activity_choose_case" >
         </activity>
+        <activity
+            android:name=".LActivity"
+            android:label="@string/title_activity_l" >
+        </activity>
     </application>
 
 </manifest>
