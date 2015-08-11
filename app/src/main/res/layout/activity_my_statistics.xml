@@ -6,14 +6,20 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.csc3003.healthcaser.MyStatisticsActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+     <TextView android:text="@string/my_statistics" android:layout_width="wrap_content"
+    android:id="@+id/user_statistics_heading"
+    android:layout_height="wrap_content"
+    />
 
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="200dip"
-        android:id="@+id/UsageLineGraph" />
+        android:id="@+id/UsageLineGraph"
+        android:layout_below="@id/user_statistics_heading"
+
+        />
+
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"

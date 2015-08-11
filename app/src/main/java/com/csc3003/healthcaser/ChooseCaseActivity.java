@@ -1,11 +1,14 @@
 package com.csc3003.healthcaser;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ public class ChooseCaseActivity extends ActionBarActivity {
     private ListView casesView;
     private List<String> cases;
     private Random rand;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,20 +30,30 @@ public class ChooseCaseActivity extends ActionBarActivity {
 
         casesView = (ListView) findViewById(R.id.casesView);
         populateCasesView();
+
 //        start health case if it is clicked
-        casesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        casesView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                                 String selected = cases.get(position);
                                 System.out.println(selected);
+//                intent = new Intent(context,HealthCaseTestActivity.class);
+//                add extra
+//                startActivity(intent);
             }
+
+
+
+
+
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_choose_case, menu);
         return true;
     }
@@ -52,12 +66,14 @@ public class ChooseCaseActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.user_statistics) {
+             intent = new Intent(this, MyStatisticsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 //    populate the spinner with externalSD cases
     public void populateCasesView() {
 
