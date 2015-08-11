@@ -30,4 +30,9 @@
     <string name="test">Run a Test</string>
     <string name="diagnose">Diagnose</string>
 
+    <!-- Diagnosis Popup-->
+    <string name="diagnosis_text">Enter your diagnosis</string>
+    <string name="diagnose_button">Diagnose</string>
+
+
 </resources>

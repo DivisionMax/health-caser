@@ -1,18 +1,27 @@
 package com.csc3003.healthcaser;
 
+import android.app.Dialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 
 public class HealthCaseTestActivity extends ActionBarActivity {
-
+    TextView title;
+    int num;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_case_test);
+
+        title = (TextView)findViewById(R.id.case_title);
+
+//        num = getIntent().getIntExtra("position", 0);
+//        title.setText("Case #" + num);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
@@ -38,5 +47,12 @@ public class HealthCaseTestActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void diagnose(View view){
+        Dialog diagnosisPopup = new Dialog(this);
+        diagnosisPopup.setContentView(R.layout.diagnosis_popup);
+
+
     }
 }

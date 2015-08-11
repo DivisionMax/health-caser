@@ -31,16 +31,16 @@ public class ChooseCaseActivity extends ActionBarActivity {
         casesView = (ListView) findViewById(R.id.casesView);
         populateCasesView();
 
-//        start health case if it is clicked
+        //Start the health case when it is clicked
         casesView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                                String selected = cases.get(position);
-                                System.out.println(selected);
-//                intent = new Intent(context,HealthCaseTestActivity.class);
-//                add extra
-//                startActivity(intent);
+//                                int num = Integer.parseInt(cases.get(position));
+
+                intent = new Intent(view.getContext(),HealthCaseTestActivity.class);
+                startActivity(intent);
+
             }
 
 
@@ -92,19 +92,17 @@ public class ChooseCaseActivity extends ActionBarActivity {
         casesView.setAdapter(dataAdapter);
     }
 
-    public boolean specificCase(){
+    public void specificCase(View v){
 
 //        String.valueOf(spinner1.getSelectedItem()
 
-        return true;
     }
 
-    public boolean randomCase(){
-        rand = new Random();
-        int i = rand.nextInt(cases.size());
+    public void randomCase(View v){
+//        rand = new Random();
+//        int i = rand.nextInt(cases.size());
+        intent = new Intent (this, HealthCaseTestActivity.class);
+        startActivity(intent);
 
-//        cases.get(i);
-
-        return true;
     }
 }

@@ -9,7 +9,7 @@
 
     <TextView android:text="@string/my_statistics" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/caseTitle"
+        android:id="@+id/case_title"
         />
 
 
@@ -40,16 +40,13 @@
             android:layout_height="wrap_content"
             android:text="@string/test"/>
 
-        />
-
         <Button
             android:id="@+id/diagnose"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:onClick="diagnose"
             android:text="@string/diagnose"/>
-
-        />
 
     </LinearLayout>
 
