@@ -14,4 +14,7 @@
     <string name="choose_case_welcome">Welcome. Choose a specific health case or click Random</string>
     <string name="start">Start</string>
     <string name="random">Random</string>
+    <string name="title_activity_my_statistics">MyStatisticsActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
