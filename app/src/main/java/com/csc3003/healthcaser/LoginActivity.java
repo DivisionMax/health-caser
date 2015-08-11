@@ -1,7 +1,10 @@
 package com.csc3003.healthcaser;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,38 +13,95 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends Activity {
 
-    private static final String TAG = "LoginActivity";
-
-    Button login, register;
-    EditText email, password;
-    TextView feedback;
-
-    String emailStr, passwordStr, feedbackMsg;
-
+    Button logButton;
+    Button regButton;
+    EditText editPass;
+    EditText editName;
+    Login loginUsers;
+    private String username,password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_l);
+        final int duration = Toast.LENGTH_SHORT;
+        loginUsers = new Login();
+        logButton = (Button)findViewById(R.id.login);
+        regButton = (Button)findViewById(R.id.register);
+        editName = (EditText)findViewById(R.id.email);
+        editPass = (EditText)findViewById(R.id.password);
+        //Login
+        logButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                username = editName.getText().toString();
+                password = editPass.getText().toString();
+                if (loginUsers.attemptUserLogin(username, password))
+                {
+                    //Adapted from http://stackoverflow.com/questions/26097513/android-simple-alert-dialog
+                    AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+                    alertDialog.setTitle("Welcome back, " + username + "!");
+                    alertDialog.setMessage("You've logged in");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
+                else
+                {
+                    //Adapted from http://developer.android.com/guide/topics/ui/notifiers/toasts.html
+                    Context context = getApplicationContext();
+                    CharSequence msg = "Login failed.";
+                    Toast errReg = Toast.makeText(context,msg,duration);
+                    errReg.show();
+                }
+
+            }
+        });
+        //Register
+        regButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                username = editName.getText().toString();
+                password = editPass.getText().toString();
+                if (loginUsers.addUser(username,password))
+                {
+
+                    //Adapted from http://stackoverflow.com/questions/26097513/android-simple-alert-dialog
+                    AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+                    alertDialog.setTitle("Welcome, " + username + "!");
+                    alertDialog.setMessage("You've now registered!");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+
+                }
+                else
+                {
+                    Context context = getApplicationContext();
+                    CharSequence msg = "Registration failed.";
+                    Toast errReg = Toast.makeText(context,msg,duration);
+                    errReg.show();
+                }
+            }
+        });
 
 
-        email = (EditText) findViewById(R.id.email);
-        password = (EditText) findViewById(R.id.password);
-
-        feedback = (TextView) findViewById(R.id.feedback);
-
-
-//        login = (Button) findViewById(R.id.login);
-//         register= (Button) findViewById(R.id.register);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
+        //   getMenuInflater().inflate(R.menu.menu_l, menu);
         return true;
     }
 
@@ -59,42 +119,4 @@ public class LoginActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-//    Login
-    public void login(View view) {
-
-        Intent intent = new Intent(this, ChooseCaseActivity.class);
-        startActivity(intent);
-
-/*
-        emailStr = email.getText().toString();
-        passwordStr = password.getText().toString();
-
-
-        if (emailStr != null && passwordStr != null) {
-            feedbackMsg = "User has logged in";
-            Log.i(TAG, feedbackMsg );
-            feedback.setText(feedbackMsg);
-        }
-        else {
-        }
-*/
-    }
-
-//    Register
-public void register(View view) {
-
-    emailStr = email.getText().toString();
-    passwordStr = password.getText().toString();
-
-    if (emailStr != null && passwordStr != null) {
-        feedbackMsg = "User has logged in";
-        Log.i(TAG, feedbackMsg );
-        feedback.setText(feedbackMsg);
-    }
-    else {
-    }
-}
-
-
 }
