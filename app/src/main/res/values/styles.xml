@@ -3,23 +3,22 @@
 
     <!-- Base application theme. -->
 
-    <color name="windowBackground">#ff00e7ff</color>
-    <!--<color name="background">#fff6fffd</color>-->
+    <!--<color name="windowBackground">#ffe6e6e6</color>-->
 
-    <color name="light_grey">#ffe0e1f2</color>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:typeface">monospace</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:windowBackground">@color/windowBackground</item>
         <!--<item name="android:background">@color/background</item>-->
     </style>
 
+<!--
     <style name="ListView" parent="@android:style/Widget.ListView">
         <item name="android:background">@color/light_grey</item>
         <item name="android:cacheColorHint">@android:color/transparent</item>
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">10dp</item>
     </style>
+-->
 
 </resources>
