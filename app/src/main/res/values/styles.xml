@@ -6,7 +6,7 @@
     <!--<color name="windowBackground">#ffe6e6e6</color>-->
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:typeface">monospace</item>
+        <item name="android:typeface">normal</item>
         <item name="android:textSize">20sp</item>
         <!--<item name="android:background">@color/background</item>-->
     </style>
