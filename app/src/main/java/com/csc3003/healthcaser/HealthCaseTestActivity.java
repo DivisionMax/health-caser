@@ -1,6 +1,7 @@
 package com.csc3003.healthcaser;
 
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
 
 
 public class HealthCaseTestActivity extends ActionBarActivity {
@@ -50,9 +52,7 @@ public class HealthCaseTestActivity extends ActionBarActivity {
     }
 
     public void diagnose(View view){
-        Dialog diagnosisPopup = new Dialog(this);
-        diagnosisPopup.setContentView(R.layout.diagnosis_popup);
-
-
+        DialogFragment newFragment = new DiagnosisDialog();
+        newFragment.show(getFragmentManager(), "diagnosis");
     }
 }
