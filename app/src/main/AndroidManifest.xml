@@ -41,6 +41,10 @@
             android:name=".HealthCaseTestResultActivity"
             android:label="@string/title_activity_health_case_test_result" >
         </activity>
+        <activity
+            android:name=".LActivity"
+            android:label="@string/title_activity_l" >
+        </activity>
     </application>
 
 </manifest>

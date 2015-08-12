@@ -1,23 +1,20 @@
 package com.csc3003.healthcaser;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-
-public class LoginActivity extends Activity {
-
+//Activity that facilitates logins and registrations
+//Users can log in or register, and relevant errors/
+//notifications are displayed on login/registration
+public class LActivity extends Activity {
     Button logButton;
     Button regButton;
     EditText editPass;
@@ -35,14 +32,14 @@ public class LoginActivity extends Activity {
         editName = (EditText)findViewById(R.id.email);
         editPass = (EditText)findViewById(R.id.password);
         //Login
-        logButton.setOnClickListener(new View.OnClickListener() {
+        logButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 username = editName.getText().toString();
                 password = editPass.getText().toString();
                 if (loginUsers.attemptUserLogin(username, password))
                 {
                     //Adapted from http://stackoverflow.com/questions/26097513/android-simple-alert-dialog
-                    AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+                    AlertDialog alertDialog = new AlertDialog.Builder(LActivity.this).create();
                     alertDialog.setTitle("Welcome back, " + username + "!");
                     alertDialog.setMessage("You've logged in");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -65,7 +62,7 @@ public class LoginActivity extends Activity {
             }
         });
         //Register
-        regButton.setOnClickListener(new View.OnClickListener() {
+        regButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 username = editName.getText().toString();
                 password = editPass.getText().toString();
@@ -73,7 +70,7 @@ public class LoginActivity extends Activity {
                 {
 
                     //Adapted from http://stackoverflow.com/questions/26097513/android-simple-alert-dialog
-                    AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+                    AlertDialog alertDialog = new AlertDialog.Builder(LActivity.this).create();
                     alertDialog.setTitle("Welcome, " + username + "!");
                     alertDialog.setMessage("You've now registered!");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",

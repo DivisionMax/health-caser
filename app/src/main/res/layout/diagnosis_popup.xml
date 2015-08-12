@@ -19,7 +19,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/diagnose_button"
+        android:text="@string/diagnose"
         android:layout_toRightOf="@id/user_diagnosis"/>
 
 

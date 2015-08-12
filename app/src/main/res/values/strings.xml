@@ -18,21 +18,12 @@
     <string name="start">Start</string>
     <string name="random">Random</string>
 
-    <string name="title_activity_health_case_test">HealthCaseTestActivity</string>
-    <string name="title_activity_health_case_test_result">HealthCaseTestResultActivity</string>
+    <!-- Statistics-->
 
-    <!-- statistics-->
-    <string name="title_activity_my_statistics">My Statistics</string>
     <string name="my_statistics">My Statistics</string>
-
-    <!-- health case buttons-->
     <string name="ask">Ask a Question</string>
     <string name="test">Run a Test</string>
     <string name="diagnose">Diagnose</string>
 
-    <!-- Diagnosis Popup-->
-    <string name="diagnosis_text">Enter your diagnosis</string>
-    <string name="diagnose_button">Diagnose</string>
-
-
+    <string name="diagnosis_text">Enter a diagnosis</string>
 </resources>
