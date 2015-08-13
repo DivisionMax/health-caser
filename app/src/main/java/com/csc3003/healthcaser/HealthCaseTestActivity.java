@@ -6,19 +6,26 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 
 
-public class HealthCaseTestActivity extends ActionBarActivity {
+public class HealthCaseTestActivity extends ActionBarActivity implements DiagnosisDialog.DiagnosisDialogListener{
     TextView title;
     int num;
+    DialogFragment newFragment;
+    PopupMenu ask,test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_case_test);
+
+
 
         title = (TextView)findViewById(R.id.case_title);
 
@@ -50,9 +57,36 @@ public class HealthCaseTestActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
+    //Display and capture diagnosis popup
     public void diagnose(View view){
-        DialogFragment newFragment = new DiagnosisDialog();
+         newFragment = new DiagnosisDialog();
         newFragment.show(getFragmentManager(), "diagnosis");
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        // User touched the dialog's positive button
+//        EditText diagnosis = (EditText)findViewById(R.id.diagnosis);
+//        title.setText(newFragment.diagnosis.getText());
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        // User touched the dialog's negative button
+        newFragment.dismiss();
+    }
+
+    public void showAskPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_popup_ask, popup.getMenu());
+        popup.show();
+    }
+
+    public void showTestPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_popup_test, popup.getMenu());
+        popup.show();
     }
 }

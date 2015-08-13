@@ -2,6 +2,11 @@
     <!-- Temp-->
     <string name="hello_world">Hello World</string>
     <string name="cancel">Cancel</string>
+    <string name="test_1">Test 1</string>
+    <string name="test_2">Test 2</string>
+    <string name="ask_1">Ask 1</string>
+    <string name="ask_2">Ask 2</string>
+
 
     <!-- -->
     <string name="app_name">Health Caser</string>
