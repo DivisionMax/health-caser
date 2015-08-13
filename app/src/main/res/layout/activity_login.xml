@@ -14,6 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="6dip"
         android:layout_gravity="center"
+        android:layout_weight="2"
+
         android:src="@drawable/logo_banner" />
 
     <EditText
@@ -22,6 +24,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/hint_email"
         android:focusable="true"
+        android:layout_weight="0.5"
+
         android:textColorHighlight="#ff00ff56"
         android:inputType="textEmailAddress" />
 
@@ -30,6 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_password"
+        android:layout_weight="0.5"
+
         android:textColorHighlight="#ff00ff56"
         android:inputType="textPassword" />
 
@@ -37,6 +43,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_weight="1"
+
+
         >
 
         <Button
@@ -45,6 +54,8 @@
             android:layout_height="wrap_content"
             android:onClick="login"
             android:text="@string/login"
+            android:layout_weight="0.5"
+
             />
 
         <Button
@@ -53,6 +64,8 @@
             android:layout_height="wrap_content"
             android:onClick="register"
             android:text="@string/register"
+            android:layout_weight="0.5"
+
             />
 
     </LinearLayout>
