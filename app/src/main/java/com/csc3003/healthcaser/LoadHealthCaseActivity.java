@@ -10,13 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
 import android.widget.TextView;
-
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-
-
 import java.io.File;
 import java.util.ArrayList;
 
@@ -41,13 +37,14 @@ public class LoadHealthCaseActivity extends Activity {
         final ArrayList<Test> testList = new ArrayList<Test>();
         final ArrayList<String> results = new ArrayList<String>();
         results.add("Results: 120\\80");
+
         Test bloodPressureTest = new Test();
         bloodPressureTest.setName("Blood pressure");
         bloodPressureTest.setResults(results);
         testList.add(bloodPressureTest);
         final ArrayList<String> hist = new ArrayList<String>();
         final ArrayList<String> pt = new ArrayList<String>();
-        pt.add("Nothing");
+        pt.add("None.");
         hist.add("Orthotopic Liver Transplant in 1992 for cirrhosis secondary to alcohol use.\"");
         hist.add("Hypertension.");
         hist.add("Cadaveric Renal Transplant in 1994 for chronic renal failure secondary to glomerulonephritis.");

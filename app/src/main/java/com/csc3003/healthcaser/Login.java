@@ -1,5 +1,6 @@
 package com.csc3003.healthcaser;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import org.json.JSONObject;
 
@@ -23,6 +24,7 @@ public class Login {
     public Login() {
         numUsers = 0;
         userList = new HashMap<String,String>();
+        addUser("superadmin", "password");
     }
 
     //Add user to list of users (i.e. register user)
@@ -40,30 +42,31 @@ public class Login {
                 numUsers++;
                 return true;
             } else {
-                System.err.println("Error - username " + user + " is taken.");
+                System.err.println("Error - username " + user + " is taken");
                 System.err.println("Please enter a different username");
                 return false;
             }
         } else {
-            System.err.println("Error - invalid username and/or password.");
+            System.err.println("Error - invalid username and/or password");
             System.err.println("Make sure both fields have been entered and each field is" +
                     "at least 6 characters");
             return false;
         }
     }
+
     //Login the user. Check username exists and that the password entered is correct.
     public boolean attemptUserLogin(String name,String pass)
     {
         if (userList.containsKey(name)==false)
         {
-            System.err.println("Error - username "+name +" is not registered.");
-            System.err.println("Pleae re-enter the username");
+            System.err.println("Error - username " + name +" is not registered");
+            System.err.println("Please re-enter the username");
             return false;
         }
         else if (!(userList.get(name).equals(pass)))
         {
-            System.err.println("Error - incorrect password entered.");
-            System.err.println("Pleae re-enter the password.");
+            System.err.println("Error - incorrect password entered");
+            System.err.println("Pleae re-enter the password");
             return false;
         }
         Log.i("mytag", "Logged in!");

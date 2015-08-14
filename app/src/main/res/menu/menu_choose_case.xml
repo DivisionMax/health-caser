@@ -2,6 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.csc3003.healthcaser.ChooseCaseActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+
+    <item android:id="@+id/user_statistics" android:title="@string/my_statistics"
         android:orderInCategory="100" app:showAsAction="never" />
+<!--
+    <item android:id="@+id/action_search"
+        android:icon="@drawable/ic_action_search"
+        android:title="@string/action_search"/>
+-->
 </menu>
