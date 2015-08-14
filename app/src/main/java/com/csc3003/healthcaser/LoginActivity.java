@@ -27,7 +27,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_l);
+        setContentView(R.layout.activity_login);
         final int duration = Toast.LENGTH_SHORT;
         loginUsers = new Login();
         logButton = (Button)findViewById(R.id.login);
@@ -69,7 +69,7 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 username = editName.getText().toString();
                 password = editPass.getText().toString();
-                if (loginUsers.addUser(username,password))
+                if (loginUsers.addUser(username, password))
                 {
 
                     //Adapted from http://stackoverflow.com/questions/26097513/android-simple-alert-dialog

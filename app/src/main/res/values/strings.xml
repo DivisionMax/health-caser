@@ -9,12 +9,15 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="hint_password">Password</string>
-    <string name="hint_email">Email</string>
+    <string name="hint_email">Username</string>
     <string name="title_activity_choose_case">Choose a Case</string>
     <string name="choose_case_welcome">Welcome. Choose a specific health case or click Random</string>
     <string name="start">Start</string>
     <string name="random">Random</string>
     <string name="title_activity_l">LActivity</string>
-
+    <string name="moreHist">More History</string>
+    <string name="takeTest">View Tests</string>
+    <string name="diagnose">Diagnose</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_load_health_case">LoadHealthCase</string>
 </resources>
