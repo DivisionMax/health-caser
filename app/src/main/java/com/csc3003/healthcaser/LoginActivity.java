@@ -1,7 +1,6 @@
 package com.csc3003.healthcaser;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
+//import com.DatabaseTools.UserDBHandler;
+import com.csc3003.databaseTools.UserDBHandler;
+
 public class LoginActivity extends ActionBarActivity {
 
     private static final String TAG = "LoginActivity";
@@ -22,19 +24,22 @@ public class LoginActivity extends ActionBarActivity {
     TextView feedback;
 
     String emailStr, passwordStr, feedbackMsg;
-
+    UserDBHandler userDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        userDB = new UserDBHandler(this, null, null, 1);
 
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
+
         feedback = (TextView) findViewById(R.id.feedback);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+
+//        login = (Button) findViewById(R.id.login);
+//         register= (Button) findViewById(R.id.register);
     }
 
     @Override
@@ -59,18 +64,85 @@ public class LoginActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //Login
+    //    Login
     public void login(View view) {
 
-        Intent intent = new Intent(this, ChooseCaseActivity.class);
-        startActivity(intent);
 
+        emailStr = email.getText().toString();
+        passwordStr = password.getText().toString();
+
+        if(userDB.isUserExist(emailStr)) {
+
+            Log.i("login exist", "it exist" );
+        }
+        else
+        {
+            Log.i("login exist", "it does not" );
+        }
+
+        if(userDB.isUserExist(emailStr)&& userDB.isCorrectPassword(emailStr,passwordStr)) {
+
+            feedbackMsg = "User has logged in";
+            feedback.setText(feedbackMsg);
+            Intent intent = new Intent(this, ChooseCaseActivity.class);
+            startActivity(intent);
+
+        }
+        else
+        {
+            feedbackMsg = "Username or password is incorrect";
+            feedback.setText(feedbackMsg);
+        }
+
+/*
+        emailStr = email.getText().toString();
+        passwordStr = password.getText().toString();
+
+
+        if (emailStr != null && passwordStr != null) {
+            feedbackMsg = "User has logged in";
+            Log.i(TAG, feedbackMsg );
+            feedback.setText(feedbackMsg);
+        }
+        else {
+        }
+*/
     }
 
-
-    //Register
+    //    Register
     public void register(View view) {
 
+        emailStr = email.getText().toString();
+        passwordStr = password.getText().toString();
+
+        if( userDB.isUserExist(emailStr)  )
+        {
+            feedbackMsg = "Cannot register username, username taken";
+
+            feedback.setText(feedbackMsg);
+        }
+        else
+        {
+            userDB.addUser( emailStr ,passwordStr);
+
+
+            feedbackMsg = "User has logged in";
+
+            feedback.setText(feedbackMsg);
+
+            Intent intent = new Intent(this, ChooseCaseActivity.class);
+
+            startActivity(intent);
+
+
+        }
+//    if (emailStr != null && passwordStr != null) {
+//        feedbackMsg = "User has logged in";
+//        Log.i(TAG, feedbackMsg );
+//        feedback.setText(feedbackMsg);
+//    }
+//    else {
+//    }
     }
 
 
