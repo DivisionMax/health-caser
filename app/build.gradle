@@ -22,5 +22,13 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.1.1'
+<<<<<<< HEAD
+    compile('org.simpleframework:simple-xml:2.7.+'){
+        exclude module: 'stax'
+        exclude module: 'stax-api'
+        exclude module: 'xpp3'
+    }
+=======
     compile 'com.jjoe64:graphview:4.0.1'
+>>>>>>> 00fea8cfaa7eeebea87bf738eebcf539d7e308ec
 }

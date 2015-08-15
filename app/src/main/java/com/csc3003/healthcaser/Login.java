@@ -30,7 +30,7 @@ public class Login {
     //Add user to list of users (i.e. register user)
     //Check username not already in dictionary, and
     //check passsword and user are of appropriate lengths
-    public boolean addUser(String user, String pass) {
+    public boolean addUser(String user, String pass) { //addUser
         //If both username and password are given
         //and are both at least 6 characters long
         if ((user != null && pass != null) &&
