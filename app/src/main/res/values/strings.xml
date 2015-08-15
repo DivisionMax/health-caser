@@ -25,7 +25,7 @@
     <string name="hint_password">Password</string>
 
 
-    <string name="title_activity_choose_case">Choose a Case</string>
+
 
 
 
@@ -34,11 +34,12 @@
     <string name="takeTest">View Tests</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_load_health_case">LoadHealthCase</string>
 
     <string name="hint_email">Email</string>
 
     <!-- Choose a Case-->
+    <string name="title_activity_choose_case">Choose a Case</string>
+    <string name="cases">Cases</string>
     <string name="choose_case_welcome">Welcome. Choose a specific health case or click Random</string>
     <string name="start">Start</string>
     <string name="random">Random</string>

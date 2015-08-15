@@ -13,7 +13,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 
 public class MyStatisticsActivity extends ActionBarActivity {
-
+    private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +59,9 @@ public class MyStatisticsActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.link_cases) {
+            intent = new Intent(this,ChooseCaseActivity.class);
+            startActivity(intent);
             return true;
         }
 
