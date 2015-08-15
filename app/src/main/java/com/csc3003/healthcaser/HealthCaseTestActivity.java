@@ -37,8 +37,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         content = this.findViewById(android.R.id.content);
 
         //ALAN ACTIVITY
-
-            //Populate the health case arrays
+        // Populate the health case arrays
         final ArrayList<Test> testList = new ArrayList<Test>();
         final ArrayList<String> results = new ArrayList<String>();
         final ArrayList<String> hist = new ArrayList<String>();
@@ -68,13 +67,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
 
         title = (TextView)findViewById(R.id.case_title);
         information = (TextView)findViewById(R.id.case_information);
-//        serializeXML(hc);
-
-//        getSupportActionBar().hide();
-
-        //Menu Item listeners
-
-
+        information.setText(hc.getStart());
     }
 
     @Override
@@ -103,17 +96,11 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
          newFragment = new DiagnosisDialog();
         newFragment.show(getFragmentManager(), "diagnosis");
 
-    /*    diagText.setText(hc.getDiagnosis());
-        startText.setVisibility(View.GONE);
-        testText.setVisibility(View.GONE);*/
-
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        // User touched the dialog's positive button
-//        EditText diagnosis = (EditText)findViewById(R.id.diagnosis);
-//        title.setText(newFragment.diagnosis.getText());
+
     }
 
     @Override

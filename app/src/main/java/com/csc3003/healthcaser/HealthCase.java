@@ -8,9 +8,7 @@ import org.simpleframework.xml.*;
  */
 @Root
 public class HealthCase {
-    //HealthCase.java
-//Author: Alan Berman
-//10/08/15
+ 
     @Element
     private String start; //age, chief complaint
     @ElementList

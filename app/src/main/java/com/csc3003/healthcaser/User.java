@@ -8,13 +8,12 @@ public class User {
     private String password;
     private boolean loggedIn;
     private String state;
-    //Represents the statistics of all health cases
-    //the user has done
-  //  private ArrayList<CaseStatistics> statistics;
+
+
 
     public User()
     {
-        //statistics = new ArrayList<CaseStatistics>();
+
     }
 
     public void setUsername(String username)
@@ -24,7 +23,7 @@ public class User {
 
     public void setPassword(String password)
     {
-        this.username = username;
+        this.password = password;
     }
 
     public String getUsername()
