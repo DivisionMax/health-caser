@@ -28,23 +28,15 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     MenuInflater inflater;
 
     View content;
+    final HealthCase hc =  new HealthCase();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_case_test);
         content = this.findViewById(android.R.id.content);
 
-        //SETUP POPUP MENUS
-        askMenu = new PopupMenu(this,content);
-        inflater = askMenu.getMenuInflater();
-        inflater.inflate(R.menu.menu_popup_ask, askMenu.getMenu());
-
-        testMenu = new PopupMenu(this, content);
-        inflater = testMenu.getMenuInflater();
-        inflater.inflate(R.menu.menu_popup_test, testMenu.getMenu());
-
         //ALAN ACTIVITY
-        final HealthCase hc = new HealthCase();
 
             //Populate the health case arrays
         final ArrayList<Test> testList = new ArrayList<Test>();
@@ -81,26 +73,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
 //        getSupportActionBar().hide();
 
         //Menu Item listeners
-        testMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                     information.setText(hc.getTests().get(0).getName() + ":\n");
-            for (Test t : hc.getTests()) {
-                information.append(t.getResults().get(0) + "\n");
-            }
-                    return false;
-            }
-        });
-        askMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                      information.setText("");
-            for (String a : hc.getHistory()) {
-                information.append(a + "\n");
-            }
-                return false;
-            }
-        });
+
 
     }
 
@@ -148,15 +121,47 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         // User touched the dialog's negative button
         newFragment.dismiss();
     }
+    //POPUP MENU LISTENER
+    private PopupMenu.OnMenuItemClickListener askMenuListener = new PopupMenu.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            information.setText("");
+            for (String a : hc.getHistory()) {
+                information.append(a + "\n");
+            }
+            return false;
+        }
+    };
 
-    public void showAskPopup(View v) {
+    private PopupMenu.OnMenuItemClickListener testMenuListener = new PopupMenu.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            information.setText(hc.getTests().get(0).getName() + ":\n");
+            for (Test t : hc.getTests()) {
+                information.append(t.getResults().get(0) + "\n");
+            }
+            return false;
+        }
+    };
+    //POPUP MENU METHODS
+    public void showAskPopup(View view) {
+        //SETUP
+        askMenu = new PopupMenu(this,view);
+        inflater = askMenu.getMenuInflater();
+        inflater.inflate(R.menu.menu_popup_ask, askMenu.getMenu());
+        askMenu.setOnMenuItemClickListener(askMenuListener);
         askMenu.show();
     }
 
-    public void showTestPopup(View v) {
+    public void showTestPopup(View view) {
+        //SETUP
+        testMenu = new PopupMenu(this, view);
+        inflater = testMenu.getMenuInflater();
+        inflater.inflate(R.menu.menu_popup_test, testMenu.getMenu());
+        testMenu.setOnMenuItemClickListener(testMenuListener);
         testMenu.show();
     }
-
+    //OBJECT -> XML || XML -> OBJECT
     public boolean serializeXML(HealthCase hc){
         File xmlFile = new File(getFilesDir().getPath() + "/HealthCase.xml");
         Serializer serializer = new Persister();
@@ -188,6 +193,5 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         }
         return status;
     }
-
 
 }
