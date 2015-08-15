@@ -1,22 +1,50 @@
 package com.csc3003.healthcaser;
 
+import org.simpleframework.xml.Element;
+
 /**
  * Created by Alan Berman on 8/10/2015.
  */
 public class XRay {
+    @Element
     private int width;
+    @Element
     private int length;
+    @Element
     private String description;
+    @Element
     private Test relatedTest;
+    public XRay(){}
 
-    public XRay(String XMLFile)
-    {
-        loadXRay(XMLFile);
+    public void setLength(int length) {
+        this.length = length;
     }
-    //Sets the dimensions and description of the XRay
-    //as well as its related Test
-    public void loadXRay(String file)
-    {
-        //do_something
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setRelatedTest(Test relatedTest) {
+        this.relatedTest = relatedTest;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Test getRelatedTest() {
+        return relatedTest;
     }
 }

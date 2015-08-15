@@ -88,14 +88,7 @@ public class ChooseCaseActivity extends ActionBarActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, cases);
         casesView.setAdapter(dataAdapter);
-//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         casesView.setAdapter(dataAdapter);
-    }
-
-    public void specificCase(View v){
-
-//        String.valueOf(spinner1.getSelectedItem()
-
     }
 
     public void randomCase(View v){

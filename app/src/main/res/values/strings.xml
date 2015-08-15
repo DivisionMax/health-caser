@@ -1,6 +1,6 @@
 <resources>
     <!-- Temp-->
-    <string name="hello_world">Hello World</string>
+
     <string name="cancel">Cancel</string>
     <string name="test_1">Test 1</string>
     <string name="test_2">Test 2</string>
@@ -12,10 +12,10 @@
     <string name="app_name">Health Caser</string>
 <!--Activity Titles-->
     <string name="title_activity_login">Login</string>
-    <string name="title_activity_choose_case">Choose a Case</string>
+
     <string name="title_activity_my_statistics">Statistics</string>
     <string name="title_activity_health_case_test">Test</string>
-    <string name="title_activity_l">Health Caser</string>
+
     <string name="title_activity_health_case_test_result">Results</string>
 
     <string name="action_settings">Settings</string>
@@ -23,6 +23,19 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="hint_password">Password</string>
+
+
+    <string name="title_activity_choose_case">Choose a Case</string>
+
+
+
+    <string name="title_activity_l">LActivity</string>
+    <string name="moreHist">More History</string>
+    <string name="takeTest">View Tests</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_load_health_case">LoadHealthCase</string>
+
     <string name="hint_email">Email</string>
 
     <!-- Choose a Case-->

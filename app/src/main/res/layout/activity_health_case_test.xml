@@ -13,7 +13,7 @@
         android:id="@+id/case_title"/>
 
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:id="@+id/caseInformation"
+        android:id="@+id/case_information"
         android:layout_height="0dp"
         android:layout_weight="1"
 
