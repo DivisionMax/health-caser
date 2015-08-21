@@ -68,6 +68,14 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         title = (TextView)findViewById(R.id.case_title);
         information = (TextView)findViewById(R.id.case_information);
         information.setText(hc.getStart());
+
+        writeHealthCaseToXMLFilePath(hc, getFilesDir().getPath() + "/HealthCase.xml");
+        writeHealthCaseToXMLFilePath(hc, getFilesDir().getPath() + "/HealthCase1.xml");
+        writeHealthCaseToXMLFilePath(hc, getFilesDir().getPath() + "/HealthCase2.xml");
+        writeHealthCaseToXMLFilePath(hc, getFilesDir().getPath() + "/HealthCase3.xml");
+        writeHealthCaseToXMLFilePath(hc, getFilesDir().getPath() + "/HealthCase4.xml");
+        testReturnFileList(getFilesDir().getPath());
+
     }
 
     @Override
@@ -148,7 +156,72 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         testMenu.setOnMenuItemClickListener(testMenuListener);
         testMenu.show();
     }
+
+    public boolean writeHealthCaseToXMLFilePath(Object hc, String path)
+    {
+        boolean status = false;
+        File xmlFile = new File(path);
+        Serializer serializer = new Persister();
+
+        try {
+            serializer.write( hc , xmlFile);
+            Log.e("objToXML", "worked");
+            status = true;
+
+        }
+        catch (Exception e)
+        {
+            Log.e("objToXMLProb",e.toString());
+            status = false;
+        }
+        return status;
+
+    }
+
+    public  HealthCase readHealthCaseFromXMLFilePath(String path)
+    {
+        Serializer serializer = new Persister();
+
+        HealthCase hc1;
+
+        File xmlFile = new File(path);
+
+            try
+            {
+                hc1 = serializer.read(HealthCase.class,xmlFile);
+                Log.e("diagnosis",hc1.getDiagnosis());
+                return hc1;
+            }
+            catch (Exception e)
+            {
+                Log.e("xmltoObjProb", e.toString());
+                return null;
+
+            }
+
+
+    }
+    public File[] returnFileList(String path)
+    {
+        return new File(path).listFiles();
+
+    }
+
+    public void testReturnFileList(String path)
+    {
+        File[] fileArr = returnFileList(getFilesDir().getPath());
+
+        for (int i = 0; i < fileArr.length; i++)
+        {
+            Log.e("fileList",fileArr[i].getName());
+        }
+
+    }
+
     //OBJECT -> XML || XML -> OBJECT
+
+
+
     public boolean serializeXML(HealthCase hc){
         File xmlFile = new File(getFilesDir().getPath() + "/HealthCase.xml");
         Serializer serializer = new Persister();

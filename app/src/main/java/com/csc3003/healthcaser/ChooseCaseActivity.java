@@ -10,7 +10,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+
+import com.csc3003.databaseTools.HCFileManager;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,6 +27,7 @@ public class ChooseCaseActivity extends ActionBarActivity {
     private List<String> cases;
     private Random rand;
     private Intent intent;
+    static String DATA_KEY_HEALTH_CASE = "HEALTH_CASE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +35,12 @@ public class ChooseCaseActivity extends ActionBarActivity {
         setContentView(R.layout.activity_choose_case);
 
         casesView = (ListView) findViewById(R.id.casesView);
-        populateCasesView();
+
+        HCFileManager fileManager = new HCFileManager(getFilesDir().getPath());
+        fileManager.testReturnFileList();
+        File[] fileList =  fileManager.returnFileList();
+        populateCasesView(fileList);
+
 
         //Start the health case when it is clicked
         casesView.setOnItemClickListener(new OnItemClickListener() {
@@ -75,14 +86,15 @@ public class ChooseCaseActivity extends ActionBarActivity {
     }
 
 //    populate the spinner with externalSD cases
-    public void populateCasesView() {
+    public void populateCasesView(File[] fileNames) {
 
         cases = new ArrayList<String>();
-         rand = new Random();
+         //rand = new Random();
         int k;
-        for (int i = 0 ; i < 5; i ++ ){
-             k = rand.nextInt(50) + 100;
-            cases.add("Case #" + k);
+        for (int i = 0 ; i < fileNames.length; i ++ ){
+             //k = rand.nextInt(50) + 100;
+            //cases.add("Case #" + k);
+            cases.add(fileNames[i].getName());
         }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -90,11 +102,23 @@ public class ChooseCaseActivity extends ActionBarActivity {
         casesView.setAdapter(dataAdapter);
         casesView.setAdapter(dataAdapter);
     }
+    public void chooseHealthCase(View v)
+    {
+        Button b = (Button)v;
+        String healthCaseNameFile = b.getText().toString();
+        intent.putExtra(DATA_KEY_HEALTH_CASE, healthCaseNameFile);
+        intent = new Intent (this, HealthCaseTestActivity.class);
+        startActivity(intent);
+    }
 
     public void randomCase(View v){
 //        rand = new Random();
 //        int i = rand.nextInt(cases.size());
+
+        //String text = b.getText().toString();
+
         intent = new Intent (this, HealthCaseTestActivity.class);
+
         startActivity(intent);
 
     }
