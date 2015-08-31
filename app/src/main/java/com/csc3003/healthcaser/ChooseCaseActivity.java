@@ -25,7 +25,6 @@ public class ChooseCaseActivity extends ActionBarActivity {
 
     private ListView casesView;
     private List<String> cases;
-    private Random rand;
     private Intent intent;
     static String DATA_KEY_HEALTH_CASE = "HEALTH_CASE";
 
@@ -40,8 +39,6 @@ public class ChooseCaseActivity extends ActionBarActivity {
         fileManager.testReturnFileList();
         File[] fileList =  fileManager.returnFileList();
         populateCasesView(fileList);
-
-
         //Start the health case when it is clicked
         casesView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -51,7 +48,6 @@ public class ChooseCaseActivity extends ActionBarActivity {
 
                 intent = new Intent(view.getContext(),HealthCaseTestActivity.class);
                 startActivity(intent);
-
             }
 
 

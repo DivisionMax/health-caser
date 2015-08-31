@@ -56,4 +56,14 @@
     <string name="diagnosis_hint">Enter your diagnosis</string>
     <string name="diagnosis">Diagnosis</string>
 
+    <string name="audit_trail">What we know</string>
+
+    <!-- Results Activity-->
+    <string name="heading_results">Your Test Results</string>
+    <string name="total_moves">Total Moves</string>
+    <string name="first_diagnose">Num. Moves First Diagnosis</string>
+    <string name="accuracy_diagnose">Diagnosis Accuracy</string>
+    <string name="diagnose_vs_moves">Diagnose-Move Ratio</string>
+    <string name="empty">Null</string>
+    <string name="view_health_cases">View Health Cases</string>
 </resources>

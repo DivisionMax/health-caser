@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import org.simpleframework.xml.Serializer;
@@ -24,17 +25,30 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     TextView title,information;
     PopupMenu askMenu,testMenu;
     DialogFragment newFragment;
+    PopupWindow auditTrail;
 
     MenuInflater inflater;
 
+
     View content;
     final HealthCase hc =  new HealthCase();
+
+    //stats variables
+    //totalDiagnose - the number of diagnose attemps
+    //firstDiagnose - the number of moves made before their first diagnose
+    int totalMoves, totalDiagnose, firstDiagnose;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_case_test);
         content = this.findViewById(android.R.id.content);
+
+        totalMoves = 0;
+        totalDiagnose = 0;
+        firstDiagnose = 0;
+        auditTrail = new PopupWindow();
 
         //ALAN ACTIVITY
         // Populate the health case arrays
@@ -76,6 +90,26 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         writeHealthCaseToXMLFilePath(hc, getFilesDir().getPath() + "/HealthCase4.xml");
         testReturnFileList(getFilesDir().getPath());
 
+        //rotation destroy -> recreate
+        if (savedInstanceState != null) {
+            totalMoves = savedInstanceState.getInt("TOTAL_MOVES");
+            totalDiagnose = savedInstanceState.getInt("TOTAL_DIAGNOSE");
+            information.setText(savedInstanceState.getString("DISPLAYED_INFO"));
+            firstDiagnose = savedInstanceState.getInt("FIRST_DIAGNOSE");
+
+        }
+
+    }
+    //save data if the activity is destroyed
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("TOTAL_MOVES", totalMoves);
+        outState.putInt("TOTAL_DIAGNOSE", totalDiagnose);
+        outState.putInt("FIRST_DIAGNOSE", firstDiagnose);
+        outState.putString("DISPLAYED_INFO", information.getText().toString());
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -100,6 +134,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         return super.onOptionsItemSelected(item);
     }
     //Display and capture diagnosis popup
+    //Display and capture diagnosis popup
     public void diagnose(View view){
          newFragment = new DiagnosisDialog();
         newFragment.show(getFragmentManager(), "diagnosis");
@@ -108,6 +143,14 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
+        if (firstDiagnose==0){
+            firstDiagnose = totalMoves;
+        }
+        totalDiagnose+=1;
+        Intent resultsIntent = new Intent(this, HealthCaseTestResultActivity.class);
+        resultsIntent.putExtra("TOTAL_MOVES", totalMoves);
+        resultsIntent.putExtra("TOTAL_DIAGNOSE", totalDiagnose);
+        startActivity(resultsIntent);
 
     }
 
@@ -120,10 +163,12 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     private PopupMenu.OnMenuItemClickListener askMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
+
             information.setText("");
             for (String a : hc.getHistory()) {
                 information.append(a + "\n");
             }
+            totalMoves+=1;
             return false;
         }
     };
@@ -135,6 +180,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             for (Test t : hc.getTests()) {
                 information.append(t.getResults().get(0) + "\n");
             }
+            totalMoves+=1;
             return false;
         }
     };

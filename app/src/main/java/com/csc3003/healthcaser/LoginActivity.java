@@ -19,9 +19,7 @@ import com.csc3003.databaseTools.UserDBHandler;
 public class LoginActivity extends Activity {
 
     EditText email, password;
-    TextView feedback;
-
-    String emailStr, passwordStr, feedbackMsg;
+    String emailStr, passwordStr;
     UserDBHandler userDB;
 
     final int duration = Toast.LENGTH_SHORT;
@@ -31,14 +29,12 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        final int duration = Toast.LENGTH_SHORT;
 
         userDB = new UserDBHandler(this, null, null, 1);
 
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         password.setTypeface(email.getTypeface());
-     //   feedback = (TextView) findViewById(R.id.feedback);
     }
 
     private void redirect (){
@@ -73,27 +69,25 @@ public class LoginActivity extends Activity {
     public void login(View view) {
         emailStr = email.getText().toString();
         passwordStr = password.getText().toString();
+//        redirect(); //TEMP. REMOVE THIS LINE AND UNCOMMENT THE CODE BELOW
         if(emailStr.equals("")||passwordStr.equals(""))
         {
             //Adapted from http://developer.android.com/guide/topics/ui/notifiers/toasts.html
             Context context = getApplicationContext();
-            CharSequence msg = "Login failed";
+            CharSequence msg = "Username and or Password are empty";
             Toast errReg = Toast.makeText(context,msg,duration);
             errReg.show();
-            feedbackMsg = "Username and or Password are empty";
         }
         else{
             if(userDB.isUserExist(emailStr)&& userDB.isCorrectPassword(emailStr,passwordStr)) {
-
                 successfulLoginOrRegistration(emailStr, "You have logged in");
             }
             else
             {
                 Context context = getApplicationContext();
-                CharSequence msg = "Login failed";
+                CharSequence msg = "Username or Password is incorrect";
                 Toast errReg = Toast.makeText(context,msg,duration);
                 errReg.show();
-                feedbackMsg = "Username or Password is incorrect";
             }
         }
 
@@ -101,10 +95,8 @@ public class LoginActivity extends Activity {
 
     //    Register a User
     public void register(View view) {
-
         emailStr = email.getText().toString();
         passwordStr = password.getText().toString();
-
         if(emailStr.equals("")||passwordStr.equals(""))
         {
             Context context = getApplicationContext();
@@ -132,7 +124,6 @@ public class LoginActivity extends Activity {
     //Remove code repetition
     AlertDialog alertDialog;
     private void successfulLoginOrRegistration(String username, String message){
-
         alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
         alertDialog.setTitle("Welcome, " + username);
         alertDialog.setMessage(message);
@@ -140,10 +131,11 @@ public class LoginActivity extends Activity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        redirect();
                     }
                 });
         alertDialog.show();
-        redirect();
+//        redirect();
     }
 
 }
