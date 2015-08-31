@@ -37,6 +37,7 @@ public class LoginActivity extends Activity {
 
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
+        password.setTypeface(email.getTypeface());
      //   feedback = (TextView) findViewById(R.id.feedback);
     }
 
