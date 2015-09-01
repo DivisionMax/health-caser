@@ -20,7 +20,7 @@ import org.simpleframework.xml.core.Persister;
 
 import java.io.File;
 import java.util.ArrayList;
-
+//Testing the pre-master
 public class HealthCaseTestActivity extends ActionBarActivity implements DiagnosisDialog.DiagnosisDialogListener{
     TextView title,information;
     PopupMenu askMenu,testMenu;
