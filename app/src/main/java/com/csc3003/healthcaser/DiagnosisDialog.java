@@ -14,15 +14,14 @@ import android.widget.EditText;
  */
 public class DiagnosisDialog extends DialogFragment {
 
-    public EditText diagnosis;
+    private EditText diagnosis;
 
     public interface DiagnosisDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
+        public void onDialogPositiveClick(DialogFragment dialog, String diagnosis);
         public void onDialogNegativeClick(DialogFragment dialog);
     }
-
     DiagnosisDialogListener mListener;
-
+    //Adapted: http://developer.android.com/guide/topics/ui/dialogs.html
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override
     public void onAttach(Activity activity) {
@@ -42,12 +41,12 @@ public class DiagnosisDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-
-        builder.setView(inflater.inflate(R.layout.diagnosis_popup, null))
+        diagnosis = new EditText(getActivity());
+        builder.setView(diagnosis)
+                .setTitle("Enter Your Diagnosis")
                 .setPositiveButton(R.string.diagnose, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogPositiveClick(DiagnosisDialog.this);
+                        mListener.onDialogPositiveClick(DiagnosisDialog.this, diagnosis.getText().toString());
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

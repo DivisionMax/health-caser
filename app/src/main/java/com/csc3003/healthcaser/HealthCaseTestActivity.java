@@ -133,24 +133,25 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
 
         return super.onOptionsItemSelected(item);
     }
-    //Display and capture diagnosis popup
+
     //Display and capture diagnosis popup
     public void diagnose(View view){
          newFragment = new DiagnosisDialog();
-        newFragment.show(getFragmentManager(), "diagnosis");
-
+         newFragment.show(getFragmentManager(), "diagnosis");
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
+    public void onDialogPositiveClick(DialogFragment dialog, String diagnosis) {
         if (firstDiagnose==0){
             firstDiagnose = totalMoves;
         }
         totalDiagnose+=1;
-        Intent resultsIntent = new Intent(this, HealthCaseTestResultActivity.class);
-        resultsIntent.putExtra("TOTAL_MOVES", totalMoves);
-        resultsIntent.putExtra("TOTAL_DIAGNOSE", totalDiagnose);
-        startActivity(resultsIntent);
+        if (diagnosis.equals("CORRECT")){
+            Intent resultsIntent = new Intent(this, HealthCaseTestResultActivity.class);
+            resultsIntent.putExtra("TOTAL_MOVES", totalMoves);
+            resultsIntent.putExtra("TOTAL_DIAGNOSE", totalDiagnose);
+            startActivity(resultsIntent);
+        }
 
     }
 
@@ -159,6 +160,8 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         // User touched the dialog's negative button
         newFragment.dismiss();
     }
+
+    //***********
     //POPUP MENU LISTENER
     private PopupMenu.OnMenuItemClickListener askMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
@@ -223,7 +226,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         return status;
 
     }
-
     public  HealthCase readHealthCaseFromXMLFilePath(String path)
     {
         Serializer serializer = new Persister();
@@ -265,9 +267,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     }
 
     //OBJECT -> XML || XML -> OBJECT
-
-
-
     public boolean serializeXML(HealthCase hc){
         File xmlFile = new File(getFilesDir().getPath() + "/HealthCase.xml");
         Serializer serializer = new Persister();
