@@ -90,7 +90,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         writeHealthCaseToXMLFilePath(hc, getFilesDir().getPath() + "/HealthCase4.xml");
         testReturnFileList(getFilesDir().getPath());
 
-        //rotation destroy -> recreate
+        //Save data when a user rotates
         if (savedInstanceState != null) {
             totalMoves = savedInstanceState.getInt("TOTAL_MOVES");
             totalDiagnose = savedInstanceState.getInt("TOTAL_DIAGNOSE");
