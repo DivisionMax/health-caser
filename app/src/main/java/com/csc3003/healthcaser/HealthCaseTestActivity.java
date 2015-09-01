@@ -143,6 +143,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, String diagnosis) {
         if (firstDiagnose==0){
+            System.out.println("First diagnose is set");
             firstDiagnose = totalMoves;
         }
         totalDiagnose+=1;
@@ -150,6 +151,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             Intent resultsIntent = new Intent(this, HealthCaseTestResultActivity.class);
             resultsIntent.putExtra("TOTAL_MOVES", totalMoves);
             resultsIntent.putExtra("TOTAL_DIAGNOSE", totalDiagnose);
+            resultsIntent.putExtra("FIRST_DIAGNOSE", firstDiagnose);
             startActivity(resultsIntent);
         }
 

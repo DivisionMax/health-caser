@@ -25,11 +25,19 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_case_test_result);
         //retrieve the stats
-        Bundle extras = getIntent().getExtras();
-        totalMoves = (float)extras.getInt("TOTAL_MOVES");
-        totalDiagnose = (float)extras.getInt("TOTAL_DIAGNOSE");
-        firstDiagnose = (float)extras.getInt ("FIRST_DIAGNOSE");
-
+        //if the user rotated
+        if (savedInstanceState != null) {
+            totalMoves = savedInstanceState.getFloat("TOTAL_MOVES");
+            totalDiagnose = savedInstanceState.getFloat("TOTAL_DIAGNOSE");
+            firstDiagnose = savedInstanceState.getFloat("FIRST_DIAGNOSE");
+        }
+        //if the user arrived via an intent (a successful diagnosis)
+        else {
+            Bundle extras = getIntent().getExtras();
+            totalMoves = (float) extras.getInt("TOTAL_MOVES");
+            totalDiagnose = (float) extras.getInt("TOTAL_DIAGNOSE");
+            firstDiagnose = (float) extras.getInt("FIRST_DIAGNOSE");
+        }
         System.out.println("Total moves; " + totalMoves);
         System.out.println("Total diagnose; " + totalDiagnose);
         System.out.println("First diagnose; " + firstDiagnose);
@@ -50,6 +58,16 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
         firstDiagnoseDisplay.setText(firstDiagnose + "");
         diagnoseAccuracyDisplay.setText(diagnoseAccuracy + "");
         diagnoseMoveRatioDisplay.setText(diagnoseMoveRatio + "");
+    }
+
+    //save data if the activity is destroyed
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putFloat("TOTAL_MOVES", totalMoves);
+        outState.putFloat("TOTAL_DIAGNOSE", totalDiagnose);
+        outState.putFloat("FIRST_DIAGNOSE", firstDiagnose);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
