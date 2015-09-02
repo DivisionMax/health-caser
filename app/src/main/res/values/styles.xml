@@ -8,12 +8,9 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!--<item name="android:fontFamily">sans-serif</item>-->
         <item name="android:typeface">normal</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <!--<item name="android:background">@color/background</item>-->
     </style>
-
-
-
 <!--
     <style name="ListView" parent="@android:style/Widget.ListView">
         <item name="android:background">@color/light_grey</item>

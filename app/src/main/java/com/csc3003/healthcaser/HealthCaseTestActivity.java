@@ -3,6 +3,7 @@ package com.csc3003.healthcaser;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -38,6 +40,28 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     //firstDiagnose - the number of moves made before their first diagnose
     int totalMoves, totalDiagnose, firstDiagnose;
 
+    boolean doubleBackToExitPressedOnce = false;
+    //return to the health cases
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            //super.onBackPressed();
+            Intent intent = new Intent (this, ChooseCaseActivity.class);
+            startActivity(intent);
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to return to the cases list", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +177,8 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             resultsIntent.putExtra("TOTAL_DIAGNOSE", totalDiagnose);
             resultsIntent.putExtra("FIRST_DIAGNOSE", firstDiagnose);
             startActivity(resultsIntent);
+        }else{
+            Toast.makeText(this, "Diagnosis incorrect.", Toast.LENGTH_SHORT).show();
         }
 
     }
