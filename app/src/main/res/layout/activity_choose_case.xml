@@ -32,7 +32,7 @@
             android:id="@+id/random"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="chooseHealthCase"
+            android:onClick="randomCase"
             android:text="@string/random"
             />
 
