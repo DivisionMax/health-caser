@@ -17,6 +17,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.csc3003.databaseTools.HCFileManager;
+
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
@@ -33,7 +35,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
 
 
     View content;
-    final HealthCase hc =  new HealthCase();
+    HealthCase hc ;
 
     //stats variables
     //totalDiagnose - the number of diagnose attemps
@@ -74,45 +76,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         firstDiagnose = 0;
         auditTrail = new PopupWindow();
 
-        //ALAN ACTIVITY
-        // Populate the health case arrays
-        final ArrayList<Test> testList = new ArrayList<Test>();
-        final ArrayList<String> results = new ArrayList<String>();
-        final ArrayList<String> hist = new ArrayList<String>();
-        final ArrayList<String> pt = new ArrayList<String>();
 
-        results.add("Results: 120\\80");
-        Test bloodPressureTest = new Test();
-        bloodPressureTest.setName("Blood pressure");
-        bloodPressureTest.setResults(results);
-        testList.add(bloodPressureTest);
-
-        pt.add("None.");
-        hist.add("Orthotopic Liver Transplant in 1992 for cirrhosis secondary to alcohol use.\"");
-        hist.add("Hypertension.");
-        hist.add("Cadaveric Renal Transplant in 1994 for chronic renal failure secondary to glomerulonephritis.");
-        hc.setStart("A 55 year-old man presents to the emergency room at Presbyterian University Hospital with a chief complaint of \"I have a severe headache and fever.\"");
-
-        String diagnosis = "Diagnosis: Disseminated Cryptococcosis.";
-        hc.setDiagnosis(diagnosis);
-
-        hc.setPhysicalState("Alive");
-        hc.setTests(testList);
-        hc.setHistory(hist);
-        hc.setPastTests(pt);
-        hc.setPastTreatments(pt);
-        //----
-
-        title = (TextView)findViewById(R.id.case_title);
-        information = (TextView)findViewById(R.id.case_information);
-        information.setText(hc.getStart());
-
-        writeHealthCaseToXMLFilePath(hc, getFilesDir().getPath() + "/HealthCase.xml");
-        writeHealthCaseToXMLFilePath(hc, getFilesDir().getPath() + "/HealthCase1.xml");
-        writeHealthCaseToXMLFilePath(hc, getFilesDir().getPath() + "/HealthCase2.xml");
-        writeHealthCaseToXMLFilePath(hc, getFilesDir().getPath() + "/HealthCase3.xml");
-        writeHealthCaseToXMLFilePath(hc, getFilesDir().getPath() + "/HealthCase4.xml");
-        testReturnFileList(getFilesDir().getPath());
 
         //Save data when a user rotates
         if (savedInstanceState != null) {
@@ -122,6 +86,15 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             firstDiagnose = savedInstanceState.getInt("FIRST_DIAGNOSE");
 
         }
+        HCFileManager hcFileManager = new HCFileManager(getFilesDir().getPath());
+        Intent intent = getIntent();
+        String filename = intent.getStringExtra(ChooseCaseActivity.DATA_KEY_HEALTH_CASE);
+        hc = hcFileManager.readHealthCaseFromXMLFile(filename);
+
+        title = (TextView)findViewById(R.id.case_title);
+        information = (TextView)findViewById(R.id.case_information);
+        information.setText(hc.getStart());
+
 
     }
     //save data if the activity is destroyed
@@ -234,97 +207,12 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         testMenu.show();
     }
 
-    public boolean writeHealthCaseToXMLFilePath(Object hc, String path)
-    {
-        boolean status = false;
-        File xmlFile = new File(path);
-        Serializer serializer = new Persister();
-
-        try {
-            serializer.write( hc , xmlFile);
-            Log.e("objToXML", "worked");
-            status = true;
-
-        }
-        catch (Exception e)
-        {
-            Log.e("objToXMLProb",e.toString());
-            status = false;
-        }
-        return status;
-
-    }
-    public  HealthCase readHealthCaseFromXMLFilePath(String path)
-    {
-        Serializer serializer = new Persister();
-
-        HealthCase hc1;
-
-        File xmlFile = new File(path);
-
-            try
-            {
-                hc1 = serializer.read(HealthCase.class,xmlFile);
-                Log.e("diagnosis",hc1.getDiagnosis());
-                return hc1;
-            }
-            catch (Exception e)
-            {
-                Log.e("xmltoObjProb", e.toString());
-                return null;
-
-            }
 
 
-    }
-    public File[] returnFileList(String path)
-    {
-        return new File(path).listFiles();
 
-    }
 
-    public void testReturnFileList(String path)
-    {
-        File[] fileArr = returnFileList(getFilesDir().getPath());
 
-        for (int i = 0; i < fileArr.length; i++)
-        {
-            Log.e("fileList",fileArr[i].getName());
-        }
 
-    }
 
-    //OBJECT -> XML || XML -> OBJECT
-    public boolean serializeXML(HealthCase hc){
-        File xmlFile = new File(getFilesDir().getPath() + "/HealthCase.xml");
-        Serializer serializer = new Persister();
-        Boolean status;
-        try {
-            serializer.write(hc, xmlFile);
-            Log.i("objToXML", "worked");
-            status = true;
-        }
-        catch (Exception e)
-        {
-            Log.e("objToXMLProb",e.toString());
-            status = false;
-        }
-
-        if (xmlFile.exists())
-        {
-            try
-            {
-                HealthCase hc1 = serializer.read(HealthCase.class,xmlFile);
-                Log.e("diagnosis",hc1.getDiagnosis());
-                status = true;
-            }
-            catch (Exception e)
-            {
-                Log.e("xmltoObjProb", e.toString());
-                status = false;
-            }
-        }
-        return status;
-    }
 
 }

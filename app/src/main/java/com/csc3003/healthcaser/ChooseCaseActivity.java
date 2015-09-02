@@ -47,6 +47,14 @@ public class ChooseCaseActivity extends ActionBarActivity {
 //                                int num = Integer.parseInt(cases.get(position));
 
                 intent = new Intent(view.getContext(),HealthCaseTestActivity.class);
+
+
+
+
+                String filename = cases.get(position);
+
+                intent.putExtra(DATA_KEY_HEALTH_CASE, filename);
+
                 startActivity(intent);
             }
 

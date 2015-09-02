@@ -65,7 +65,7 @@ public class UserDBHandler extends SQLiteOpenHelper {
 
 
         }
-        Log.i("number records", numRecords+"");
+
         if(numRecords == 0)
         {
             return false;
@@ -92,7 +92,7 @@ public class UserDBHandler extends SQLiteOpenHelper {
             db.insert(TABLE_USER, null, values);
             db.close();
 
-            Log.i("addition","password:"+password+"    username"+username);
+
 
 
     }
@@ -138,7 +138,7 @@ public class UserDBHandler extends SQLiteOpenHelper {
             resultPath ="error user not found";
         }
         db.close();
-        Log.i("Password", resultPath);
+
         return resultPath;
     }
 

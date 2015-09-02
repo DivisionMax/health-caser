@@ -31,7 +31,7 @@ public class HCFileManager {
         if(internalPath.lastIndexOf("/")!=internalPath.length()-1)
         {
             internalPath = internalPath + "/";
-            Log.d("debug3",""+internalPath);
+
         }
 
     }
@@ -60,13 +60,13 @@ public class HCFileManager {
 
         try {
             serializer.write( hc , xmlFile);
-            Log.e("objToXML", "worked");
+
             status = true;
 
         }
         catch (Exception e)
         {
-            Log.e("objToXMLProb",e.toString());
+
             status = false;
         }
         return status;
@@ -84,12 +84,12 @@ public class HCFileManager {
         try
         {
             hc1 = serializer.read(HealthCase.class,xmlFile);
-            Log.e("diagnosis",hc1.getDiagnosis());
+
             return hc1;
         }
         catch (Exception e)
         {
-            Log.e("xmltoObjProb", e.toString());
+
             return null;
 
         }
