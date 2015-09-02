@@ -5,7 +5,10 @@ import android.util.Log;
 
 import com.csc3003.healthcaser.HealthCase;
 
-import org.simpleframework.xml.Serializer;
+//import org.simpleframework.xml.Serializer;
+//import org.simpleframework.xml.core.Persister;
+
+import org.simpleframework.xml.*;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.File;
@@ -20,7 +23,16 @@ public class HCFileManager {
 
     public HCFileManager(String path)
     {
+
+
         internalPath = path;
+
+        //make sure that the path ends with a / so that it point to a folder.
+        if(internalPath.lastIndexOf("/")!=internalPath.length()-1)
+        {
+            internalPath = internalPath + "/";
+            Log.d("debug3",""+internalPath);
+        }
 
     }
 
@@ -30,20 +42,20 @@ public class HCFileManager {
 
     }
 
-    public void testReturnFileList()
-    {
-        File[] fileArr = returnFileList();
-
-        for (int i = 0; i < fileArr.length; i++)
-        {
-            Log.e("fileList", fileArr[i].getName());
-        }
-
-    }
-    public boolean writeHealthCaseToXMLFilePath(Object hc, String path)
+//    public void testReturnFileList()
+//    {
+//        File[] fileArr = returnFileList();
+//
+//        for (int i = 0; i < fileArr.length; i++)
+//        {
+//            Log.e("fileList", fileArr[i].getName());
+//        }
+//
+//    }
+    public boolean writeHealthCaseToXMLFilePath(Object hc,String fileName)
     {
         boolean status = false;
-        File xmlFile = new File(path);
+        File xmlFile = new File(internalPath+fileName);
         Serializer serializer = new Persister();
 
         try {
@@ -61,7 +73,7 @@ public class HCFileManager {
 
     }
 
-    public HealthCase readHealthCaseFromXMLFilePath(String fileName)
+    public HealthCase readHealthCaseFromXMLFile(String fileName)
     {
         Serializer serializer = new Persister();
 

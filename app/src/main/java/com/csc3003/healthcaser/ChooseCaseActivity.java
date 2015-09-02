@@ -36,7 +36,7 @@ public class ChooseCaseActivity extends ActionBarActivity {
         casesView = (ListView) findViewById(R.id.casesView);
 
         HCFileManager fileManager = new HCFileManager(getFilesDir().getPath());
-        fileManager.testReturnFileList();
+
         File[] fileList =  fileManager.returnFileList();
         populateCasesView(fileList);
         //Start the health case when it is clicked
