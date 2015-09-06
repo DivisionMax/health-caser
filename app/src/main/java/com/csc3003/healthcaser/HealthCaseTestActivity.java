@@ -3,6 +3,9 @@ package com.csc3003.healthcaser;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -29,14 +33,14 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     TextView title,information;
     PopupMenu askMenu,testMenu;
     DialogFragment newFragment;
+    int count = 0;
     PopupWindow auditTrail;
-
+    Boolean externalStorageReadable;
+//    final String EXTENRAL_HEALTH_CASES_FOLDER = getExternalFilesDir(null);
     MenuInflater inflater;
-
-
     View content;
     HealthCase hc ;
-
+    ImageView testImage;//temp
     //stats variables
     //totalDiagnose - the number of diagnose attemps
     //firstDiagnose - the number of moves made before their first diagnose
@@ -65,19 +69,41 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         }, 2000);
     }
 
+    File[] images;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_case_test);
         content = this.findViewById(android.R.id.content);
+        //determine readable external storage
+        externalStorageReadable = isExternalStorageReadable();
+        Boolean createFolderCase;
+        testImage = (ImageView)findViewById(R.id.test_image);
+        if (externalStorageReadable){
+            //~/health.caser
+            //com.csc3003.healthcaser
+            File externalStorage = Environment.getExternalStoragePublicDirectory("com.csc3003.healthcaser");
+            if (!externalStorage.exists()){
+                createFolderCase = externalStorage.mkdir();
+            }
+            System.out.println(externalStorage);
+            images = externalStorage.listFiles();
 
+            if (externalStorage!=null){
+                //File[] cases = externalStorage.listFiles();
+              /*  File cases  = new File (externalStorage.getPath()+"health.caser");
+                images = cases.listFiles();
+                for (int i = 0; i < images.length; i ++){
+                    System.out.println(images[i]);
+                }*/
+            }
+
+        }
         totalMoves = 0;
         totalDiagnose = 0;
         firstDiagnose = 0;
         auditTrail = new PopupWindow();
-
-
-
         //Save data when a user rotates
         if (savedInstanceState != null) {
             totalMoves = savedInstanceState.getInt("TOTAL_MOVES");
@@ -97,6 +123,27 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
 
 
     }
+
+    /*Adapted http://developer.android.com/training/basics/data-storage/files.html*/
+    /* Checks if external storage is available for read and write */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /* Checks if external storage is available to at least read */
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
     //save data if the activity is destroyed
     @Override
     protected void onSaveInstanceState (Bundle outState) {
@@ -185,6 +232,15 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                 information.append(t.getResults().get(0) + "\n");
             }
             totalMoves+=1;
+
+            Drawable d = Drawable.createFromPath(images[count].getPath());
+            testImage.setImageDrawable(d);
+
+            if (count == images.length-1){
+                count = 0 ;
+            }else{
+                count+=1;
+            }
             return false;
         }
     };

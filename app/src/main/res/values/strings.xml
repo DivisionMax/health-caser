@@ -51,7 +51,7 @@
 
     <!-- Statistics-->
     <string name="my_statistics">My Statistics</string>
-
+    <string name="test_image">Test Image</string>
     <!-- Diagnose Popup-->
     <string name="diagnosis_hint">Enter your diagnosis</string>
     <string name="diagnosis">Diagnosis</string>

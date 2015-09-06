@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.csc3003.healthcaser" >
 
+    <!-- default health cases use internal-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- write permissions have read permissions-->
+
     <uses-sdk tools:overrideLibrary="com.jjoe64.graphview" />
 
     <application
