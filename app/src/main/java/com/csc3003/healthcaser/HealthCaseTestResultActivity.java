@@ -59,7 +59,6 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
         diagnoseAccuracyDisplay.setText(diagnoseAccuracy + "");
         diagnoseMoveRatioDisplay.setText(diagnoseMoveRatio + "");
     }
-
     //save data if the activity is destroyed
     @Override
     protected void onSaveInstanceState (Bundle outState) {
@@ -69,29 +68,6 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
         outState.putFloat("FIRST_DIAGNOSE", firstDiagnose);
         super.onSaveInstanceState(outState);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_health_case_test_result, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public void viewHealthCases(View view) {
         Intent chooseCase = new Intent(this, ChooseCaseActivity.class);
         startActivity(chooseCase);

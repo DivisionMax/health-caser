@@ -69,7 +69,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         }, 2000);
     }
 
-    File[] images;
+    String[] images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,11 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                 createFolderCase = externalStorage.mkdir();
             }
             System.out.println(externalStorage);
-            images = externalStorage.listFiles();
+            File[] temp = externalStorage.listFiles();
+            images = new String[temp.length];
+            for (int i = 0 ; i < temp.length;i++){
+                images[i] = temp[i].getPath();
+            }
 
             if (externalStorage!=null){
                 //File[] cases = externalStorage.listFiles();
@@ -156,28 +160,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_health_case_test, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     //Display and capture diagnosis popup
     public void diagnose(View view){
          newFragment = new DiagnosisDialog();
@@ -223,24 +205,22 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             return false;
         }
     };
-
+    //test is chosen. if images, load images from storage into an array. pass the array to the popup.
     private PopupMenu.OnMenuItemClickListener testMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
+            //item.getTitle() returns label
             information.setText(hc.getTests().get(0).getName() + ":\n");
             for (Test t : hc.getTests()) {
                 information.append(t.getResults().get(0) + "\n");
             }
             totalMoves+=1;
-
-            Drawable d = Drawable.createFromPath(images[count].getPath());
-            testImage.setImageDrawable(d);
-
-            if (count == images.length-1){
-                count = 0 ;
-            }else{
-                count+=1;
+            if (item.getTitle().toString().equals("Test 2")){
+                DialogFragment newFragment = TestImageDialog.newInstance(
+                        images);
+                newFragment.show(getFragmentManager(), "dialog");
             }
+
             return false;
         }
     };

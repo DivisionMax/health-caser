@@ -73,7 +73,7 @@ public class LoginActivity extends Activity {
 
     //    Login
     public void login(View view) {
-        emailStr = email.getText().toString();
+        emailStr = email.getText().toString().toLowerCase();
         passwordStr = password.getText().toString();
 //        redirect(); //TEMP. REMOVE THIS LINE AND UNCOMMENT THE CODE BELOW
         if(emailStr.equals("")||passwordStr.equals(""))

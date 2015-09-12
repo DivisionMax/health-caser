@@ -2,6 +2,7 @@ package com.csc3003.healthcaser;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.csc3003.databaseTools.HCFileManager;
 
@@ -27,6 +29,27 @@ public class ChooseCaseActivity extends ActionBarActivity {
     private List<String> cases;
     private Intent intent;
     static String DATA_KEY_HEALTH_CASE = "HEALTH_CASE";
+
+    boolean doubleBackToExitPressedOnce = false;
+    //return to the health cases
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            //super.onBackPressed();
+            finish();
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Press 'Back' again to close Health Caser", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -66,4 +66,11 @@
     <string name="diagnose_vs_moves">Diagnose-Move Ratio</string>
     <string name="empty">Null</string>
     <string name="view_health_cases">View Health Cases</string>
+
+    <!-- Test results popup-->
+    <string name="test_popup_title">Test Results</string>
+    <string name="next_result">Next Result</string>
+    <string name="test_popup_next">Next</string>
+    <string name="test_popup_close">Close</string>
+    <string name="test_result_description">An image test result</string>
 </resources>
