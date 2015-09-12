@@ -12,6 +12,8 @@ import org.simpleframework.xml.*;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  * Adapted from Alans code.
@@ -69,6 +71,24 @@ public class HCFileManager {
 
             status = false;
         }
+
+        try
+        {
+            FileInputStream fis = new FileInputStream(xmlFile);
+            int oneByte;
+            String output = "";
+            while((oneByte = fis.read()) != -1)
+            {
+                output = output + ""+(char)oneByte ;
+
+            }
+            Log.e("filecontents",output );
+        }
+        catch(IOException e)
+        {
+                Log.e("filecontents","noefile");
+        }
+
         return status;
 
     }

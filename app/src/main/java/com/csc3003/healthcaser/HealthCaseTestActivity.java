@@ -90,11 +90,14 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         Intent intent = getIntent();
         String filename = intent.getStringExtra(ChooseCaseActivity.DATA_KEY_HEALTH_CASE);
         hc = hcFileManager.readHealthCaseFromXMLFile(filename);
-
+//        if (hc == null)
+//        {
+//            Log.e("yo","null!");
+//        }
         title = (TextView)findViewById(R.id.case_title);
         information = (TextView)findViewById(R.id.case_information);
         information.setText(hc.getStart());
-
+//        Log.e("i",hc.getDiagnosis());
 
     }
     //save data if the activity is destroyed
@@ -168,22 +171,78 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         @Override
         public boolean onMenuItemClick(MenuItem item) {
 
+//            information.setText("");
+//            for (String a : hc.getHistory()) {
+//                information.append(a + "\n");
+//            }
+//            totalMoves+=1;
             information.setText("");
-            for (String a : hc.getHistory()) {
-                information.append(a + "\n");
+            int id = item.getItemId();
+            String hey = ""+id;
+            Log.e("yo",hey);
+            if (id==3) {
+                information.append("Past Medical History:\n");
+                for (int i = 0; i < hc.getHistory().getPastHistory().size(); i++) {
+                    information.append(hc.getHistory().getPastHistory().get(i).toString() + "\n");
+                }
             }
+            else if (id==4) {
+
+                information.append("Recent Medical History:\n");
+
+                for (int j = 0; j < hc.getHistory().getRecentHistory().size(); j++) {
+                    information.append(hc.getHistory().getRecentHistory().get(j).toString() + "\n");
+                }
+            }
+            else if (id==5) {
+
+                information.append("Past Medical Tests:\n");
+
+                for (int k = 0; k < hc.getHistory().getPastTests().size(); k++) {
+                    information.append(hc.getHistory().getPastTests().get(k).toString() + "\n");
+                }
+            }
+            else if (id==6) {
+
+                    information.append("Past Treatments:\n");
+
+                    for (int l=0;l<hc.getHistory().getPastTreatments().size();l++)
+                    {
+                        information.append(hc.getHistory().getPastTreatments().get(l).toString()+"\n");
+                    }
+            }
+
+
             totalMoves+=1;
             return false;
         }
+
     };
 
     private PopupMenu.OnMenuItemClickListener testMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            information.setText(hc.getTests().get(0).getName() + ":\n");
-            for (Test t : hc.getTests()) {
-                information.append(t.getResults().get(0) + "\n");
+//            information.setText(hc.getTests().get(0).getName() + ":\n");
+//            for (Test t : hc.getTests()) {
+//                information.append(t.getResults().get(0) + "\n");
+//            }
+//            totalMoves+=1;
+            information.setText("");
+            int id = item.getItemId()-100;
+            if (!(hc.getTests().get(id).getResults()==null))
+            {
+                information.append(hc.getTests().get(id).getName().toString()+" results"+
+                        ":\n");
+                information.append(hc.getTests().get(id).getResults().get(0)+"\n");
             }
+            else
+            {
+                information.setText("No textual results");
+            }
+            //information.setText(hc.getTests().get(0).getName() + ":\n");
+            //for (Test t : hc.getTests()) {
+             ///   information.append(t.getResults().get(0) + "\n");
+            //}
             totalMoves+=1;
             return false;
         }
@@ -191,19 +250,50 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     //POPUP MENU METHODS
     public void showAskPopup(View view) {
         //SETUP
-        askMenu = new PopupMenu(this,view);
-        inflater = askMenu.getMenuInflater();
+       askMenu = new PopupMenu(this,view);
+       inflater = askMenu.getMenuInflater();
+//        inflater.inflate(R.menu.menu_popup_ask, askMenu.getMenu());
+//        askMenu.setOnMenuItemClickListener(askMenuListener);
+//        askMenu.show();
         inflater.inflate(R.menu.menu_popup_ask, askMenu.getMenu());
+        askMenu.setOnMenuItemClickListener(askMenuListener);
+        String pastH="Past Medical History";
+        String recentH="Recent Medical History";
+        String pastTest="Past Medical Tests";
+        String pastTreatments="Past Treatments";
+        int groupId = Menu.NONE;
+        int itemIdph = 3;
+        int itemIdrh = 4;
+        int itemIdpt = 5;
+        int itemIdptr = 6;
+        int order = Menu.NONE;
+        askMenu.getMenu().add(groupId, itemIdph, order, pastH);
+        askMenu.getMenu().add(groupId, itemIdrh, order, recentH);
+        askMenu.getMenu().add(groupId, itemIdpt, order, pastTest);
+        askMenu.getMenu().add(groupId, itemIdptr, order, pastTreatments);
         askMenu.setOnMenuItemClickListener(askMenuListener);
         askMenu.show();
     }
 
     public void showTestPopup(View view) {
         //SETUP
+//        testMenu = new PopupMenu(this, view);
+//        inflater = testMenu.getMenuInflater();
+//        inflater.inflate(R.menu.menu_popup_test, testMenu.getMenu());
+//        testMenu.setOnMenuItemClickListener(testMenuListener);
+//        testMenu.show();
         testMenu = new PopupMenu(this, view);
         inflater = testMenu.getMenuInflater();
         inflater.inflate(R.menu.menu_popup_test, testMenu.getMenu());
         testMenu.setOnMenuItemClickListener(testMenuListener);
+        for (int i=0;i<hc.getTests().size();i++)
+        {
+            String name = hc.getTests().get(i).getName();
+            int groupId = Menu.NONE;
+            int itemId = 100+i;
+            int order = Menu.NONE;
+            testMenu.getMenu().add(groupId,itemId,order,name);
+        }
         testMenu.show();
     }
 

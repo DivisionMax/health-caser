@@ -47,7 +47,7 @@
     <!-- Test-->
     <string name="ask">Ask a Question</string>
     <string name="test">Run a Test</string>
-    <string name="diagnose">Diagnose</string>
+    <string name="diagnose">Diagnose Patient</string>
 
     <!-- Statistics-->
     <string name="my_statistics">My Statistics</string>
