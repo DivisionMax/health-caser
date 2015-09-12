@@ -45,7 +45,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     int totalMoves, totalDiagnose, firstDiagnose;
 
     //image files path are saved and passed to test popup
-    String[] images;
+    String[] images = null;
 
 
     //quit and return to health case menu
