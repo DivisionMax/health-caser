@@ -8,27 +8,20 @@ import org.simpleframework.xml.*;
  */
 @Root
 public class HealthCase {
- 
     @Element
     private String start; //age, chief complaint
-    @ElementList
-    private ArrayList<String> history;
-    @ElementList
-    private ArrayList<String> pastTests;
-    @ElementList
-    private ArrayList<String> pastTreatments;
+    @Element
+    private History history;
     @Element
     private String physicalState;
     @Element
     private String diagnosis;
-    @ElementList
+    @ElementList(inline=true)
     private ArrayList<Test> tests;
 
     //Constructor
     public HealthCase() {
-        history = new ArrayList<String>();
-        pastTests = new ArrayList<String>();
-        pastTreatments = new ArrayList<String>();
+        history = new History();
         tests = new ArrayList<Test>();
     }
 
@@ -42,11 +35,6 @@ public class HealthCase {
         physicalState = state;
     }
 
-    public void setHistory(ArrayList<String> history) {
-        for (int i = 0; i < history.size(); i++) {
-            this.history.add(history.get(i));
-        }
-    }
 
     public void setTests(ArrayList<Test> t) {
         for (int i = 0; i < t.size(); i++) {
@@ -54,33 +42,15 @@ public class HealthCase {
         }
     }
 
-    public void setPastTests(ArrayList<String> past_tests) {
-        for (int i = 0; i < past_tests.size(); i++) {
-            this.pastTreatments.add(past_tests.get(i));
-        }
-    }
-
-    public void setPastTreatments(ArrayList<String> past_treatments) {
-        for (int i = 0; i < past_treatments.size(); i++) {
-            this.pastTreatments.add(past_treatments.get(i));
-        }
-    }
 
     public void setDiagnosis(String diagnosis) {
         this.diagnosis = diagnosis;
     }
 
-    public ArrayList<String> getHistory() {
+    public History getHistory() {
         return history;
     }
 
-    public ArrayList<String> getPastTreatments() {
-        return pastTreatments;
-    }
-
-    public ArrayList<String> getPastTests() {
-        return pastTests;
-    }
 
     public ArrayList<Test> getTests() {
         return tests;

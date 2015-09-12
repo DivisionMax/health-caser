@@ -2,64 +2,52 @@ package com.csc3003.healthcaser;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 import java.util.ArrayList;
 
 /**
  * Created by Alan Berman on 8/10/2015.
  */
+@Element
 public class Test {
+    @ElementList(required = false,inline=true)
+    private ArrayList<Image> images;
+    @ElementList(required=false)
+    private ArrayList<String> results;
+    @Element
+    private String name;
 
-        @ElementList
-        private ArrayList<XRay> xrays;
-        @ElementList
-        private ArrayList<MicroscopicImage> microImages;
-        @ElementList
-        private ArrayList<String> results;
-        @Element
-        private String name;
+    public Test()
+    {
+        images = new ArrayList<Image>();
+        results = new ArrayList<String>();
+    }
 
-        public Test()
+
+    public void addImage(Image image) {
+
+        images.add(image);
+
+    }
+    public void setResults(String result) {
         {
-            xrays = new ArrayList<XRay>();
-            microImages = new ArrayList<MicroscopicImage>();
-            results = new ArrayList<String>();
-        }
-        public void setXrays(ArrayList<XRay> xrays) {
-            for (int i=0;i<xrays.size();i++)
-            {
-                this.xrays.add(xrays.get(i));
-            }
-        }
-
-        public void setMicroImages(ArrayList<MicroscopicImage> microImages) {
-            for (int i=0;i<microImages.size();i++)
-            {
-                this.microImages.add(microImages.get(i));
-            }
-        }
-        public void setResults(ArrayList<String> results) {
-            for (int i=0;i<results.size();i++) {
-                this.results.add(results.get(i));
-            }
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-         public String getName() {return name;}
-
-    public ArrayList<MicroscopicImage> getMicroImages() {
-            return microImages;
-        }
-
-        public ArrayList<String> getResults() {
-            return results;
-        }
-
-        public ArrayList<XRay> getXrays() {
-            return xrays;
+            results.add(result);
         }
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {return name;}
+
+    public ArrayList<Image> getImages() {
+        return images;
+    }
+
+    public ArrayList<String> getResults() {
+        return results;
+    }
+}
 
