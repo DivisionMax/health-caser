@@ -3,8 +3,8 @@ package com.csc3003.healthcaser;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -23,30 +22,29 @@ import android.widget.Toast;
 
 import com.csc3003.databaseTools.HCFileManager;
 
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
+import java.io.IOException;
+import java.io.InputStream;
 
-import java.io.File;
-import java.util.ArrayList;
-//Testing the pre-master
 public class HealthCaseTestActivity extends ActionBarActivity implements DiagnosisDialog.DiagnosisDialogListener{
     TextView title,information;
     PopupMenu askMenu,testMenu;
     DialogFragment newFragment;
     Boolean externalStorageReadable;
-    //    final String EXTENRAL_HEALTH_CASES_FOLDER = getExternalFilesDir(null);
+    //    final String EXTERNAL_HEALTH_CASES_FOLDER = getExternalFilesDir(null);
     MenuInflater inflater;
     View content;
     HealthCase hc ;
-
+    //learning how to use the assetmanager for health case defaults
+    Drawable[] d;
+    AssetManager assetManager;
+    String[] files;
         /*stats variables
         totalDiagnose - the number of diagnose attemps
         firstDiagnose - the number of moves made before their first diagnose*/
     int totalMoves, totalDiagnose, firstDiagnose;
-
+    final String FOLDER_NAME = "default-health-cases";
     //image files path are saved and passed to test popup
     String[] images = null;
-
 
     //quit and return to health case menu
     boolean doubleBackToExitPressedOnce = false;
@@ -78,15 +76,35 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         content = this.findViewById(android.R.id.content);
         //determine readable external storage
         Boolean createFolderCase;
+        assetManager = getAssets();
 
-        System.out.println("getFilesDir:" + getFilesDir ());
-        String [] filelist = fileList();
-        System.out.println("Filelist:");
-        for (int i = 0 ; i  < filelist.length;i++){
-            System.out.println(filelist[i]);
+//        System.out.println("getFilesDir:" + getFilesDir ());
+//        String [] filelist = fileList();
+//        System.out.println("Filelist:");
+//        for (int i = 0 ; i  < filelist.length;i++){
+//            System.out.println(filelist[i]);
+//        }
+        try{
+            //pass the filenames and folder_name
+            files = assetManager.list(FOLDER_NAME);
+//             d = new Drawable[files.length];
+//            InputStream ims;
+//            int i = 0;
+/*
+            for(String s : files){
+                System.out.println(s);
+                ims = assetManager.open(s);
+                 d[i] = Drawable.createFromStream(ims, null);
+                i++;
+            }
+*/
+//            ims = assetManager.open(FOLDER_NAME + File.separator + "gross1.jpg");
+        }catch(IOException e){
+            e.printStackTrace();
         }
         //if external storage is available, read the health case fodler
-        externalStorageReadable = isExternalStorageReadable();
+//        externalStorageReadable = isExternalStorageReadable();
+/*
         if (externalStorageReadable){
             //~/health.caser
             //com.csc3003.healthcaser
@@ -102,6 +120,13 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                 images[i] = temp[i].getPath();
             }
         }
+*/
+        HCFileManager hcFileManager = new HCFileManager(getFilesDir().getPath());
+        Intent intent = getIntent();
+        String filename = intent.getStringExtra(ChooseCaseActivity.DATA_KEY_HEALTH_CASE);
+        hc = hcFileManager.readHealthCaseFromXMLFile(filename);
+        title = (TextView)findViewById(R.id.case_title);
+        information = (TextView)findViewById(R.id.case_information);
 
         //Statistics initialize
         totalMoves = 0;
@@ -114,38 +139,27 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             information.setText(savedInstanceState.getString("DISPLAYED_INFO"));
             firstDiagnose = savedInstanceState.getInt("FIRST_DIAGNOSE");
         }
-        HCFileManager hcFileManager = new HCFileManager(getFilesDir().getPath());
-        Intent intent = getIntent();
-        String filename = intent.getStringExtra(ChooseCaseActivity.DATA_KEY_HEALTH_CASE);
-        hc = hcFileManager.readHealthCaseFromXMLFile(filename);
-//        if (hc == null)
-//        {
-//            Log.e("yo","null!");
-//        }
-        title = (TextView)findViewById(R.id.case_title);
-        information = (TextView)findViewById(R.id.case_information);
         information.setText(hc.getStart());
-//        Log.e("i",hc.getDiagnosis());
     }
 
     /*Adapted http://developer.android.com/training/basics/data-storage/files.html*/
     /* Checks if external storage is available for read and write */
-    public boolean isExternalStorageWritable() {
+    /*public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             return true;
         }
         return false;
-    }
+    }*/
     /* Checks if external storage is available to at least read */
-    public boolean isExternalStorageReadable() {
+    /*public boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state) ||
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             return true;
         }
         return false;
-    }
+    }*/
     //save data if the activity is destroyed
     @Override
     protected void onSaveInstanceState (Bundle outState) {
@@ -187,7 +201,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         // User touched the dialog's negative button
         newFragment.dismiss();
     }
-
     //***********
     //POPUP MENU LISTENER
     private PopupMenu.OnMenuItemClickListener askMenuListener = new PopupMenu.OnMenuItemClickListener() {
@@ -264,12 +277,10 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             {
                 information.setText("No textual results");
             }
-
             totalMoves+=1;
-                //image display, must implement
-               /* DialogFragment newFragment = TestImageDialog.newInstance(images);
-                newFragment.show(getFragmentManager(), "dialog");*/
-
+                //MUST CHANGE: every test will show the same images
+                DialogFragment newFragment = TestImageDialog.newInstance(FOLDER_NAME, files);
+                newFragment.show(getFragmentManager(), "dialog");
             return false;
         }
     };
