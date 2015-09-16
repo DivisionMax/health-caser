@@ -33,6 +33,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="@string/ask"
+        android:textAllCaps="false"
         android:onClick="showAskPopup"/>
 
         <Button
@@ -41,6 +42,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/test"
+            android:textAllCaps="false"
             android:onClick="showTestPopup"/>
 
         <Button
@@ -49,6 +51,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:onClick="diagnose"
+            android:textAllCaps="false"
             android:text="@string/diagnose"/>
 
     </LinearLayout>
