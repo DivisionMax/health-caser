@@ -4,12 +4,17 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.method.ScrollingMovementMethod;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +29,7 @@ import com.csc3003.databaseTools.HCFileManager;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class HealthCaseTestActivity extends ActionBarActivity implements DiagnosisDialog.DiagnosisDialogListener{
     TextView title,information;
@@ -45,6 +51,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     final String FOLDER_NAME = "default-health-cases";
     //image files path are saved and passed to test popup
     String[] images = null;
+     ArrayList<String> auditTrail = new ArrayList<String>();
 
     //quit and return to health case menu
     boolean doubleBackToExitPressedOnce = false;
@@ -127,6 +134,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         hc = hcFileManager.readHealthCaseFromXMLFile(filename);
         title = (TextView)findViewById(R.id.case_title);
         information = (TextView)findViewById(R.id.case_information);
+        information.setMovementMethod(new ScrollingMovementMethod());
 
         //Statistics initialize
         totalMoves = 0;
@@ -138,14 +146,16 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             totalDiagnose = savedInstanceState.getInt("TOTAL_DIAGNOSE");
             information.setText(savedInstanceState.getString("DISPLAYED_INFO"));
             firstDiagnose = savedInstanceState.getInt("FIRST_DIAGNOSE");
+//            auditTrail.add(savedInstanceState.getStringArrayList("AUDIT_TRAIL"));
         }
+        //the initial arrival
+        title.setText("Patient Arrives");
         information.setText(hc.getStart());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-
         getMenuInflater().inflate(R.menu.menu_health_case_test, menu);
         return true;
     }
@@ -156,14 +166,12 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.audit_trail) {
             //the audit trail must be passed
-            DialogFragment newFragment = AuditTrailDialog.newInstance(new String[1]);
+            DialogFragment newFragment = AuditTrailDialog.newInstance(auditTrail);
             newFragment.show(getFragmentManager(), "dialog");
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -193,6 +201,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         outState.putInt("TOTAL_DIAGNOSE", totalDiagnose);
         outState.putInt("FIRST_DIAGNOSE", firstDiagnose);
         outState.putString("DISPLAYED_INFO", information.getText().toString());
+        outState.putStringArrayList("AUDIT_TRAIL", auditTrail);
 
         super.onSaveInstanceState(outState);
     }
@@ -231,45 +240,49 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     private PopupMenu.OnMenuItemClickListener askMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-
-//            information.setText("");
-//            for (String a : hc.getHistory()) {
-//                information.append(a + "\n");
-//            }
             information.setText("");
             int id = item.getItemId();
-            String hey = ""+id;
-            Log.e("yo",hey);
+//            String hey = ""+id;
+//            Log.e("yo", hey);
             if (id==3) {
-                information.append("Past Medical History:\n");
+                title.setText("Past Medical History:");
                 for (int i = 0; i < hc.getHistory().getPastHistory().size(); i++) {
+
                     information.append(hc.getHistory().getPastHistory().get(i).toString() + "\n");
+
                 }
+                auditTrail.add(information.getText().toString());
             }
             else if (id==4) {
 
-                information.append("Recent Medical History:\n");
+                title.setText("Recent Medical History:");
 
                 for (int j = 0; j < hc.getHistory().getRecentHistory().size(); j++) {
                     information.append(hc.getHistory().getRecentHistory().get(j).toString() + "\n");
                 }
+                auditTrail.add(information.getText().toString());
+
             }
             else if (id==5) {
 
-                information.append("Past Medical Tests:\n");
+                title.setText("Past Medical Tests:");
 
                 for (int k = 0; k < hc.getHistory().getPastTests().size(); k++) {
                     information.append(hc.getHistory().getPastTests().get(k).toString() + "\n");
                 }
+                auditTrail.add(information.getText().toString());
+
             }
             else if (id==6) {
 
-                    information.append("Past Treatments:\n");
+                    title.setText("Past Treatments:");
 
                     for (int l=0;l<hc.getHistory().getPastTreatments().size();l++)
                     {
                         information.append(hc.getHistory().getPastTreatments().get(l).toString()+"\n");
                     }
+                auditTrail.add(information.getText().toString());
+
             }
             totalMoves+=1;
             return false;
@@ -281,15 +294,11 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             //item.getTitle() returns label
+            System.out.println(item.getTitle());
             information.setText(hc.getTests().get(0).getName() + ":\n");
             for (Test t : hc.getTests()) {
                 information.append(t.getResults().get(0) + "\n");
             }
-//            information.setText(hc.getTests().get(0).getName() + ":\n");
-//            for (Test t : hc.getTests()) {
-//                information.append(t.getResults().get(0) + "\n");
-//            }
-//            totalMoves+=1;
             information.setText("");
             int id = item.getItemId()-100;
             if (!(hc.getTests().get(id).getResults()==null))
@@ -297,10 +306,14 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                 information.append(hc.getTests().get(id).getName().toString()+" results"+
                         ":\n");
                 information.append(hc.getTests().get(id).getResults().get(0)+"\n");
+                auditTrail.add(information.getText().toString());
+
             }
             else
             {
                 information.setText("No textual results");
+                auditTrail.add(information.getText().toString());
+
             }
             totalMoves+=1;
                 //MUST CHANGE: every test will show the same images
@@ -337,11 +350,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
 
     public void showTestPopup(View view) {
         //SETUP
-//        testMenu = new PopupMenu(this, view);
-//        inflater = testMenu.getMenuInflater();
-//        inflater.inflate(R.menu.menu_popup_test, testMenu.getMenu());
-//        testMenu.setOnMenuItemClickListener(testMenuListener);
-//        testMenu.show();
         testMenu = new PopupMenu(this, view);
         inflater = testMenu.getMenuInflater();
         inflater.inflate(R.menu.menu_popup_test, testMenu.getMenu());
