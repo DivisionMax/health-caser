@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,8 +29,19 @@ public class LoginActivity extends Activity {
     final int duration = Toast.LENGTH_SHORT;
     Intent intent;
 
+    public static final String PREFS_HC = "HC";
+    public static final String PREFS_HC_CURRENTUSER = "currentUser";
+
+    SharedPreferences settings ;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        settings = getSharedPreferences(PREFS_HC, 0);
+        editor = settings.edit();
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -87,6 +99,12 @@ public class LoginActivity extends Activity {
         else{
             if(userDB.isUserExist(emailStr)&& userDB.isCorrectPassword(emailStr,passwordStr)) {
                 successfulLoginOrRegistration(emailStr, "You have logged in");
+                //record current username of the person who has logged in
+                editor.putString(PREFS_HC_CURRENTUSER, emailStr);
+
+
+
+                editor.commit();
             }
             else
             {
@@ -454,6 +472,14 @@ public class LoginActivity extends Activity {
                 aUser.setUsername(emailStr);
                 aUser.setPassword(passwordStr);
                 userDB.addUser( emailStr , passwordStr);
+
+                //record current username of the person who has logged in
+                editor.putString(PREFS_HC_CURRENTUSER, emailStr);
+
+
+
+                editor.commit();
+
                 successfulLoginOrRegistration(emailStr, "Welcome. You have registered");
             }
         }

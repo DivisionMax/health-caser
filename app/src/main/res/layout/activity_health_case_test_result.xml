@@ -8,8 +8,8 @@
     android:layout_marginRight="10dp"
     >
     <TextView
-        android:id="@+id/heading_results"
-        android:text="@string/heading_results"
+        android:id="@+id/heading_statistics"
+        android:text="@string/heading_my_statistics"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

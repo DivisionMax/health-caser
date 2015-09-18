@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.csc3003.healthcaser.ChooseCaseActivity">
 
-    <item android:id="@+id/user_statistics" android:title="@string/my_statistics"
+    <item android:id="@+id/user_statistics" android:title="@string/heading_my_statistics"
         android:orderInCategory="100" app:showAsAction="never" />
 <!--
     <item android:id="@+id/action_search"

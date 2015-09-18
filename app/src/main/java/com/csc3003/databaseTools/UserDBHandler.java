@@ -11,6 +11,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 //package com.DatabaseTools;
 
 /**
@@ -20,11 +23,37 @@ public class UserDBHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "user.db";
-    private static final String TABLE_USER = "user";
 
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_PASSWORD = "password";
-    public static final String COLUMN_USER = "username";
+    //tables
+    private static final String TABLE_USER = "user";
+    private static final String TABLE_USERSTATS = "UserStats";
+
+
+    //column for user table
+    private static final String COLUMN_ID = "_id_user";
+    private static final String COLUMN_PASSWORD = "password";
+
+    //column for both user and stats table
+    private static final String COLUMN_USER = "username";
+
+    //column for userstats
+    public static final String COLUMN_ID_STATS = "_id_stats";
+    public static final String COLUMN_TOTAL_MOVES = "totalMoves";
+    public static final String COLUMN_TOTAL_DIAGNOSE = "totalDiagnose";
+    public static final String COLUMN_FIRST_DIAGNOSE = "firstDiagnose";
+    public static final String COLUMN_DATE_FINISHED =  "dateFinished";
+
+    private static final String CREATE_TABLE_USER =  "CREATE TABLE " +
+            TABLE_USER + "("
+            + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_PASSWORD
+            + " TEXT," + COLUMN_USER + " TEXT" + ")";
+
+    private static final String CREATE_TABLE_USERSTATS =  "CREATE TABLE " +
+            TABLE_USERSTATS + "("
+            + COLUMN_ID_STATS + " INTEGER PRIMARY KEY," + COLUMN_TOTAL_MOVES
+            + " INTEGER," + COLUMN_TOTAL_DIAGNOSE + " INTEGER, " + COLUMN_FIRST_DIAGNOSE + " INTEGER,"+ COLUMN_DATE_FINISHED +" DATE,"+COLUMN_USER+" TEXT )";
+
+
 
     public UserDBHandler(Context context, String name,
                          SQLiteDatabase.CursorFactory factory, int version) {
@@ -33,11 +62,9 @@ public class UserDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_USER_TABLE = "CREATE TABLE " +
-                TABLE_USER + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_PASSWORD
-                + " TEXT," + COLUMN_USER + " TEXT" + ")";
-        db.execSQL(CREATE_USER_TABLE);
+
+        db.execSQL(CREATE_TABLE_USER);
+        db.execSQL(CREATE_TABLE_USERSTATS);
     }
 
     @Override
@@ -141,5 +168,112 @@ public class UserDBHandler extends SQLiteOpenHelper {
 
         return resultPath;
     }
+
+    //table userstats methods
+    public void addNewStatsRecord( String username, int totalMoves, int totalDiagnose, int firstDiagnose, Date dateFinished) {
+
+        ContentValues values = new ContentValues();
+
+        String dateFinishedStr = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+        values.put(COLUMN_USER, username);
+        values.put(COLUMN_TOTAL_MOVES, totalMoves);
+        values.put(COLUMN_TOTAL_DIAGNOSE, totalDiagnose);
+        values.put(COLUMN_FIRST_DIAGNOSE, firstDiagnose);
+        values.put(COLUMN_DATE_FINISHED, dateFinishedStr );
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.insert(TABLE_USERSTATS, null, values);
+
+        db.close();
+
+
+
+
+    }
+    public boolean recordExist(String username)
+    {
+        if (countRecords(username) > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public int countRecords (String userName ) {
+
+
+        String query = "Select COUNT(*) FROM " + TABLE_USERSTATS + " WHERE " + COLUMN_USER + " =  \"" + userName + "\"";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        int count ;
+
+        if (cursor.moveToFirst()) {
+
+
+            cursor.moveToFirst();
+            count =  Integer.parseInt(cursor.getString(0));
+            cursor.close();
+
+
+        }
+        else
+        {
+            count =0;
+        }
+
+
+        db.close();
+
+        return count;
+    }
+    public float getSumStatistic(String username, String statistic)
+    {
+        String query = "Select SUM( "+statistic+  ") FROM " + TABLE_USERSTATS + " WHERE " + COLUMN_USER + " =  \"" + username + "\"";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        float sumStatisticF ;
+
+        if (cursor.moveToFirst()) {
+
+
+            cursor.moveToFirst();
+            sumStatisticF =  Float.parseFloat(cursor.getString(0));
+            cursor.close();
+
+
+        }
+        else
+        {
+            sumStatisticF =0;
+        }
+
+
+        db.close();
+        return sumStatisticF;
+    }
+
+    public float getAverageStatistic(String username, String statistic) {
+        float sumStatisticF = getSumStatistic(username, statistic);
+
+
+
+        int numberOfRecords = countRecords( username );
+
+        float statisticF;
+        statisticF = sumStatisticF/numberOfRecords;
+        Log.e("statistic test", statistic + ":" + statisticF);
+        return statisticF;
+    }
+
 
 }

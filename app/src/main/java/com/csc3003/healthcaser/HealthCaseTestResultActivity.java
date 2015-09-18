@@ -1,6 +1,7 @@
 package com.csc3003.healthcaser;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.csc3003.databaseTools.UserDBHandler;
+
+import java.util.Date;
 
 
 public class HealthCaseTestResultActivity extends ActionBarActivity {
@@ -24,6 +29,7 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_case_test_result);
+        UserDBHandler  userStatDB  ;
         //retrieve the stats
         //if the user rotated
         if (savedInstanceState != null) {
@@ -37,6 +43,21 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
             totalMoves = (float) extras.getInt("TOTAL_MOVES");
             totalDiagnose = (float) extras.getInt("TOTAL_DIAGNOSE");
             firstDiagnose = (float) extras.getInt("FIRST_DIAGNOSE");
+            userStatDB = new UserDBHandler(this, null, null, 1);
+
+            //get current username of user
+            SharedPreferences settings = getSharedPreferences(LoginActivity.PREFS_HC, 0);
+            String strEmail = settings.getString(LoginActivity.PREFS_HC_CURRENTUSER, "Not found");
+
+            //get the current date for record use
+            Date currentDate = new Date();
+
+            //insert record
+            userStatDB.addNewStatsRecord( strEmail , (int)totalMoves,(int)totalDiagnose , (int)firstDiagnose, currentDate );
+
+            //testing
+
+
         }
         System.out.println("Total moves; " + totalMoves);
         System.out.println("Total diagnose; " + totalDiagnose);

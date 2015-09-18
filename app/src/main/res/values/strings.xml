@@ -49,8 +49,7 @@
     <string name="test">Run a Test</string>
     <string name="diagnose">Diagnose Patient</string>
 
-    <!-- Statistics-->
-    <string name="my_statistics">My Statistics</string>
+
     <string name="test_image">Test Image</string>
     <!-- Diagnose Popup-->
     <string name="diagnosis_hint">Enter your diagnosis</string>
@@ -58,6 +57,12 @@
 
     <string name="audit_trail">What we know</string>
 
+    <!-- Statistics Activity-->
+    <string name="heading_my_statistics">My Statistics</string>
+    <string name="average_number_of_moves">Average Number of Moves</string>
+    <string name="average_diagnose_accuracy" > Average Diagnosis Accuracy </string>
+    <string name="total_health_cases_completed"> Total Health Cases Completed </string>
+    <string name="average_diagnose_vs_moves">Average Diagnose-Move Ratio</string>
     <!-- Results Activity-->
     <string name="heading_results">Your Test Results</string>
     <string name="total_moves">Total Moves</string>
