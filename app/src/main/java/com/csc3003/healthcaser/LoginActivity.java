@@ -40,8 +40,6 @@ public class LoginActivity extends Activity {
 
         settings = getSharedPreferences(PREFS_HC, 0);
         editor = settings.edit();
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -51,7 +49,7 @@ public class LoginActivity extends Activity {
         password = (EditText) findViewById(R.id.password);
         password.setTypeface(email.getTypeface());
 
-        //laod standard
+        //copy the xmls from
         loadStandardXML();
     }
 
@@ -101,9 +99,6 @@ public class LoginActivity extends Activity {
                 successfulLoginOrRegistration(emailStr, "You have logged in");
                 //record current username of the person who has logged in
                 editor.putString(PREFS_HC_CURRENTUSER, emailStr);
-
-
-
                 editor.commit();
             }
             else
