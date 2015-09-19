@@ -1,0 +1,113 @@
+<healthCase>
+   <diagnosis>Lymphocytic Interstitial Pneumonia</diagnosis>
+   <history>
+      <pastHistory>
+         <string>1.Multiple immunologic disorders, including idiopathic thrombocytopenic purpura (ITP).</string>
+         <string>2. Common Variable Immune Deficiency (CVID).</string>
+         <string>3. Autoimmune Hemolytic Anemia (AIHA).</string>
+         <string>4. Some fatigue with exertion but was otherwise asymptomatic.</string>
+         <string>5. Physical examinationfor bilateral crackles in the lung bases.</string>
+      </pastHistory>
+      <pastTests>
+         <string>1. Chest X-ray, revealing lung nodules.</string>
+         <string>2. Computerized Tomography (CT) scan, revealing lung nodules.</string>
+         <string>3. Open lung biopsy. </string>
+         <string>4. Pulmonary function studies,revealing combined obstructive and restrictive patterns.</string>
+      </pastTests>
+      <pastTreatments>
+         <string>1. Intravenous gamma globulin every other week.</string>
+         <string>2. Anemia treated with steroids and the lung nodules resolved.</string>
+         <string>3. Hospitalization for an exacerbation of autoimmune hemolytic anemia.</string>
+      </pastTreatments>
+      <recentHistory>
+         <string>No recent history.</string>
+      </recentHistory>
+   </history>
+   <physicalState>Alive</physicalState>
+   <start>A twelve-year-old girl was referred to the pediatric pulmonary service for evaluation of recurrent lung nodules.</start>
+   <test>
+      <name>Vital Signs</name>
+      <results>
+         <string>Blood pressure: Normal
+Heart Rate: Normal
+Respiration Rate: Normal
+Temperature: 38.5</string>
+      </results>
+   </test>
+   <test>
+      <image>
+         <description>A reticulonodular pattern, most prominent in the lung bases. </description>
+         <name>gross1.jpg</name>
+      </image>
+      <image>
+         <description>A reticulonodular pattern, most prominent in the lung bases. </description>
+         <name>gross2.jpg</name>
+      </image>
+      <name>Chest X-ray</name>
+      <results>
+         <string>None</string>
+      </results>
+   </test>
+   <test>
+      <image>
+         <description>A more pronounced reticulonodular pattern in the lower lobes.</description>
+         <name>gross3.jpg</name>
+      </image>
+      <image>
+         <description>A more pronounced reticulonodular pattern in the lower lobes.</description>
+         <name>gross4.jpg</name>
+      </image>
+      <name>Recent Chest X-ray</name>
+      <results>
+         <string>None</string>
+      </results>
+   </test>
+   <test>
+      <image>
+         <description>Mature lymphocytes and plasma cells.</description>
+         <name>micro1.jpg</name>
+      </image>
+      <image>
+         <description>Mature lymphocytes and plasma cells.</description>
+         <name>micro2.jpg</name>
+      </image>
+      <image>
+         <description>Mature lymphocytes and plasma cells.</description>
+         <name>micro3.jpg</name>
+      </image>
+      <image>
+         <description>Mature lymphocytes and plasma cells.</description>
+         <name>micro4.jpg</name>
+      </image>
+      <image>
+         <description>Multiple lymphoid aggregates.</description>
+         <name>micro5.jpg</name>
+      </image>
+      <image>
+         <description>Active germinal centers.</description>
+         <name>micro6.jpg</name>
+      </image>
+      <image>
+         <description>Active germinal centers.</description>
+         <name>micro7.jpg</name>
+      </image>
+      <image>
+         <description>Abundant collections of histiocytes.</description>
+         <name>micro8.jpg</name>
+      </image>
+      <image>
+         <description>Focal prominent type II pneumocyte hyperplasia.</description>
+         <name>micro9.jpg</name>
+      </image>
+      <name>Lung Biopsy</name>
+      <results>
+         <string>The biopsy of the lung parenchyma was firm, with focal yellow to white vaguely nodular areas.</string>
+      </results>
+   </test>
+   <test>
+      <name>Chest CT Scan</name>
+      <results>
+         <string>Recurrent nodular interstitial lung disease, with more extensive involvement than before.</string>
+      </results>
+   </test>
+</healthCase>

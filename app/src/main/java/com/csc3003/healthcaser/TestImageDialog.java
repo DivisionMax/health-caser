@@ -58,6 +58,10 @@ public class TestImageDialog extends DialogFragment {
             for (int i = 0; i < files.length; i++){
                 ims = assetManager.open(FOLDER_NAME + File.separator + files[i]);
                 d[i] = Drawable.createFromStream(ims, null);
+
+
+
+
             }
         }catch(IOException e){
             e.printStackTrace();

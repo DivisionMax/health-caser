@@ -54,6 +54,8 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
      ArrayList<String> auditTrail = new ArrayList<String>();
 
     //quit and return to health case menu
+    String imagePath ;
+
     boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
@@ -94,6 +96,8 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         try{
             //pass the filenames and folder_name
             files = assetManager.list(FOLDER_NAME);
+
+
 //             d = new Drawable[files.length];
 //            InputStream ims;
 //            int i = 0;
@@ -128,10 +132,21 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             }
         }
 */
-        HCFileManager hcFileManager = new HCFileManager(getFilesDir().getPath());
+
+
         Intent intent = getIntent();
-        String filename = intent.getStringExtra(ChooseCaseActivity.DATA_KEY_HEALTH_CASE);
-        hc = hcFileManager.readHealthCaseFromXMLFile(filename);
+        String foldername = intent.getStringExtra(ChooseCaseActivity.HEALTH_CASE_FOLDER_NAME);
+        String filepath = intent.getStringExtra(ChooseCaseActivity.HEALTH_CASE_FILE_PATH);
+        String XMLFileName = foldername + ".xml";
+        imagePath = filepath+"/images";
+        HCFileManager hcFileManager = new HCFileManager(filepath);
+
+       Log.e("the path is ", filepath );
+
+        hc = hcFileManager.readHealthCaseFromXMLFile(XMLFileName);
+
+
+
         title = (TextView)findViewById(R.id.case_title);
         information = (TextView)findViewById(R.id.case_information);
         information.setMovementMethod(new ScrollingMovementMethod());
@@ -317,8 +332,9 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             }
             totalMoves+=1;
                 //MUST CHANGE: every test will show the same images
-                DialogFragment newFragment = TestImageDialog.newInstance(FOLDER_NAME, files);
-                newFragment.show(getFragmentManager(), "dialog");
+            DialogFragment newFragment = TestImageDialog.newInstance(FOLDER_NAME, files);
+
+                    newFragment.show(getFragmentManager(), "dialog");
             return false;
         }
     };
