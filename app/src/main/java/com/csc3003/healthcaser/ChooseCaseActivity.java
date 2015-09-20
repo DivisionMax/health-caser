@@ -141,10 +141,10 @@ public class ChooseCaseActivity extends ActionBarActivity {
         for (int i = 0 ; i < fileNames.length; i ++ ){
              //k = rand.nextInt(50) + 100;
             //cases.add("Case #" + k);
-            if (fileNames[i].getName().charAt(0)=='H') {
+
                 cases.add(fileNames[i].getName());
                 casesPath.add(fileNames[i].getAbsolutePath());
-            }
+            
         }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
