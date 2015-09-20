@@ -298,10 +298,25 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                 runTests.add(id);
                 totalMoves+=1;
             }
-                //MUST CHANGE: every test will show the same images
-            DialogFragment newFragment = TestImageDialog.newInstance(FOLDER_NAME, files);
+            if( hc.getTests().get(id).getImages().size()>0)
+            {    //get images arraylist
 
-            newFragment.show(getFragmentManager(), "dialog");
+                ArrayList<Image> tempImages;
+                tempImages = hc.getTests().get(id).getImages() ;
+
+                String[] imageNames = new String[tempImages.size()];
+
+                for(int i = 0; i < imageNames.length; i++)
+                {
+                    imageNames[i] = tempImages.get(i).getName();
+                }
+
+                // files = imageNames;
+
+                DialogFragment newFragment = TestImageDialog.newInstance(imagePath, imageNames);
+
+                newFragment.show(getFragmentManager(), "dialog");
+            }
             return false;
         }
     };
