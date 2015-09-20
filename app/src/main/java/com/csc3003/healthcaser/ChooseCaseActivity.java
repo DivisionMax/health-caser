@@ -2,9 +2,11 @@ package com.csc3003.healthcaser;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,8 +29,10 @@ public class ChooseCaseActivity extends ActionBarActivity {
 
     private ListView casesView;
     private List<String> cases;
+    private List<String> casesPath;
     private Intent intent;
-    static String DATA_KEY_HEALTH_CASE = "HEALTH_CASE";
+    static String HEALTH_CASE_FOLDER_NAME = "HEALTH_CASE_FOLDER_NAME";
+    static String HEALTH_CASE_FILE_PATH = "HEALTH_CASE_FILE_PATH";
 
     boolean doubleBackToExitPressedOnce = false;
     //return to the health cases
@@ -46,7 +50,7 @@ public class ChooseCaseActivity extends ActionBarActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
@@ -56,12 +60,37 @@ public class ChooseCaseActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_case);
 
+
+        cases = new ArrayList<String>();
+        casesPath = new ArrayList<String>();
+
         casesView = (ListView) findViewById(R.id.casesView);
+        //load internal files
 
-        HCFileManager fileManager = new HCFileManager(getFilesDir().getPath());
+        HCFileManager fileManager;
 
-        File[] fileList =  fileManager.returnFileList();
-        populateCasesView(fileList);
+        String internalHCFolderPath = getFilesDir().getPath()+"/HealthCases";
+        File internalfile = new File(internalHCFolderPath);
+        //checks to see if the HealthCases folder is present at internal path, if it is ill load up the files
+        if(internalfile.exists())
+        {
+            fileManager = new HCFileManager(internalHCFolderPath);
+            File[] fileList =  fileManager.returnFileList();
+            populateCasesView(fileList);
+        }
+
+
+        //this will check if there is a HealthCases Folder in the external Directory.
+        String externalHCFolderPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/HealthCases";
+        File externalfile = new File(externalHCFolderPath );
+        if( isExternalStorageReadable())
+        {
+            if(externalfile.exists()) {
+                fileManager = new HCFileManager(externalHCFolderPath);
+                File[] fileList = fileManager.returnFileList();
+                populateCasesView(fileList);
+            }
+        }
         //Start the health case when it is clicked
         casesView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -69,20 +98,13 @@ public class ChooseCaseActivity extends ActionBarActivity {
                                     long id) {
 //                                int num = Integer.parseInt(cases.get(position));
 
-                intent = new Intent(view.getContext(),HealthCaseTestActivity.class);
-
-
-
-
-                String filename = cases.get(position);
-
-                intent.putExtra(DATA_KEY_HEALTH_CASE, filename);
-
+                intent = new Intent(view.getContext(), HealthCaseTestActivity.class);
+                String foldername = cases.get(position);
+                String filePath = casesPath.get(position);
+                intent.putExtra(HEALTH_CASE_FOLDER_NAME, foldername);
+                intent.putExtra(HEALTH_CASE_FILE_PATH, filePath);
                 startActivity(intent);
             }
-
-
-
 
 
         });
@@ -114,14 +136,13 @@ public class ChooseCaseActivity extends ActionBarActivity {
 
 //    populate the spinner with externalSD cases
     public void populateCasesView(File[] fileNames) {
-
-        cases = new ArrayList<String>();
          //rand = new Random();
         int k;
         for (int i = 0 ; i < fileNames.length; i ++ ){
              //k = rand.nextInt(50) + 100;
             //cases.add("Case #" + k);
             cases.add(fileNames[i].getName());
+            casesPath.add(fileNames[i].getAbsolutePath());
         }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -129,24 +150,19 @@ public class ChooseCaseActivity extends ActionBarActivity {
         casesView.setAdapter(dataAdapter);
         casesView.setAdapter(dataAdapter);
     }
-    public void chooseHealthCase(View v)
-    {
-        Button b = (Button)v;
-        String healthCaseNameFile = b.getText().toString();
-        intent.putExtra(DATA_KEY_HEALTH_CASE, healthCaseNameFile);
-        intent = new Intent (this, HealthCaseTestActivity.class);
-        startActivity(intent);
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
     }
-
     public void randomCase(View v){
 //        rand = new Random();
 //        int i = rand.nextInt(cases.size());
-
         //String text = b.getText().toString();
-
         intent = new Intent (this, HealthCaseTestActivity.class);
-
         startActivity(intent);
-
     }
 }

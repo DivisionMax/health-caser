@@ -100,7 +100,7 @@ public class HCFileManager {
         HealthCase hc1;
 
         File xmlFile = new File(internalPath + fileName);
-
+        Log.e("xml file path", xmlFile.toString());
         try
         {
             hc1 = serializer.read(HealthCase.class,xmlFile);
@@ -109,7 +109,7 @@ public class HCFileManager {
         }
         catch (Exception e)
         {
-
+            Log.e ("HCFileManagerError",e.toString() );
             return null;
 
         }

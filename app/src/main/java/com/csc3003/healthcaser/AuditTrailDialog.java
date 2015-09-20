@@ -27,6 +27,9 @@ public class AuditTrailDialog extends DialogFragment {
     public static AuditTrailDialog newInstance(ArrayList<String> input) {
         AuditTrailDialog frag = new AuditTrailDialog();
         Bundle args = new Bundle();
+        for (String s: input){
+            System.out.println(s);
+        }
         args.putStringArrayList("trail", input);
         frag.setArguments(args);
         return frag;
@@ -40,8 +43,9 @@ public class AuditTrailDialog extends DialogFragment {
         TextView auditView = (TextView)content.findViewById(R.id.audit_view);
         //dummy text
         if (auditTrail!=null){
+        auditView.setText("");
         for (String s: auditTrail){
-            auditView.setText(s);
+            auditView.append(s);
         }
         }
 /*        auditView.setText("Bacon ipsum dolor amet ullamco pork loin doner, tri-tip excepteur velit short loin. Boudin in swine meatball, spare ribs consequat incididunt commodo shankle ham hock cupim voluptate in bresaola filet mignon. Labore short ribs nisi proident andouille adipisicing elit in mollit ex meatloaf doner. Shank adipisicing frankfurter tempor turducken. Commodo cupim consequat biltong kevin minim veniam id fatback meatloaf. Enim occaecat hamburger mollit doner short loin fugiat irure laboris ipsum dolore.\n" +

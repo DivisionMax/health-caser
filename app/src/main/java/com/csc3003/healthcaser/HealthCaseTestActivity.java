@@ -35,25 +35,23 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     TextView title,information;
     PopupMenu askMenu,testMenu;
     DialogFragment newFragment;
-    Boolean externalStorageReadable;
-    //    final String EXTERNAL_HEALTH_CASES_FOLDER = getExternalFilesDir(null);
     MenuInflater inflater;
     View content;
     HealthCase hc ;
-    //learning how to use the assetmanager for health case defaults
     Drawable[] d;
     AssetManager assetManager;
-    String[] files;
+    String[] files = null;
         /*stats variables
         totalDiagnose - the number of diagnose attemps
         firstDiagnose - the number of moves made before their first diagnose*/
     int totalMoves, totalDiagnose, firstDiagnose;
     final String FOLDER_NAME = "default-health-cases";
     //image files path are saved and passed to test popup
-    String[] images = null;
-     ArrayList<String> auditTrail = new ArrayList<String>();
+   final ArrayList<String> auditTrail = new ArrayList<String>();
 
     //quit and return to health case menu
+    String imagePath ;
+
     boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
@@ -63,7 +61,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             startActivity(intent);
             return;
         }
-
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Please click BACK again to return to the cases list", Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable() {
@@ -81,57 +78,28 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_case_test);
         content = this.findViewById(android.R.id.content);
-        //determine readable external storage
-        Boolean createFolderCase;
-        assetManager = getAssets();
-
-//        System.out.println("getFilesDir:" + getFilesDir ());
-//        String [] filelist = fileList();
-//        System.out.println("Filelist:");
-//        for (int i = 0 ; i  < filelist.length;i++){
-//            System.out.println(filelist[i]);
-//        }
-        try{
-            //pass the filenames and folder_name
+        //this must be removed, just so running a test doesn't crash
+        assetManager = this.getAssets();
+        try {
             files = assetManager.list(FOLDER_NAME);
-//             d = new Drawable[files.length];
-//            InputStream ims;
-//            int i = 0;
-/*
-            for(String s : files){
-                System.out.println(s);
-                ims = assetManager.open(s);
-                 d[i] = Drawable.createFromStream(ims, null);
-                i++;
-            }
-*/
-//            ims = assetManager.open(FOLDER_NAME + File.separator + "gross1.jpg");
         }catch(IOException e){
             e.printStackTrace();
         }
-        //if external storage is available, read the health case fodler
-//        externalStorageReadable = isExternalStorageReadable();
-/*
-        if (externalStorageReadable){
-            //~/health.caser
-            //com.csc3003.healthcaser
-            File externalStorage = Environment.getExternalStoragePublicDirectory("com.csc3003.healthcaser");
-            if (!externalStorage.exists()){
-                createFolderCase = externalStorage.mkdir();
-            }
-            System.out.println(externalStorage);
-            File[] temp = externalStorage.listFiles();
-            //should read from internal storage
-            images = new String[temp.length];
-            for (int i = 0 ; i < temp.length;i++){
-                images[i] = temp[i].getPath();
-            }
-        }
-*/
-        HCFileManager hcFileManager = new HCFileManager(getFilesDir().getPath());
+        //***********************************************************
+        //determine readable external storage
         Intent intent = getIntent();
-        String filename = intent.getStringExtra(ChooseCaseActivity.DATA_KEY_HEALTH_CASE);
-        hc = hcFileManager.readHealthCaseFromXMLFile(filename);
+        String foldername = intent.getStringExtra(ChooseCaseActivity.HEALTH_CASE_FOLDER_NAME);
+        String filepath = intent.getStringExtra(ChooseCaseActivity.HEALTH_CASE_FILE_PATH);
+        String XMLFileName = foldername + ".xml";
+        imagePath = filepath+"/images";
+        HCFileManager hcFileManager = new HCFileManager(filepath);
+
+       Log.e("the path is ", filepath );
+
+        hc = hcFileManager.readHealthCaseFromXMLFile(XMLFileName);
+
+
+
         title = (TextView)findViewById(R.id.case_title);
         information = (TextView)findViewById(R.id.case_information);
         information.setMovementMethod(new ScrollingMovementMethod());
@@ -151,6 +119,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         //the initial arrival
         title.setText("Patient Arrives");
         information.setText(hc.getStart());
+        auditTrail.add("Patient Arrives: " + information.getText().toString() +"\n");
     }
 
     @Override
@@ -174,25 +143,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /*Adapted http://developer.android.com/training/basics/data-storage/files.html*/
-    /* Checks if external storage is available for read and write */
-    /*public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }*/
-    /* Checks if external storage is available to at least read */
-    /*public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
-    }*/
     //save data if the activity is destroyed
     @Override
     protected void onSaveInstanceState (Bundle outState) {
@@ -202,7 +152,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         outState.putInt("FIRST_DIAGNOSE", firstDiagnose);
         outState.putString("DISPLAYED_INFO", information.getText().toString());
         outState.putStringArrayList("AUDIT_TRAIL", auditTrail);
-
         super.onSaveInstanceState(outState);
     }
     //Display and capture diagnosis popup
@@ -210,7 +159,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
          newFragment = new DiagnosisDialog();
          newFragment.show(getFragmentManager(), "diagnosis");
     }
-
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, String diagnosis) {
         if (firstDiagnose==0){
@@ -218,7 +166,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         }
         totalDiagnose+=1;
         //healthcase.correctDiagnosis
-        if (diagnosis.equals("CORRECT")){
+        if (diagnosis.toLowerCase().equals(hc.getDiagnosis().toLowerCase())){
             Intent resultsIntent = new Intent(this, HealthCaseTestResultActivity.class);
             resultsIntent.putExtra("TOTAL_MOVES", totalMoves);
             resultsIntent.putExtra("TOTAL_DIAGNOSE", totalDiagnose);
@@ -226,10 +174,9 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             startActivity(resultsIntent);
         }else{
             Toast.makeText(this, "Diagnosis incorrect.", Toast.LENGTH_SHORT).show();
+            auditTrail.add("Incorrect Diagnosis: " + diagnosis.toLowerCase() +"\n");
         }
-
     }
-
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         // User touched the dialog's negative button
@@ -242,47 +189,34 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         public boolean onMenuItemClick(MenuItem item) {
             information.setText("");
             int id = item.getItemId();
-//            String hey = ""+id;
-//            Log.e("yo", hey);
             if (id==3) {
                 title.setText("Past Medical History:");
                 for (int i = 0; i < hc.getHistory().getPastHistory().size(); i++) {
-
                     information.append(hc.getHistory().getPastHistory().get(i).toString() + "\n");
-
                 }
                 auditTrail.add(information.getText().toString());
             }
             else if (id==4) {
-
                 title.setText("Recent Medical History:");
-
                 for (int j = 0; j < hc.getHistory().getRecentHistory().size(); j++) {
                     information.append(hc.getHistory().getRecentHistory().get(j).toString() + "\n");
                 }
                 auditTrail.add(information.getText().toString());
-
             }
             else if (id==5) {
-
                 title.setText("Past Medical Tests:");
-
                 for (int k = 0; k < hc.getHistory().getPastTests().size(); k++) {
                     information.append(hc.getHistory().getPastTests().get(k).toString() + "\n");
                 }
                 auditTrail.add(information.getText().toString());
-
             }
             else if (id==6) {
-
                     title.setText("Past Treatments:");
-
                     for (int l=0;l<hc.getHistory().getPastTreatments().size();l++)
                     {
                         information.append(hc.getHistory().getPastTreatments().get(l).toString()+"\n");
                     }
                 auditTrail.add(information.getText().toString());
-
             }
             totalMoves+=1;
             return false;
@@ -306,8 +240,8 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                 information.append(hc.getTests().get(id).getName().toString()+" results"+
                         ":\n");
                 information.append(hc.getTests().get(id).getResults().get(0)+"\n");
+                auditTrail.add("Ran test: " + item.getTitle() +"\n");
                 auditTrail.add(information.getText().toString());
-
             }
             else
             {
@@ -317,17 +251,17 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             }
             totalMoves+=1;
                 //MUST CHANGE: every test will show the same images
-                DialogFragment newFragment = TestImageDialog.newInstance(FOLDER_NAME, files);
-                newFragment.show(getFragmentManager(), "dialog");
+            DialogFragment newFragment = TestImageDialog.newInstance(FOLDER_NAME, files);
+
+            newFragment.show(getFragmentManager(), "dialog");
             return false;
         }
     };
     //POPUP MENU METHODS
     public void showAskPopup(View view) {
         //SETUP
-       askMenu = new PopupMenu(this,view);
-       inflater = askMenu.getMenuInflater();
-
+        askMenu = new PopupMenu(this,view);
+        inflater = askMenu.getMenuInflater();
         inflater.inflate(R.menu.menu_popup_ask, askMenu.getMenu());
         askMenu.setOnMenuItemClickListener(askMenuListener);
         String pastH="Past Medical History";

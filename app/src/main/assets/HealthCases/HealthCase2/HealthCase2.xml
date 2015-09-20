@@ -1,0 +1,101 @@
+<healthCase>
+   <diagnosis>Tuberculosis</diagnosis>
+   <history>
+      <pastHistory>
+         <string>1. Hypothyroidism.</string>
+         <string>2. Chronic Obstructive Pulmonary Disease (COPD).</string>
+         <string>3. Coronary atherosclerosis treated with bypass surgery.</string>
+         <string>4. Multiple transient cerebral ischemic attacks treated with vertebrobasilar angioplasty.</string>
+         <string>5. Repairs of an abdominal aortic aneurysm.</string>
+         <string>6. Bilateral iliac artery aneurysm repairs.</string>
+      </pastHistory>
+      <pastTests>
+         <string>1. Left orchiectomy for epididymitis and orchitis.</string>
+         <string>2. Chest X-ray.</string>
+      </pastTests>
+      <pastTreatments>
+         <string>1. Nitroglycerin for chest pain.</string>
+         <string>2. Treatment for gouty arthritis.</string>
+         <string>3. Both joints injected with corticosteroids without relief of symptoms.</string>
+      </pastTreatments>
+      <recentHistory>
+         <string>1. Several stenoses in the coronary arteries</string>
+         <string>2. Masses present on his left wrist and right elbow for about six months prior to admission.</string>
+         <string>3. Intermittent joint pain.</string>
+      </recentHistory>
+   </history>
+   <physicalState>Alive</physicalState>
+   <start>A 75-year-old white male was admitted to the medical center complaining of chest pain radiating to his left arm, and pain in the left wrist and elbow.</start>
+   <test>
+      <name>Vital Signs</name>
+      <results>
+         <string>Blood pressure: Normal
+Heart Rate: Normal
+Respiration Rate: Normal
+Temperature: 38.5</string>
+      </results>
+   </test>
+   <test>
+      <name>Chest X-ray</name>
+      <results>
+         <string>Ill-defined area of parenchymal infiltration involving the lower lobe of the right lung, consistent with a pneumonia, and minimal amount of right-sided pleural effusion.</string>
+      </results>
+   </test>
+   <test>
+      <name>Susceptibility Test</name>
+      <results>
+         <string>Susceptibility to Streptomycin, Isoniazid, Rifampin, Ethambutol, and Pyrazinamide.</string>
+      </results>
+   </test>
+   <test>
+      <image>
+         <description>Chronic granulomatous epididymitis and granulomatous orchitis.</description>
+         <name>micro1.jpg</name>
+      </image>
+      <image>
+         <description>Chronic granulomatous epididymitis and granulomatous orchitis.</description>
+         <name>micro2.jpg</name>
+      </image>
+      <image>
+         <description>Chronic granulomatous epididymitis and granulomatous orchitis.</description>
+         <name>micro3.jpg</name>
+      </image>
+      <name>Tissue Exam</name>
+      <results>
+         <string>None</string>
+      </results>
+   </test>
+   <test>
+      <image>
+         <description>Acid-fast bacilli (Mycobacterium Tuberculosis).</description>
+         <name>micro4.jpg</name>
+      </image>
+      <name>Arthroscopic Joint Biopsy</name>
+      <results>
+         <string>Growth of acid-fast bacilli.</string>
+         <string>None</string>
+      </results>
+   </test>
+   <test>
+      <image>
+         <description>Ill-defined intra-articular bodies anterior to the ulna consistent with TB arthritis.</description>
+         <name>gross1.jpg</name>
+      </image>
+      <name>Right Elbow X-ray</name>
+      <results>
+         <string>Loss of articular cartilage of the capitulum, the radial head, and moderately of the trochlea on the olecranon process of the ulna.</string>
+      </results>
+   </test>
+   <test>
+      <name>Left Wrist Culture</name>
+      <results>
+         <string>Sodium urate crystals were found in fluid aspirated from the left wrist.</string>
+      </results>
+   </test>
+   <test>
+      <name>Urine culture</name>
+      <results>
+         <string>Growth of  Mycobacterium Tuberculosis.</string>
+      </results>
+   </test>
+</healthCase>

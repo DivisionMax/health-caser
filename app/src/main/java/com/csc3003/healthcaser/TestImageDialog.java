@@ -33,7 +33,7 @@ public class TestImageDialog extends DialogFragment {
         frag.setArguments(args);
         return frag;
     }*/
-    public static TestImageDialog newInstance(String FOLDER_NAME,String[] files) {
+    public static TestImageDialog newInstance(String FOLDER_NAME, String[] files) {
         TestImageDialog frag = new TestImageDialog();
         Bundle args = new Bundle();
         args.putStringArray("images", files);
@@ -50,9 +50,9 @@ public class TestImageDialog extends DialogFragment {
 
         AssetManager assetManager = getActivity().getApplicationContext().getAssets();
         String[] files = getArguments().getStringArray("images");
+
         String FOLDER_NAME = getArguments().getString("FOLDER_NAME");
         final Drawable[] d = new Drawable[files.length];
-
         InputStream ims;
         try{
             for (int i = 0; i < files.length; i++){
