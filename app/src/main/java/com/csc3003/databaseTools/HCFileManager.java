@@ -25,10 +25,7 @@ public class HCFileManager {
 
     public HCFileManager(String path)
     {
-
-
         internalPath = path;
-
         //make sure that the path ends with a / so that it point to a folder.
         if(internalPath.lastIndexOf("/")!=internalPath.length()-1)
         {
@@ -37,7 +34,6 @@ public class HCFileManager {
         }
 
     }
-
     public File[] returnFileList()
     {
         return new File(internalPath).listFiles();

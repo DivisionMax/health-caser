@@ -19,6 +19,7 @@ import com.csc3003.databaseTools.HCFileManager;
 import com.csc3003.databaseTools.Setup;
 import com.csc3003.databaseTools.UserDBHandler;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class LoginActivity extends Activity {
@@ -117,6 +118,9 @@ public class LoginActivity extends Activity {
     {
 
            String internal_path = getFilesDir().getPath();
+        String full_internal_path = internal_path +"/HealthCases";
+        //if the internal folder exists, it's like the files are already copied.
+        if (!(new File(full_internal_path)).exists())
            Setup.copyAssetFolder(getAssets(),"HealthCases" ,internal_path+"/HealthCases" );
     }
     //    Register a User
@@ -143,14 +147,9 @@ public class LoginActivity extends Activity {
                 aUser.setUsername(emailStr);
                 aUser.setPassword(passwordStr);
                 userDB.addUser( emailStr , passwordStr);
-
                 //record current username of the person who has logged in
                 editor.putString(PREFS_HC_CURRENTUSER, emailStr);
-
-
-
                 editor.commit();
-
                 successfulLoginOrRegistration(emailStr, "Welcome. You have registered");
             }
         }
@@ -169,7 +168,6 @@ public class LoginActivity extends Activity {
                     }
                 });
         alertDialog.show();
-//        redirect();
     }
 
 }

@@ -1,27 +1,20 @@
 package com.csc3003.healthcaser;
 
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.SpannableString;
 import android.text.method.ScrollingMovementMethod;
-import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +27,12 @@ import java.util.ArrayList;
 public class HealthCaseTestActivity extends ActionBarActivity implements DiagnosisDialog.DiagnosisDialogListener{
     TextView title,information;
     PopupMenu askMenu,testMenu;
+    //track the test you've run, viewing the results again won't affect your moves.
+    ArrayList<Integer> runTests;
     DialogFragment newFragment;
     MenuInflater inflater;
     View content;
     HealthCase hc ;
-    Drawable[] d;
     AssetManager assetManager;
     String[] files = null;
     int pastHistCount=0;
@@ -50,8 +44,9 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         firstDiagnose - the number of moves made before their first diagnose*/
     int totalMoves, totalDiagnose, firstDiagnose;
     final String FOLDER_NAME = "default-health-cases";
-    //image files path are saved and passed to test popup
-   final ArrayList<String> auditTrail = new ArrayList<String>();
+
+
+    ArrayList<String> auditTrail = new ArrayList<String>();
 
     //quit and return to health case menu
     String imagePath ;
@@ -99,10 +94,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         HCFileManager hcFileManager = new HCFileManager(filepath);
 
        Log.e("the path is ", filepath );
-
         hc = hcFileManager.readHealthCaseFromXMLFile(XMLFileName);
-
-
 
         title = (TextView)findViewById(R.id.case_title);
         information = (TextView)findViewById(R.id.case_information);
@@ -118,28 +110,29 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             totalDiagnose = savedInstanceState.getInt("TOTAL_DIAGNOSE");
             information.setText(savedInstanceState.getString("DISPLAYED_INFO"));
             firstDiagnose = savedInstanceState.getInt("FIRST_DIAGNOSE");
-//            auditTrail.add(savedInstanceState.getStringArrayList("AUDIT_TRAIL"));
+            auditTrail = savedInstanceState.getStringArrayList("AUDIT_TRAIL");
+            runTests = savedInstanceState.getIntegerArrayList("RUN_TESTS");
         }
-        //the initial arrival
-        title.setText("Patient Arrives");
-        information.setText(hc.getStart());
-        auditTrail.add("Patient Arrives: " + information.getText().toString() +"\n");
+        //if there is no saved state
+        else{
+            title.setText("Patient Arrives");
+            information.setText(hc.getStart());
+            auditTrail.add("Patient Arrives: " + information.getText().toString() + "\n");
+            runTests = new ArrayList<Integer>();
+        }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_health_case_test, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
         if (id == R.id.audit_trail) {
             //the audit trail must be passed
             DialogFragment newFragment = AuditTrailDialog.newInstance(auditTrail);
@@ -156,6 +149,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         outState.putInt("FIRST_DIAGNOSE", firstDiagnose);
         outState.putString("DISPLAYED_INFO", information.getText().toString());
         outState.putStringArrayList("AUDIT_TRAIL", auditTrail);
+        outState.putIntegerArrayList("RUN_TESTS", runTests);
         super.onSaveInstanceState(outState);
     }
     //Display and capture diagnosis popup
@@ -200,28 +194,30 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                 if (pastHistCount<=hc.getHistory().getPastHistory().size()-1) {
 
                     information.append(hc.getHistory().getPastHistory().get(pastHistCount).toString() + "\n");
-                    auditTrail.add(information.getText().toString());
                     pastHistCount++;
 
                 }
                 else
                 {
-                    information.append(hc.getHistory().getPastHistory().get(hc.getHistory().getPastHistory().size()-1).toString() + "\n");
+                    information.append(hc.getHistory().getPastHistory().get(hc.getHistory().getPastHistory().size() - 1).toString() + "\n");
                 }
+                auditTrail.add("Past Medical History: " + information.getText().toString());
+
+
 
             }
             else if (id==4) {
                 title.setText("Recent Medical History:");
-
-
-                if (recentHistCount<=hc.getHistory().getRecentHistory().size()-1) {
-
+                if (recentHistCount <= hc.getHistory().getRecentHistory().size() - 1) {
                     information.append(hc.getHistory().getRecentHistory().get(recentHistCount).toString() + "\n");
                     auditTrail.add(information.getText().toString());
                     recentHistCount++;
+
                 } else {
-                    information.append(hc.getHistory().getRecentHistory().get(hc.getHistory().getRecentHistory().size()-1).toString() + "\n");
+                    information.append(hc.getHistory().getRecentHistory().get(hc.getHistory().getRecentHistory().size() - 1).toString() + "\n");
+
                 }
+                auditTrail.add("Recent Medical History: " + information.getText().toString());
 
             }
             else if (id==5) {
@@ -232,64 +228,95 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                     information.append(hc.getHistory().getPastTests().get(pastTestCount).toString() + "\n");
                     auditTrail.add(information.getText().toString());
                     pastTestCount++;
+
                 }
                 else
                 {
-                    information.append(hc.getHistory().getPastTests().get(hc.getHistory().getPastTests().size()-1).toString() + "\n");
+                    information.append(hc.getHistory().getPastTests().get(hc.getHistory().getPastTests().size() - 1).toString() + "\n");
+
                 }
+                auditTrail.add("Past Medical Tests: " +  information.getText().toString());
 
             }
-
-
-            else if (id == 6) {
+             else if (id == 6) {
                 title.setText("Past Treatments:");
                 if (pastTreatmentCount<=hc.getHistory().getPastTreatments().size()-1) {
 
                     information.append(hc.getHistory().getPastTreatments().get(pastTreatmentCount).toString() + "\n");
                     auditTrail.add(information.getText().toString());
                     pastTreatmentCount++;
+
                 }
                 else
                 {
                     information.append(hc.getHistory().getPastTreatments().get(hc.getHistory().getPastTreatments().size()-1).toString() + "\n");
                 }
+                auditTrail.add("Past Treatment History: " + information.getText().toString());
             }
+            //asking a question again increases moves, they should check 'what we know'
             totalMoves+=1;
             return false;
-        }
-
+    }
     };
+
     //test is chosen. if images, load images from storage into an array. pass the array to the popup.
     private PopupMenu.OnMenuItemClickListener testMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             //item.getTitle() returns label
-           title.setText((item.getTitle()));
             information.setText(hc.getTests().get(0).getName() + ":\n");
             for (Test t : hc.getTests()) {
                 information.append(t.getResults().get(0) + "\n");
             }
             information.setText("");
             int id = item.getItemId()-100;
+            //track performed tests.
+            //if there are results
             if (!(hc.getTests().get(id).getResults()==null))
             {
                 information.append(hc.getTests().get(id).getName().toString()+" results"+
                         ":\n");
-                information.append(hc.getTests().get(id).getResults().get(0)+"\n");
-                auditTrail.add("Ran test: " + item.getTitle() +"\n");
-                auditTrail.add(information.getText().toString());
+                information.append(hc.getTests().get(id).getResults().get(0) + "\n");
+
+                if (runTests.contains(id)){
+                    auditTrail.add("Viewed test results: " + item.getTitle() +"\n");
+                }else{
+                    auditTrail.add("Ran test: " + item.getTitle() +"\n");
+                }
             }
             else
             {
+                if (runTests.contains(id)){
+                    auditTrail.add("Viewed test results: " + item.getTitle() +"\n");
+                }else{
+                    auditTrail.add("Ran test: " + item.getTitle() +". It was not a necessary test\n");
+                }
                 information.setText("No textual results");
-                auditTrail.add(information.getText().toString());
-
             }
-            totalMoves+=1;
-                //MUST CHANGE: every test will show the same images
-            DialogFragment newFragment = TestImageDialog.newInstance(FOLDER_NAME, files);
+            //user can view text results again
+            if (!runTests.contains(id)){
+                runTests.add(id);
+                totalMoves+=1;
+            }
+            if( hc.getTests().get(id).getImages().size()>0)
+            {    //get images arraylist
 
-            newFragment.show(getFragmentManager(), "dialog");
+                ArrayList<Image> tempImages;
+                tempImages = hc.getTests().get(id).getImages() ;
+
+                String[] imageNames = new String[tempImages.size()];
+
+                for(int i = 0; i < imageNames.length; i++)
+                {
+                    imageNames[i] = tempImages.get(i).getName();
+                }
+
+                // files = imageNames;
+
+                DialogFragment newFragment = TestImageDialog.newInstance(imagePath, imageNames);
+
+                newFragment.show(getFragmentManager(), "dialog");
+            }
             return false;
         }
     };

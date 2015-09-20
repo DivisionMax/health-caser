@@ -25,7 +25,7 @@ public class TestImageDialog extends DialogFragment {
     ImageView testImage;
     File[] images;
     int count;
-    AssetManager assetManager;
+
     /*public static TestImageDialog newInstance(String[] input) {
         TestImageDialog frag = new TestImageDialog();
         Bundle args = new Bundle();
@@ -33,11 +33,11 @@ public class TestImageDialog extends DialogFragment {
         frag.setArguments(args);
         return frag;
     }*/
-    public static TestImageDialog newInstance(String FOLDER_NAME, String[] files) {
+    public static TestImageDialog newInstance(String imagePath,String[] imageNames) {
         TestImageDialog frag = new TestImageDialog();
         Bundle args = new Bundle();
-        args.putStringArray("images", files);
-        args.putString("FOLDER_NAME", FOLDER_NAME);
+        args.putStringArray("imageNames", imageNames);
+        args.putString("imagePath", imagePath);
         frag.setArguments(args);
         return frag;
     }
@@ -49,19 +49,20 @@ public class TestImageDialog extends DialogFragment {
         View content = inflater.inflate(R.layout.alert_test_results, null);
 
         AssetManager assetManager = getActivity().getApplicationContext().getAssets();
-        String[] files = getArguments().getStringArray("images");
+        String[] imageNames = getArguments().getStringArray("imageNames");
+        String imagePath = getArguments().getString("imagePath");
+        final Drawable[] d = new Drawable[imageNames.length];
 
-        String FOLDER_NAME = getArguments().getString("FOLDER_NAME");
-        final Drawable[] d = new Drawable[files.length];
-        InputStream ims;
-        try{
-            for (int i = 0; i < files.length; i++){
-                ims = assetManager.open(FOLDER_NAME + File.separator + files[i]);
-                d[i] = Drawable.createFromStream(ims, null);
-            }
-        }catch(IOException e){
-            e.printStackTrace();
+
+
+        for (int i = 0; i < imageNames.length; i++) {
+            //ims = assetManager.open(FOLDER_NAME + File.separator + files[i]);
+            d[i] = Drawable.createFromPath(imagePath + "/" + imageNames[i]);
+
         }
+
+
+
        /* images = new File[imagePaths.length];
         for (int i = 0; i < imagePaths.length; i ++){
             System.out.println(imagePaths[i]);
@@ -74,7 +75,7 @@ public class TestImageDialog extends DialogFragment {
 //        Drawable d = Drawable.createFromPath(imagePaths[count]);
         final ImageView testResults = (ImageView)content.findViewById(R.id.test_image);
         testResults.setImageDrawable(d[count]);
-        count+=1;
+        //count+=1;
         //object doesn't change. image drawables mutates
 
         builder.setView(content)
@@ -91,15 +92,17 @@ public class TestImageDialog extends DialogFragment {
             public void onClick(View v) {
 //                ImageView iv=(ImageView)content.findViewById(R.id.test_image);
 //                Drawable d = Drawable.createFromPath(images[count].getPath());
-                testResults.setImageDrawable(d[count]);
+
 //                testResults.setCompoundDrawables(null, d, null, null);
-                if (count == d.length-1){
-                    count = 0 ;
-                }else{
-                    count+=1;
+                if (count == d.length - 1) {
+                    count = 0;
+                } else {
+                    count += 1;
                 }
+                testResults.setImageDrawable(d[count]);
             }
         });
+
         // Create the AlertDialog object and return it
         return builder.create();
     }
