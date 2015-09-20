@@ -49,7 +49,7 @@
     <string name="diagnosis_hint">Enter your diagnosis</string>
     <string name="diagnosis">Diagnosis</string>
 
-    <string name="audit_trail">What we know</string>
+    <string name="audit_trail">Your Doctor Pad</string>
 
     <!-- Statistics Activity-->
     <string name="heading_my_statistics">My Statistics</string>

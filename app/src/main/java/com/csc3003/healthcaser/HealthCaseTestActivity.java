@@ -35,6 +35,10 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     HealthCase hc ;
     AssetManager assetManager;
     String[] files = null;
+    int pastHistCount=0;
+    int recentHistCount=0;
+    int pastTestCount=0;
+    int pastTreatmentCount=0;
         /*stats variables
         totalDiagnose - the number of diagnose attemps
         firstDiagnose - the number of moves made before their first diagnose*/
@@ -185,38 +189,76 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             int id = item.getItemId();
             if (id==3) {
                 title.setText("Past Medical History:");
-                for (int i = 0; i < hc.getHistory().getPastHistory().size(); i++) {
-                    information.append(hc.getHistory().getPastHistory().get(i).toString() + "\n");
+
+
+                if (pastHistCount<=hc.getHistory().getPastHistory().size()-1) {
+
+                    information.append(hc.getHistory().getPastHistory().get(pastHistCount).toString() + "\n");
+                    pastHistCount++;
+
+                }
+                else
+                {
+                    information.append(hc.getHistory().getPastHistory().get(hc.getHistory().getPastHistory().size() - 1).toString() + "\n");
                 }
                 auditTrail.add("Past Medical History: " + information.getText().toString());
+
+
+
             }
             else if (id==4) {
                 title.setText("Recent Medical History:");
-                for (int j = 0; j < hc.getHistory().getRecentHistory().size(); j++) {
-                    information.append(hc.getHistory().getRecentHistory().get(j).toString() + "\n");
+                if (recentHistCount <= hc.getHistory().getRecentHistory().size() - 1) {
+                    information.append(hc.getHistory().getRecentHistory().get(recentHistCount).toString() + "\n");
+                    auditTrail.add(information.getText().toString());
+                    recentHistCount++;
+
+                } else {
+                    information.append(hc.getHistory().getRecentHistory().get(hc.getHistory().getRecentHistory().size() - 1).toString() + "\n");
+
                 }
                 auditTrail.add("Recent Medical History: " + information.getText().toString());
+
             }
             else if (id==5) {
                 title.setText("Past Medical Tests:");
-                for (int k = 0; k < hc.getHistory().getPastTests().size(); k++) {
-                    information.append(hc.getHistory().getPastTests().get(k).toString() + "\n");
+
+                if (pastTestCount<=hc.getHistory().getPastTests().size()-1) {
+
+                    information.append(hc.getHistory().getPastTests().get(pastTestCount).toString() + "\n");
+                    auditTrail.add(information.getText().toString());
+                    pastTestCount++;
+
+                }
+                else
+                {
+                    information.append(hc.getHistory().getPastTests().get(hc.getHistory().getPastTests().size() - 1).toString() + "\n");
+
                 }
                 auditTrail.add("Past Medical Tests: " +  information.getText().toString());
+
             }
-            else if (id==6) {
-                    title.setText("Past Treatments:");
-                    for (int l=0;l<hc.getHistory().getPastTreatments().size();l++)
-                    {
-                        information.append(hc.getHistory().getPastTreatments().get(l).toString()+"\n");
-                    }
+             else if (id == 6) {
+                title.setText("Past Treatments:");
+                if (pastTreatmentCount<=hc.getHistory().getPastTreatments().size()-1) {
+
+                    information.append(hc.getHistory().getPastTreatments().get(pastTreatmentCount).toString() + "\n");
+                    auditTrail.add(information.getText().toString());
+                    pastTreatmentCount++;
+
+                }
+                else
+                {
+                    information.append(hc.getHistory().getPastTreatments().get(hc.getHistory().getPastTreatments().size()-1).toString() + "\n");
+                }
                 auditTrail.add("Past Treatment History: " + information.getText().toString());
             }
+            //asking a question again increases moves, they should check 'what we know'
             totalMoves+=1;
             return false;
-        }
-
+    }
     };
+
     //test is chosen. if images, load images from storage into an array. pass the array to the popup.
     private PopupMenu.OnMenuItemClickListener testMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
@@ -229,21 +271,18 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             information.setText("");
             int id = item.getItemId()-100;
             //track performed tests.
-
             //if there are results
             if (!(hc.getTests().get(id).getResults()==null))
             {
                 information.append(hc.getTests().get(id).getName().toString()+" results"+
                         ":\n");
                 information.append(hc.getTests().get(id).getResults().get(0) + "\n");
+
                 if (runTests.contains(id)){
                     auditTrail.add("Viewed test results: " + item.getTitle() +"\n");
                 }else{
                     auditTrail.add("Ran test: " + item.getTitle() +"\n");
                 }
-
-
-                //auditTrail.add(information.getText().toString());
             }
             else
             {
@@ -253,7 +292,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                     auditTrail.add("Ran test: " + item.getTitle() +". It was not a necessary test\n");
                 }
                 information.setText("No textual results");
-                //auditTrail.add(information.getText().toString());
             }
             //user can view text results again
             if (!runTests.contains(id)){
