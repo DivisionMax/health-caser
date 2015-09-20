@@ -264,7 +264,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             //item.getTitle() returns label
-            System.out.println(item.getTitle());
+           title.setText((item.getTitle()));
             information.setText(hc.getTests().get(0).getName() + ":\n");
             for (Test t : hc.getTests()) {
                 information.append(t.getResults().get(0) + "\n");
