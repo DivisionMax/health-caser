@@ -5,6 +5,9 @@ import org.simpleframework.xml.*;
 /**
  * Created by Alan Berman on 8/10/2015.
  */
+//Image class used in the Test class
+    //Each contains a description (caption) and a name
+    //With accessor and mutator methods for both
 @Element
 public class Image{
    @Element(required=false)
@@ -25,9 +28,7 @@ public class Image{
     {
         name=n;
     }
-   // public void setRelatedTest(Test relatedTest) {
-   ///     this.relatedTest = relatedTest;
-   // }
+
     public String getName()
     {
         return name;
@@ -36,7 +37,5 @@ public class Image{
         return description;
     }
 
-   // public Test getRelatedTest() {
-   //     return relatedTest;
-   // }
+
 }

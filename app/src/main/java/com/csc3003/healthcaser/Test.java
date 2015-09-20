@@ -9,6 +9,10 @@ import java.util.ArrayList;
 /**
  * Created by Alan Berman on 8/10/2015.
  */
+//Test class used in Health Cases. May or may
+    //not contain a list of associated Image objects
+    //Each has a name and textual results, with accessor
+    //and mutator methods for all
 @Element
 public class Test {
     @ElementList(required = false,inline=true)
