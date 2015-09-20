@@ -16,7 +16,6 @@ public class Setup {
     public static boolean copyAssetFolder(AssetManager assetManager,
                                            String fromAssetPath, String toPath) {
         try {
-
             String[] files = assetManager.list(fromAssetPath); //list the default bundlded health cases
             new File(toPath).mkdirs();
             boolean res = true;

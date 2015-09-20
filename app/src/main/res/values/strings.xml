@@ -23,12 +23,6 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="hint_password">Password</string>
-
-
-
-
-
-
     <string name="title_activity_l">LActivity</string>
     <string name="moreHist">More History</string>
     <string name="takeTest">View Tests</string>
@@ -40,7 +34,7 @@
     <!-- Choose a Case-->
     <string name="title_activity_choose_case">Choose a Case</string>
     <string name="cases">Cases</string>
-    <string name="choose_case_welcome">Welcome. Choose a specific health case or click Random</string>
+    <string name="choose_case_welcome">Welcome. Choose a specific health case or press RANDOM</string>
     <string name="start">Start</string>
     <string name="random">Random</string>
 

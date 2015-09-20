@@ -8,41 +8,22 @@
     tools:context="com.csc3003.healthcaser.ChooseCaseActivity">
 
 
+    <TextView android:text="@string/choose_case_welcome" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <!-- the entries populate dynamically-->
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView android:text="@string/choose_case_welcome" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-<!--
-        <Button
-            android:id="@+id/specific"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="specificCase"
-            android:text="@string/start"
-            />
--->
-
-        <Button
-            android:id="@+id/random"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="randomCase"
-            android:text="@string/random"
-            />
-
-    </LinearLayout>
-
     <ListView
         android:id="@+id/casesView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
 
+    <Button
+        android:id="@+id/random"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="randomCase"
+        android:text="@string/random"
+        />
 
 </LinearLayout>
