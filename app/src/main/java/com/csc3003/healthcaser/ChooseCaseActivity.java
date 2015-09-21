@@ -2,6 +2,7 @@ package com.csc3003.healthcaser;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.csc3003.databaseTools.HCFileManager;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -134,20 +136,21 @@ public class ChooseCaseActivity extends ActionBarActivity {
     public void populateCasesView(File[] fileNames) {
          //rand = new Random();
         int k;
-        for (int i = 0 ; i < fileNames.length; i ++ ){
-             //k = rand.nextInt(50) + 100;
-            //cases.add("Case #" + k);
 
-            
+
+
+        for (int i = 0 ; i < fileNames.length; i++) {
+
             cases.add(fileNames[i].getName());
             //images can be found + test name + scan the list
-            casesPath.add(fileNames[i].getAbsolutePath());
+             casesPath.add(fileNames[i].getAbsolutePath());
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, cases);
         casesView.setAdapter(dataAdapter);
         casesView.setAdapter(dataAdapter);
     }
+
     public boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state) ||
