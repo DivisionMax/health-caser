@@ -132,6 +132,8 @@ public class ChooseCaseActivity extends ActionBarActivity {
         for (int i = 0 ; i < fileNames.length; i ++ ){
              //k = rand.nextInt(50) + 100;
             //cases.add("Case #" + k);
+
+            
             cases.add(fileNames[i].getName());
             //images can be found + test name + scan the list
             casesPath.add(fileNames[i].getAbsolutePath());

@@ -6,6 +6,11 @@ import org.simpleframework.xml.*;
 /**
  * Created by Alan Berman on 8/10/2015.
  */
+//HealthCase class which is used to construct Health Case xml files
+    //Each contains a History object with the patient's history,
+    //their age and chief complaint, physical state and a diagnosis
+    //Additionally, each HealthCase contains a list of Test objects,
+    //which may contain Images. All fields have accessor and mutator methods
 @Root
 public class HealthCase {
     @Element
@@ -70,6 +75,6 @@ public class HealthCase {
 
     //Checks the user's diagnosis against the stored diagnosis
     public boolean checkDiagnosis(String userDiag) {
-        return (userDiag.equals(diagnosis));
+        return (userDiag.equalsIgnoreCase(diagnosis));
     }
 }

@@ -7,7 +7,11 @@ import java.util.ArrayList;
 /**
  * Created by Alan Berman on 9/2/2015.
  */
-
+//Details the patient's history
+    //including their past medical history
+    //recent medical history, past medical tests
+    //and past treatments. Contains accessor
+    //and mutator methods for each
 public class History {
     @ElementList
     private ArrayList<String> pastHistory;

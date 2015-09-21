@@ -37,10 +37,12 @@ public class SimplifiedHealthCase {
             try {
                 FileReader reader = new FileReader(f);
                 BufferedReader br = new BufferedReader(reader);
-                String line;
+                String key,val;
                 //Make a HashMap of the entries in the medical dictionary
-                while ((line = br.readLine()) != null) {
-                    simpler.put(line.substring(0, line.indexOf(" ")), line.substring(line.indexOf(" ") + 1));
+                while ((key = br.readLine()) != null) {
+                    //simpler.put(line.substring(0, line.indexOf(" ")), line.substring(line.indexOf(" ") + 1));
+                    if ((val=br.readLine())!=null)
+                        simpler.put(key,val);
                 }
                 //Change the jargon in the Health Case's history
                 //(Past Medical History, Past Medical Tests, Recent Medical History and Past Treatments)

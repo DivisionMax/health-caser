@@ -34,7 +34,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     View content;
     HealthCase hc ;
     AssetManager assetManager;
-    String[] imageFiles = null;
+    String[] files = null;
     int pastHistCount=0;
     int recentHistCount=0;
     int pastTestCount=0;
@@ -43,9 +43,14 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         totalDiagnose - the number of diagnose attemps
         firstDiagnose - the number of moves made before their first diagnose*/
     int totalMoves, totalDiagnose, firstDiagnose;
+    final String FOLDER_NAME = "default-health-cases";
+
+
     ArrayList<String> auditTrail = new ArrayList<String>();
+
     //quit and return to health case menu
     String imagePath ;
+
     boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
@@ -66,30 +71,31 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         }, 2000);
     }
     //*********************************************************
-    String foldername;
-    String filepath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_case_test);
         content = this.findViewById(android.R.id.content);
+        //this must be removed, just so running a test doesn't crash
+        assetManager = this.getAssets();
+        try {
+            files = assetManager.list(FOLDER_NAME);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        //***********************************************************
+        //determine readable external storage
         Intent intent = getIntent();
-        foldername = intent.getStringExtra(ChooseCaseActivity.HEALTH_CASE_FOLDER_NAME);
-       filepath = intent.getStringExtra(ChooseCaseActivity.HEALTH_CASE_FILE_PATH);
+        String foldername = intent.getStringExtra(ChooseCaseActivity.HEALTH_CASE_FOLDER_NAME);
+        String filepath = intent.getStringExtra(ChooseCaseActivity.HEALTH_CASE_FILE_PATH);
         String XMLFileName = foldername + ".xml";
         imagePath = filepath+"/images";
         HCFileManager hcFileManager = new HCFileManager(filepath);
 
+       Log.e("the path is ", filepath );
         hc = hcFileManager.readHealthCaseFromXMLFile(XMLFileName);
-        ArrayList<Test> tests  = hc.getTests();
-        for (Test t: tests){
-            System.out.println(t.getName());
-            ArrayList<Image> images = t.getImages();
-            for (Image a : images){
-                System.out.println(a.getName());
-                System.out.println(a.getDescription());
-            }
-        }
+
         title = (TextView)findViewById(R.id.case_title);
         information = (TextView)findViewById(R.id.case_information);
         information.setMovementMethod(new ScrollingMovementMethod());
@@ -100,7 +106,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         firstDiagnose = 0;
         //Save data when a user rotates
         if (savedInstanceState != null) {
-            Log.i("STATE", "State restored." );
             totalMoves = savedInstanceState.getInt("TOTAL_MOVES");
             totalDiagnose = savedInstanceState.getInt("TOTAL_DIAGNOSE");
             information.setText(savedInstanceState.getString("DISPLAYED_INFO"));
@@ -184,6 +189,8 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             int id = item.getItemId();
             if (id==3) {
                 title.setText("Past Medical History:");
+
+
                 if (pastHistCount<=hc.getHistory().getPastHistory().size()-1) {
 
                     information.append(hc.getHistory().getPastHistory().get(pastHistCount).toString() + "\n");
@@ -195,6 +202,9 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                     information.append(hc.getHistory().getPastHistory().get(hc.getHistory().getPastHistory().size() - 1).toString() + "\n");
                 }
                 auditTrail.add("Past Medical History: " + information.getText().toString());
+
+
+
             }
             else if (id==4) {
                 title.setText("Recent Medical History:");
@@ -202,13 +212,17 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                     information.append(hc.getHistory().getRecentHistory().get(recentHistCount).toString() + "\n");
                     auditTrail.add(information.getText().toString());
                     recentHistCount++;
+
                 } else {
                     information.append(hc.getHistory().getRecentHistory().get(hc.getHistory().getRecentHistory().size() - 1).toString() + "\n");
+
                 }
                 auditTrail.add("Recent Medical History: " + information.getText().toString());
+
             }
             else if (id==5) {
                 title.setText("Past Medical Tests:");
+
                 if (pastTestCount<=hc.getHistory().getPastTests().size()-1) {
 
                     information.append(hc.getHistory().getPastTests().get(pastTestCount).toString() + "\n");
@@ -244,20 +258,19 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             return false;
     }
     };
-    ArrayList<Image> testImages;
-    ArrayList<String>testImagesFilenames;
+
     //test is chosen. if images, load images from storage into an array. pass the array to the popup.
     private PopupMenu.OnMenuItemClickListener testMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             //item.getTitle() returns label
+            title.setText(item.getTitle());
             information.setText(hc.getTests().get(0).getName() + ":\n");
             for (Test t : hc.getTests()) {
                 information.append(t.getResults().get(0) + "\n");
             }
             information.setText("");
             int id = item.getItemId()-100;
-
             //track performed tests.
             //if there are results
             if (!(hc.getTests().get(id).getResults()==null))
@@ -281,23 +294,30 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                 }
                 information.setText("No textual results");
             }
-
-            testImages = hc.getTests().get(id).getImages();
-            if (testImages!=null){
-                //the filenames must be passed to dialog popup
-                for (Image img: testImages){
-                    testImagesFilenames.add(img.getName());
-                }
-            }
             //user can view text results again
             if (!runTests.contains(id)){
                 runTests.add(id);
                 totalMoves+=1;
             }
-            //pass the healthcase folder filepath and list of test images filenames
-            DialogFragment newFragment = TestImageDialog.newInstance(filepath, testImagesFilenames);
+            if( hc.getTests().get(id).getImages().size()>0)
+            {    //get images arraylist
 
-            newFragment.show(getFragmentManager(), "dialog");
+                ArrayList<Image> tempImages;
+                tempImages = hc.getTests().get(id).getImages() ;
+
+                String[] imageNames = new String[tempImages.size()];
+
+                for(int i = 0; i < imageNames.length; i++)
+                {
+                    imageNames[i] = tempImages.get(i).getName();
+                }
+
+                // files = imageNames;
+
+                DialogFragment newFragment = TestImageDialog.newInstance(imagePath, imageNames);
+
+                newFragment.show(getFragmentManager(), "dialog");
+            }
             return false;
         }
     };

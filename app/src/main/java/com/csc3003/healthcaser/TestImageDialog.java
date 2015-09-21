@@ -17,7 +17,6 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 /**
  * Created by GavinW on 2015-09-06.
@@ -26,7 +25,7 @@ public class TestImageDialog extends DialogFragment {
     ImageView testImage;
     File[] images;
     int count;
-    AssetManager assetManager;
+
     /*public static TestImageDialog newInstance(String[] input) {
         TestImageDialog frag = new TestImageDialog();
         Bundle args = new Bundle();
@@ -34,36 +33,51 @@ public class TestImageDialog extends DialogFragment {
         frag.setArguments(args);
         return frag;
     }*/
-    public static TestImageDialog newInstance(String folderpath, ArrayList<String> files) {
+    public static TestImageDialog newInstance(String imagePath,String[] imageNames) {
         TestImageDialog frag = new TestImageDialog();
         Bundle args = new Bundle();
-        args.putStringArrayList("IMAGES", files);
-        args.putString("FOLDER_NAME", folderpath);
+        args.putStringArray("imageNames", imageNames);
+        args.putString("imagePath", imagePath);
         frag.setArguments(args);
         return frag;
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
+//        testImage = new ImageView(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View content = inflater.inflate(R.layout.alert_test_results, null);
 
-        ArrayList<String> files = getArguments().getStringArrayList("IMAGES");
-        //health case foldername
-        String folderpath = getArguments().getString("FOLDER_NAME");
-        final Drawable[] d = new Drawable[files.size()];
+        AssetManager assetManager = getActivity().getApplicationContext().getAssets();
+        String[] imageNames = getArguments().getStringArray("imageNames");
+        String imagePath = getArguments().getString("imagePath");
+        final Drawable[] d = new Drawable[imageNames.length];
 
-        for (int i = 0; i < files.size(); i ++){
-            d[i] = Drawable.createFromPath(folderpath + "/images/" + files.get(i));
+
+
+        for (int i = 0; i < imageNames.length; i++) {
+            //ims = assetManager.open(FOLDER_NAME + File.separator + files[i]);
+            d[i] = Drawable.createFromPath(imagePath + "/" + imageNames[i]);
+
         }
+
+
+
+       /* images = new File[imagePaths.length];
+        for (int i = 0; i < imagePaths.length; i ++){
+            System.out.println(imagePaths[i]);
+            images[i] = new File (imagePaths[i]);
+        }*/
         count = 0;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+        //set the first image
+//        Drawable d = Drawable.createFromPath(imagePaths[count]);
         final ImageView testResults = (ImageView)content.findViewById(R.id.test_image);
         testResults.setImageDrawable(d[count]);
-        count+=1;
-
+        //count+=1;
         //object doesn't change. image drawables mutates
+
         builder.setView(content)
                 .setTitle(R.string.test_popup_title)
                 .setNegativeButton(R.string.test_popup_close, new DialogInterface.OnClickListener() {
@@ -76,14 +90,19 @@ public class TestImageDialog extends DialogFragment {
         nextResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                testResults.setImageDrawable(d[count]);
-                if (count == d.length-1){
-                    count = 0 ;
-                }else{
-                    count+=1;
+//                ImageView iv=(ImageView)content.findViewById(R.id.test_image);
+//                Drawable d = Drawable.createFromPath(images[count].getPath());
+
+//                testResults.setCompoundDrawables(null, d, null, null);
+                if (count == d.length - 1) {
+                    count = 0;
+                } else {
+                    count += 1;
                 }
+                testResults.setImageDrawable(d[count]);
             }
         });
+
         // Create the AlertDialog object and return it
         return builder.create();
     }
