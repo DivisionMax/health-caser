@@ -16,6 +16,8 @@ import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.DecimalFormat;
+
 
 public class MyStatisticsActivity extends ActionBarActivity {
     private Intent intent;
@@ -25,7 +27,7 @@ public class MyStatisticsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_statistics);
-
+        DecimalFormat df = new DecimalFormat("#.##");
         averageNumberOfMovesDisplay = (TextView)findViewById(R.id.average_number_of_moves_data);
         averageDiagnoseAccuracyDisplay = (TextView)findViewById(R.id.average_diagnose_accuracy_data);
         averageDiagnoseMoveRatioDisplay = (TextView)findViewById(R.id.average_diagnose_move_ratio_data);
@@ -51,16 +53,12 @@ public class MyStatisticsActivity extends ActionBarActivity {
             float totalMove = userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_TOTAL_MOVES);
             averageDiagnoseMoveRatio = totalDiagnose / totalMove;
 
-            averageNumberOfMovesDisplay.setText(averageNumberOfMoves + "");
-            averageDiagnoseMoveRatioDisplay.setText(averageDiagnoseMoveRatio + "");
-            averageDiagnoseAccuracyDisplay.setText(averageDiagnoseAccuracy + "");
-            totalHealthCasesCompletedDisplay.setText(totalHealthCasesCompleted + "");
+            averageNumberOfMovesDisplay.setText(df.format(averageNumberOfMoves)+ "");
+            averageDiagnoseMoveRatioDisplay.setText(df.format(averageDiagnoseMoveRatio) + "");
+            averageDiagnoseAccuracyDisplay.setText(df.format(averageDiagnoseAccuracy) + "");
+            totalHealthCasesCompletedDisplay.setText(df.format(totalHealthCasesCompleted) + "");
 
         }
-
-
-
-
         //for now this is pointless but in preparation for later when we send intents with data
         //Intent intent = getIntent();
         //String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
@@ -84,36 +82,7 @@ public class MyStatisticsActivity extends ActionBarActivity {
 //                new DataPoint(4, 6)
 //        });
 //        graph1.addSeries(seriesBar);
-
-
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_my_statistics, menu);
-        return true;
-    }
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.link_cases) {
-            intent = new Intent(this,ChooseCaseActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public void viewHealthCasesStats(View view) {
         Intent chooseCase = new Intent(this, ChooseCaseActivity.class);
         startActivity(chooseCase);

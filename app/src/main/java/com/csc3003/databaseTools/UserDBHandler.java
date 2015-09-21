@@ -118,7 +118,7 @@ public class UserDBHandler extends SQLiteOpenHelper {
 
             db.insert(TABLE_USER, null, values);
             db.close();
-
+            Log.i("DB", "New user persisted");
 
 
 
@@ -187,10 +187,7 @@ public class UserDBHandler extends SQLiteOpenHelper {
         db.insert(TABLE_USERSTATS, null, values);
 
         db.close();
-
-
-
-
+        Log.i("DB", "Test stats instance persisted");
     }
     public boolean recordExist(String username)
     {
@@ -256,22 +253,16 @@ public class UserDBHandler extends SQLiteOpenHelper {
         {
             sumStatisticF =0;
         }
-
-
         db.close();
         return sumStatisticF;
     }
 
     public float getAverageStatistic(String username, String statistic) {
         float sumStatisticF = getSumStatistic(username, statistic);
-
-
-
         int numberOfRecords = countRecords( username );
-
         float statisticF;
         statisticF = sumStatisticF/numberOfRecords;
-        Log.e("statistic test", statistic + ":" + statisticF);
+        Log.d("statistic test", statistic + ":" + statisticF);
         return statisticF;
     }
 

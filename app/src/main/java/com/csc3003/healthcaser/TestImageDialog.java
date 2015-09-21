@@ -17,6 +17,7 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 /**
  * Created by GavinW on 2015-09-06.
@@ -33,50 +34,36 @@ public class TestImageDialog extends DialogFragment {
         frag.setArguments(args);
         return frag;
     }*/
-    public static TestImageDialog newInstance(String FOLDER_NAME, String[] files) {
+    public static TestImageDialog newInstance(String folderpath, ArrayList<String> files) {
         TestImageDialog frag = new TestImageDialog();
         Bundle args = new Bundle();
-        args.putStringArray("images", files);
-        args.putString("FOLDER_NAME", FOLDER_NAME);
+        args.putStringArrayList("IMAGES", files);
+        args.putString("FOLDER_NAME", folderpath);
         frag.setArguments(args);
         return frag;
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
-//        testImage = new ImageView(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View content = inflater.inflate(R.layout.alert_test_results, null);
 
-        AssetManager assetManager = getActivity().getApplicationContext().getAssets();
-        String[] files = getArguments().getStringArray("images");
+        ArrayList<String> files = getArguments().getStringArrayList("IMAGES");
+        //health case foldername
+        String folderpath = getArguments().getString("FOLDER_NAME");
+        final Drawable[] d = new Drawable[files.size()];
 
-        String FOLDER_NAME = getArguments().getString("FOLDER_NAME");
-        final Drawable[] d = new Drawable[files.length];
-        InputStream ims;
-        try{
-            for (int i = 0; i < files.length; i++){
-                ims = assetManager.open(FOLDER_NAME + File.separator + files[i]);
-                d[i] = Drawable.createFromStream(ims, null);
-            }
-        }catch(IOException e){
-            e.printStackTrace();
+        for (int i = 0; i < files.size(); i ++){
+            d[i] = Drawable.createFromPath(folderpath + "/images/" + files.get(i));
         }
-       /* images = new File[imagePaths.length];
-        for (int i = 0; i < imagePaths.length; i ++){
-            System.out.println(imagePaths[i]);
-            images[i] = new File (imagePaths[i]);
-        }*/
         count = 0;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        //set the first image
-//        Drawable d = Drawable.createFromPath(imagePaths[count]);
         final ImageView testResults = (ImageView)content.findViewById(R.id.test_image);
         testResults.setImageDrawable(d[count]);
         count+=1;
-        //object doesn't change. image drawables mutates
 
+        //object doesn't change. image drawables mutates
         builder.setView(content)
                 .setTitle(R.string.test_popup_title)
                 .setNegativeButton(R.string.test_popup_close, new DialogInterface.OnClickListener() {
@@ -89,10 +76,7 @@ public class TestImageDialog extends DialogFragment {
         nextResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ImageView iv=(ImageView)content.findViewById(R.id.test_image);
-//                Drawable d = Drawable.createFromPath(images[count].getPath());
                 testResults.setImageDrawable(d[count]);
-//                testResults.setCompoundDrawables(null, d, null, null);
                 if (count == d.length-1){
                     count = 0 ;
                 }else{

@@ -9,8 +9,6 @@ public class User {
     private boolean loggedIn;
     private String state;
 
-
-
     public User()
     {
 

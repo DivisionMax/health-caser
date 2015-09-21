@@ -1,6 +1,7 @@
 package com.csc3003.databaseTools;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,9 +29,11 @@ public class Setup {
                     res &= copyAssetFolder(assetManager,
                             fromAssetPath + "/" + file,
                             toPath + "/" + file);
+            Log.i("I/O", "Successfully copied bundled health cases");
             return res;
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e("I/O", "Bundled health cases were not copied.");
             return false;
         }
     }

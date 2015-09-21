@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -117,12 +118,12 @@ public class LoginActivity extends Activity {
     public void loadStandardXML()
     {
 
-           String internal_path = getFilesDir().getPath();
+        String internal_path = getFilesDir().getPath();
         String full_internal_path = internal_path +"/HealthCases";
         //if the internal folder exists, it's like the files are already copied.
         if (!(new File(full_internal_path)).exists())
-           Setup.copyAssetFolder(getAssets(),"HealthCases" ,internal_path+"/HealthCases" );
-    }
+        Setup.copyAssetFolder(getAssets(),"HealthCases" ,internal_path+"/HealthCases" );
+        }
     //    Register a User
     public void register(View view) {
         emailStr = email.getText().toString();
@@ -151,6 +152,7 @@ public class LoginActivity extends Activity {
                 editor.putString(PREFS_HC_CURRENTUSER, emailStr);
                 editor.commit();
                 successfulLoginOrRegistration(emailStr, "Welcome. You have registered");
+                Log.i("LOGIN", "User has registered");
             }
         }
     }
