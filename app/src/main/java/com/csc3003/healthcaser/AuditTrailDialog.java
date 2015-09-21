@@ -48,9 +48,7 @@ public class AuditTrailDialog extends DialogFragment {
             auditView.append(s);
         }
         }
-/*        auditView.setText("Bacon ipsum dolor amet ullamco pork loin doner, tri-tip excepteur velit short loin. Boudin in swine meatball, spare ribs consequat incididunt commodo shankle ham hock cupim voluptate in bresaola filet mignon. Labore short ribs nisi proident andouille adipisicing elit in mollit ex meatloaf doner. Shank adipisicing frankfurter tempor turducken. Commodo cupim consequat biltong kevin minim veniam id fatback meatloaf. Enim occaecat hamburger mollit doner short loin fugiat irure laboris ipsum dolore.\n" +
-                "\n" +
-                "Aliquip hamburger anim pork frankfurter velit, aute ham cillum prosciutto eiusmod landjaeger jerky cupim. Tail minim ribeye nulla meatball bresaola ut ham hock dolor. Jerky chicken est voluptate strip steak meatball incididunt deserunt bresaola. Doner laboris ex short ribs laborum.")*/;
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setView(content)

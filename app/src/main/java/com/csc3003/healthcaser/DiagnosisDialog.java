@@ -54,6 +54,7 @@ public class DiagnosisDialog extends DialogFragment {
                         mListener.onDialogNegativeClick(DiagnosisDialog.this);
                     }
                 });
+        //pass the diagnose input to the parent view
         // Create the AlertDialog object and return it
         return builder.create();
     }

@@ -118,7 +118,6 @@ public class ChooseCaseActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
         if (id == R.id.user_statistics) {
              intent = new Intent(this, MyStatisticsActivity.class);
             startActivity(intent);
@@ -127,13 +126,7 @@ public class ChooseCaseActivity extends ActionBarActivity {
     }
     //populate the spinner with externalSD cases
     public void populateCasesView(File[] fileNames) {
-         //rand = new Random();
-        int k;
         for (int i = 0 ; i < fileNames.length; i ++ ){
-             //k = rand.nextInt(50) + 100;
-            //cases.add("Case #" + k);
-
-            
             cases.add(fileNames[i].getName());
             //images can be found + test name + scan the list
             casesPath.add(fileNames[i].getAbsolutePath());
@@ -154,7 +147,6 @@ public class ChooseCaseActivity extends ActionBarActivity {
     public void randomCase(View v){
         rand = new Random();
         int i = rand.nextInt(cases.size());
-        //String text = b.getText().toString();
         intent = new Intent(this, HealthCaseTestActivity.class);
         String foldername = cases.get(i);
         String filePath = casesPath.get(i);

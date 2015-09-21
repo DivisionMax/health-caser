@@ -17,7 +17,7 @@
     <string name="title_activity_health_case_test">Test</string>
 
     <string name="title_activity_health_case_test_result">Results</string>
-
+    <string name="about">About Health Caser</string>
     <string name="action_settings">Settings</string>
     <!-- Landing Page-->
     <string name="login">Login</string>
@@ -26,7 +26,7 @@
     <string name="title_activity_l">LActivity</string>
     <string name="moreHist">More History</string>
     <string name="takeTest">View Tests</string>
-
+    <string name="license">HealthCaser(TM) was created by Alan Berman, Charles Du, and Gavin Wiener in 2015.\nStep 1: Register a new account or login with your existing details.\nStep 2: Choose an available Health Case.\nStep 3: Have fun and learn!</string>
     <string name="hello_world">Hello world!</string>
 
     <string name="hint_email">Email</string>
