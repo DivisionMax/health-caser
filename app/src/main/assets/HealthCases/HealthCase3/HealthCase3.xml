@@ -1,0 +1,111 @@
+<healthCase>
+   <diagnosis>Diagnosis: Disseminated Cryptococcosis.</diagnosis>
+   <history>
+      <pastHistory>
+         <string> no past history</string>
+
+      </pastHistory>
+      <pastTests>
+         <string> no past tests </string>
+
+      </pastTests>
+      <pastTreatments>
+         <string>No past Treatment</string>
+
+      </pastTreatments>
+      <recentHistory>
+         <string> No recent history</string>
+
+      </recentHistory>
+   </history>
+   <physicalState>Tired, middle aged, man in no apparent distress.</physicalState>
+   <start>A 55 year-old man presents to the emergency room at Presbyterian University Hospital with a chief complaint of &quot;I have a severe headache and fever.&quot;</start>
+   <test>
+      <name>Vital Signs</name>
+      <results>
+         <string>Blood pressure: Normal
+Heart Rate: Normal
+Respiration Rate: Normal
+Temperature: 38.5</string>
+      </results>
+   </test>
+   <test>
+      <image>
+         <description>Chest x-ray showed cardiac enlargement, no acute pulmonary abnormality, and a lytic lesion of the distal left clavicle.</description>
+         <name>gross1.jpg</name>
+      </image>
+      <name>Chest X-Ray</name>
+      <results>
+         <string>None</string>
+      </results>
+   </test>
+   <test>
+      <image>
+         <description>X-ray of left shoulder showed a pathologic fracture through a lytic lesion of the distal left clavicle most likely related to osteomyelitis.</description>
+         <name>gross2.jpg</name>
+      </image>
+      <name>Shoulder X-Ray</name>
+      <results>
+         <string>None</string>
+      </results>
+   </test>
+   <test>
+      <image>
+         <description>CT scan of the shoulder (bone window, soft tissue window) showed probable abscess anterior and subjacent to the distal left clavicle with lytic destruction of the adjacent clavicle.</description>
+         <name>gross3.jpg</name>
+      </image>
+      <image>
+         <description>CT scan of the shoulder (bone window, soft tissue window) showed probable abscess anterior and subjacent to the distal left clavicle with lytic destruction of the adjacent clavicle.</description>
+         <name>gross4.jpg</name>
+      </image>
+      <name>Shoulder CT Scan</name>
+      <results>
+         <string>None</string>
+      </results>
+   </test>
+   <test>
+      <name>Head CT Scan</name>
+      <results>
+         <string>Chronic lacunar infarct to the right lentiform nucleus but no other abnormality.</string>
+      </results>
+   </test>
+   <test>
+      <name>Cryptococcal Test</name>
+      <results>
+         <string>Antibody titer 1:32.</string>
+      </results>
+   </test>
+   <test>
+      <image>
+         <description>Culture at 35 degrees C on 5% sheep blood agar and Sabouraud&apos;s dextrose agar grew slightly convex mucoid colonies with smooth edges.</description>
+         <name>micro1.jpg</name>
+      </image>
+      <image>
+         <description>On cornmeal-Tween 80 agar round, dark walled, narrow neck budding yeast, without hyphae were identified.</description>
+         <name>micro2.jpg</name>
+      </image>
+      <image>
+         <description>On cornmeal-Tween 80 agar round, dark walled, narrow neck budding yeast, without hyphae were identified. </description>
+         <name>micro3.jpg</name>
+      </image>
+      <name>Left Clavical Tissue Test</name>
+      <results>
+         <string>None</string>
+      </results>
+   </test>
+   <test>
+      <image>
+         <description>The tissue submitted consisted of fibroadipose tissue, acute inflammatory exudate, necrotic bone, and granulomatous inflammation.</description>
+         <name>micro4.jpg</name>
+      </image>
+      <image>
+         <description>Several narrow based budding yeast were identified and are highlighted by the mucicarmine stain.</description>
+         <name>micro5.jpg</name>
+      </image>
+
+      <name>Histology Test</name>
+      <results>
+         <string>None</string>
+      </results>
+   </test>
+</healthCase>
