@@ -121,7 +121,7 @@ public class LoginActivity extends Activity {
         String full_internal_path = internal_path +"/HealthCases";
         //if the internal folder exists, it's like the files are already copied.
         if (!(new File(full_internal_path)).exists())
-        Setup.copyAssetFolder(getAssets(),"HealthCases" ,internal_path+"/HealthCases" );
+            Setup.copyAssetFolder(getAssets(),"HealthCases" ,internal_path+"/HealthCases" );
         }
     //    Register a User
     public void register(View view) {
