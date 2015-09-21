@@ -65,7 +65,6 @@ public class ChooseCaseActivity extends ActionBarActivity {
         //load internal files
 
         HCFileManager fileManager;
-
         //interal health case folder
         String internalHCFolderPath = getFilesDir().getPath()+"/HealthCases";
         File internalfile = new File(internalHCFolderPath);
