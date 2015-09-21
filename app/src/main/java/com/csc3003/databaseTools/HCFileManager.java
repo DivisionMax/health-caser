@@ -96,7 +96,7 @@ public class HCFileManager {
         HealthCase hc1;
 
         File xmlFile = new File(internalPath + fileName);
-        Log.e("xml file path", xmlFile.toString());
+        Log.i("xml file path", xmlFile.toString());
         try
         {
             hc1 = serializer.read(HealthCase.class,xmlFile);

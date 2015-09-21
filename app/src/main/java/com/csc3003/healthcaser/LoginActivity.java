@@ -2,11 +2,13 @@ package com.csc3003.healthcaser;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,9 +64,9 @@ public class LoginActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //   getMenuInflater().inflate(R.menu.menu_l, menu);
-        return true;
+//         Inflate the menu; this adds items to the action bar if it is present.
+           getMenuInflater().inflate(R.menu.menu_login, menu);
+            return true;
     }
 
     @Override
@@ -73,12 +75,10 @@ public class LoginActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.about) {
+            DialogFragment newFragment = new LicenseDialog();
+            newFragment.show(getFragmentManager(), "license");
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -117,12 +117,12 @@ public class LoginActivity extends Activity {
     public void loadStandardXML()
     {
 
-           String internal_path = getFilesDir().getPath();
+        String internal_path = getFilesDir().getPath();
         String full_internal_path = internal_path +"/HealthCases";
         //if the internal folder exists, it's like the files are already copied.
-        if (!(new File(full_internal_path)).exists())
-           Setup.copyAssetFolder(getAssets(),"HealthCases" ,internal_path+"/HealthCases" );
-    }
+        Setup.copyAssetFolder(getAssets(),"HealthCases" ,internal_path+"/HealthCases" );
+
+        }
     //    Register a User
     public void register(View view) {
         emailStr = email.getText().toString();
@@ -151,6 +151,7 @@ public class LoginActivity extends Activity {
                 editor.putString(PREFS_HC_CURRENTUSER, emailStr);
                 editor.commit();
                 successfulLoginOrRegistration(emailStr, "Welcome. You have registered");
+                Log.i("LOGIN", "User has registered");
             }
         }
     }

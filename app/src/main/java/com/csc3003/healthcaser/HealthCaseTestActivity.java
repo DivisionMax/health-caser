@@ -190,7 +190,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             if (id==3) {
                 title.setText("Past Medical History:");
 
-
                 if (pastHistCount<=hc.getHistory().getPastHistory().size()-1) {
 
                     information.append(hc.getHistory().getPastHistory().get(pastHistCount).toString() + "\n");
@@ -202,8 +201,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                     information.append(hc.getHistory().getPastHistory().get(hc.getHistory().getPastHistory().size() - 1).toString() + "\n");
                 }
                 auditTrail.add("Past Medical History: " + information.getText().toString());
-
-
 
             }
             else if (id==4) {
@@ -254,6 +251,9 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                 auditTrail.add("Past Treatment History: " + information.getText().toString());
             }
             //asking a question again increases moves, they should check 'what we know'
+            if (!item.getTitle().toString().contains("More")){
+                item.setTitle("(More)" + item.getTitle());
+            }
             totalMoves+=1;
             return false;
     }
@@ -265,6 +265,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         public boolean onMenuItemClick(MenuItem item) {
             //item.getTitle() returns label
             title.setText(item.getTitle());
+
             information.setText(hc.getTests().get(0).getName() + ":\n");
             for (Test t : hc.getTests()) {
                 information.append(t.getResults().get(0) + "\n");
@@ -301,7 +302,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             }
             if( hc.getTests().get(id).getImages().size()>0)
             {    //get images arraylist
-
                 ArrayList<Image> tempImages;
                 tempImages = hc.getTests().get(id).getImages() ;
 
@@ -311,55 +311,66 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                 {
                     imageNames[i] = tempImages.get(i).getName();
                 }
-
                 // files = imageNames;
-
                 DialogFragment newFragment = TestImageDialog.newInstance(imagePath, imageNames);
-
                 newFragment.show(getFragmentManager(), "dialog");
             }
+            item.setIcon(R.drawable.ic_done_black_24dp);
             return false;
         }
     };
+    boolean setupAskMenu = false;
     //POPUP MENU METHODS
     public void showAskPopup(View view) {
         //SETUP
-        askMenu = new PopupMenu(this,view);
-        inflater = askMenu.getMenuInflater();
-        inflater.inflate(R.menu.menu_popup_ask, askMenu.getMenu());
-        askMenu.setOnMenuItemClickListener(askMenuListener);
-        String pastH="Past Medical History";
-        String recentH="Recent Medical History";
-        String pastTest="Past Medical Tests";
-        String pastTreatments="Past Treatments";
-        int groupId = Menu.NONE;
-        int itemIdph = 3;
-        int itemIdrh = 4;
-        int itemIdpt = 5;
-        int itemIdptr = 6;
-        int order = Menu.NONE;
-        askMenu.getMenu().add(groupId, itemIdph, order, pastH);
-        askMenu.getMenu().add(groupId, itemIdrh, order, recentH);
-        askMenu.getMenu().add(groupId, itemIdpt, order, pastTest);
-        askMenu.getMenu().add(groupId, itemIdptr, order, pastTreatments);
-        askMenu.setOnMenuItemClickListener(askMenuListener);
+        //otherwise the changed labels will reset
+        if(!setupAskMenu){
+            askMenu = new PopupMenu(this,view);
+            inflater = askMenu.getMenuInflater();
+            inflater.inflate(R.menu.menu_popup_ask, askMenu.getMenu());
+            askMenu.setOnMenuItemClickListener(askMenuListener);
+            String pastH="Past Medical History";
+            String recentH="Recent Medical History";
+            String pastTest="Past Medical Tests";
+            String pastTreatments="Past Treatments";
+            int groupId = Menu.NONE;
+            int itemIdph = 3;
+            int itemIdrh = 4;
+            int itemIdpt = 5;
+            int itemIdptr = 6;
+            int order = Menu.NONE;
+            askMenu.getMenu().add(groupId, itemIdph, order, pastH);
+            askMenu.getMenu().add(groupId, itemIdrh, order, recentH);
+            askMenu.getMenu().add(groupId, itemIdpt, order, pastTest);
+            askMenu.getMenu().add(groupId, itemIdptr, order, pastTreatments);
+            askMenu.setOnMenuItemClickListener(askMenuListener);
+
+            setupAskMenu = true;
+        }
+
         askMenu.show();
     }
 
+    boolean setupTestMenu = false;
+
     public void showTestPopup(View view) {
         //SETUP
-        testMenu = new PopupMenu(this, view);
-        inflater = testMenu.getMenuInflater();
-        inflater.inflate(R.menu.menu_popup_test, testMenu.getMenu());
-        testMenu.setOnMenuItemClickListener(testMenuListener);
-        for (int i=0;i<hc.getTests().size();i++)
-        {
-            String name = hc.getTests().get(i).getName();
-            int groupId = Menu.NONE;
-            int itemId = 100+i;
-            int order = Menu.NONE;
-            testMenu.getMenu().add(groupId,itemId,order,name);
+        if (!setupTestMenu){
+            testMenu = new PopupMenu(this, view);
+            inflater = testMenu.getMenuInflater();
+            inflater.inflate(R.menu.menu_popup_test, testMenu.getMenu());
+            testMenu.setOnMenuItemClickListener(testMenuListener);
+            for (int i=0;i<hc.getTests().size();i++)
+            {
+                String name = hc.getTests().get(i).getName();
+                int groupId = Menu.NONE;
+                int itemId = 100+i;
+                int order = Menu.NONE;
+                testMenu.getMenu().add(groupId,itemId,order,name);
+            }
+            setupTestMenu = true;
         }
+
         testMenu.show();
     }
 

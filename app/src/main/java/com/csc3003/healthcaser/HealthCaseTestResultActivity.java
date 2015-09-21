@@ -2,6 +2,7 @@ package com.csc3003.healthcaser;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,9 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.csc3003.databaseTools.UserDBHandler;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 
 
@@ -25,6 +29,25 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
     * Diagnosis vs moves - (num. diagnosise) / (total moves) -> A low ratio may indicate overly cautious.
     *   (cont.) and a high ratio may indicate risky diagnoses.
     * */
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            //super.onBackPressed();
+            Intent intent = new Intent (this, ChooseCaseActivity.class);
+            startActivity(intent);
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to return to the cases list", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,21 +71,12 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
             //get current username of user
             SharedPreferences settings = getSharedPreferences(LoginActivity.PREFS_HC, 0);
             String strEmail = settings.getString(LoginActivity.PREFS_HC_CURRENTUSER, "Not found");
-
             //get the current date for record use
             Date currentDate = new Date();
-
             //insert record
             userStatDB.addNewStatsRecord( strEmail , (int)totalMoves,(int)totalDiagnose , (int)firstDiagnose, currentDate );
-
             //testing
-
-
         }
-        System.out.println("Total moves; " + totalMoves);
-        System.out.println("Total diagnose; " + totalDiagnose);
-        System.out.println("First diagnose; " + firstDiagnose);
-
         totalMovesDisplay = (TextView)findViewById(R.id.total_moves_data);
         firstDiagnoseDisplay = (TextView)findViewById(R.id.first_diagnose_data);
         diagnoseAccuracyDisplay = (TextView)findViewById(R.id.diagnose_accuracy_data);
@@ -75,10 +89,13 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
         }else{
             diagnoseMoveRatio = totalDiagnose/totalMoves;
         }
-        totalMovesDisplay.setText(totalMoves + "");
-        firstDiagnoseDisplay.setText(firstDiagnose + "");
-        diagnoseAccuracyDisplay.setText(diagnoseAccuracy + "");
-        diagnoseMoveRatioDisplay.setText(diagnoseMoveRatio + "");
+
+        NumberFormat nf = NumberFormat.getInstance();
+        NumberFormat percentageFormat = NumberFormat.getPercentInstance();
+        totalMovesDisplay.setText(nf.format(totalMoves) + "");
+        firstDiagnoseDisplay.setText(nf.format(firstDiagnose) + "");
+        diagnoseAccuracyDisplay.setText(percentageFormat.format(diagnoseAccuracy) + "");
+        diagnoseMoveRatioDisplay.setText(percentageFormat.format(diagnoseMoveRatio) + "");
     }
     //save data if the activity is destroyed
     @Override
