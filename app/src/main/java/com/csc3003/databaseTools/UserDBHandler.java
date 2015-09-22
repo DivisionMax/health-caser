@@ -39,8 +39,10 @@ public class UserDBHandler extends SQLiteOpenHelper {
     //column for userstats
     public static final String COLUMN_ID_STATS = "_id_stats";
     public static final String COLUMN_TOTAL_MOVES = "totalMoves";
-    public static final String COLUMN_TOTAL_DIAGNOSE = "totalDiagnose";
-    public static final String COLUMN_FIRST_DIAGNOSE = "firstDiagnose";
+    public static final String COLUMN_DIAGNOSIS_ACCURACY = "accuracy";
+    public static final String COLUMN_DIAGNOSE_MOVE_RATIO = "diganoseMoveRatio";
+    //public static final String COLUMN_TOTAL_DIAGNOSE = "totalDiagnose";
+    //public static final String COLUMN_FIRST_DIAGNOSE = "firstDiagnose";
     public static final String COLUMN_DATE_FINISHED =  "dateFinished";
 
     private static final String CREATE_TABLE_USER =  "CREATE TABLE " +
@@ -51,7 +53,7 @@ public class UserDBHandler extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_USERSTATS =  "CREATE TABLE " +
             TABLE_USERSTATS + "("
             + COLUMN_ID_STATS + " INTEGER PRIMARY KEY," + COLUMN_TOTAL_MOVES
-            + " INTEGER," + COLUMN_TOTAL_DIAGNOSE + " INTEGER, " + COLUMN_FIRST_DIAGNOSE + " INTEGER,"+ COLUMN_DATE_FINISHED +" DATE,"+COLUMN_USER+" TEXT )";
+            + " INTEGER," + COLUMN_DIAGNOSIS_ACCURACY + " FLOAT, " + COLUMN_DIAGNOSE_MOVE_RATIO + " FLOAT,"+ COLUMN_DATE_FINISHED +" DATE,"+COLUMN_USER+" TEXT )";
 
 
 
@@ -170,7 +172,7 @@ public class UserDBHandler extends SQLiteOpenHelper {
     }
 
     //table userstats methods
-    public void addNewStatsRecord( String username, int totalMoves, int totalDiagnose, int firstDiagnose, Date dateFinished) {
+    public void addNewStatsRecord( String username, int totalMoves, float diagnoseAccuracy, float diagnoseMoveRatio, Date dateFinished) {
 
         ContentValues values = new ContentValues();
 
@@ -178,9 +180,10 @@ public class UserDBHandler extends SQLiteOpenHelper {
 
         values.put(COLUMN_USER, username);
         values.put(COLUMN_TOTAL_MOVES, totalMoves);
-        values.put(COLUMN_TOTAL_DIAGNOSE, totalDiagnose);
-        values.put(COLUMN_FIRST_DIAGNOSE, firstDiagnose);
+        values.put(COLUMN_DIAGNOSIS_ACCURACY, diagnoseAccuracy);
+        values.put(COLUMN_DIAGNOSE_MOVE_RATIO, diagnoseMoveRatio);
         values.put(COLUMN_DATE_FINISHED, dateFinishedStr );
+
 
         SQLiteDatabase db = this.getWritableDatabase();
 

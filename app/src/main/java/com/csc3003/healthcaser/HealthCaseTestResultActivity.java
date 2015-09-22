@@ -73,8 +73,17 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
             String strEmail = settings.getString(LoginActivity.PREFS_HC_CURRENTUSER, "Not found");
             //get the current date for record use
             Date currentDate = new Date();
+            diagnoseAccuracy = 1/totalDiagnose;
+
+            if (totalMoves==0){
+                diagnoseMoveRatio = 0 ;
+            }else{
+                diagnoseMoveRatio = totalDiagnose/totalMoves;
+            }
+
+
             //insert record
-            userStatDB.addNewStatsRecord( strEmail , (int)totalMoves,(int)totalDiagnose , (int)firstDiagnose, currentDate );
+            userStatDB.addNewStatsRecord( strEmail , (int)totalMoves, diagnoseAccuracy, diagnoseMoveRatio, currentDate );
             //testing
         }
         totalMovesDisplay = (TextView)findViewById(R.id.total_moves_data);
@@ -82,16 +91,9 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
         diagnoseAccuracyDisplay = (TextView)findViewById(R.id.diagnose_accuracy_data);
         diagnoseMoveRatioDisplay = (TextView)findViewById(R.id.diagnose_move_ratio_data);
 
-        diagnoseAccuracy = 1/totalDiagnose;
-
-        if (totalMoves==0){
-            diagnoseMoveRatio = 0 ;
-        }else{
-            diagnoseMoveRatio = totalDiagnose/totalMoves;
-        }
-
         NumberFormat nf = NumberFormat.getInstance();
         NumberFormat percentageFormat = NumberFormat.getPercentInstance();
+
         totalMovesDisplay.setText(nf.format(totalMoves) + "");
         firstDiagnoseDisplay.setText(nf.format(firstDiagnose) + "");
         diagnoseAccuracyDisplay.setText(percentageFormat.format(diagnoseAccuracy) + "");

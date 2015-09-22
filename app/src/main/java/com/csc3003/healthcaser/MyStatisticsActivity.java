@@ -46,14 +46,16 @@ public class MyStatisticsActivity extends ActionBarActivity {
             //get and calculate the relevant stats
             averageNumberOfMoves = userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_TOTAL_MOVES);
 
-            float averageDiagnose = userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_TOTAL_DIAGNOSE);
-            float totalDiagnose = userStatDB.getSumStatistic(strEmail, UserDBHandler.COLUMN_TOTAL_DIAGNOSE);
+            //float averageDiagnose = userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_TOTAL_DIAGNOSE);
+            //float totalDiagnose = userStatDB.getSumStatistic(strEmail, UserDBHandler.COLUMN_TOTAL_DIAGNOSE);
             totalHealthCasesCompleted = userStatDB.countRecords(strEmail);
-            averageDiagnoseAccuracy =1/( averageDiagnose);
+            averageDiagnoseAccuracy =  userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_DIAGNOSIS_ACCURACY);
             float totalMove = userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_TOTAL_MOVES);
-            averageDiagnoseMoveRatio = totalDiagnose / totalMove;
 
-            averageNumberOfMovesDisplay.setText(df.format(averageNumberOfMoves)+ "");
+
+            averageDiagnoseMoveRatio =  userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_DIAGNOSE_MOVE_RATIO);
+
+            averageNumberOfMovesDisplay.setText(df.format(averageNumberOfMoves) + "");
             averageDiagnoseMoveRatioDisplay.setText(df.format(averageDiagnoseMoveRatio) + "");
             averageDiagnoseAccuracyDisplay.setText(df.format(averageDiagnoseAccuracy) + "");
             totalHealthCasesCompletedDisplay.setText(df.format(totalHealthCasesCompleted) + "");
