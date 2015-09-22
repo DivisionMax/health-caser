@@ -150,7 +150,7 @@ public class LoginActivity extends Activity {
                 //record current username of the person who has logged in
                 editor.putString(PREFS_HC_CURRENTUSER, emailStr);
                 editor.commit();
-                successfulLoginOrRegistration(emailStr, "Welcome. You have registered");
+                successfulLoginOrRegistration(emailStr, "You have registered");
                 Log.i("LOGIN", "User has registered");
             }
         }

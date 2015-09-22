@@ -1,6 +1,8 @@
 package com.csc3003.healthcaser;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Environment;
@@ -20,6 +22,8 @@ import android.widget.Toast;
 
 import com.csc3003.databaseTools.HCFileManager;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -32,6 +36,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     DialogFragment newFragment;
     MenuInflater inflater;
     View content;
+    TextView dashboardDiagnoses,dashboardMoves;
     HealthCase hc ;
     AssetManager assetManager;
     String[] files = null;
@@ -61,7 +66,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             return;
         }
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to return to the cases list", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Click back again to quit the test", Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -77,7 +82,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_case_test);
         content = this.findViewById(android.R.id.content);
-        //this must be removed, just so running a test doesn't crash
         assetManager = this.getAssets();
         try {
             files = assetManager.list(FOLDER_NAME);
@@ -89,9 +93,13 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         Intent intent = getIntent();
         String foldername = intent.getStringExtra(ChooseCaseActivity.HEALTH_CASE_FOLDER_NAME);
         String filepath = intent.getStringExtra(ChooseCaseActivity.HEALTH_CASE_FILE_PATH);
+        dashboardDiagnoses = (TextView) findViewById(R.id.totalDiagnoses);
+        dashboardMoves = (TextView) findViewById(R.id.totalMoves);
+
         String XMLFileName = foldername + ".xml";
         imagePath = filepath+"/images";
         HCFileManager hcFileManager = new HCFileManager(filepath);
+        setTitle(foldername);
 
        Log.e("the path is ", filepath );
         hc = hcFileManager.readHealthCaseFromXMLFile(XMLFileName);
@@ -99,6 +107,8 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         title = (TextView)findViewById(R.id.case_title);
         information = (TextView)findViewById(R.id.case_information);
         information.setMovementMethod(new ScrollingMovementMethod());
+
+
 
         //Statistics initialize
         totalMoves = 0;
@@ -112,6 +122,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             firstDiagnose = savedInstanceState.getInt("FIRST_DIAGNOSE");
             auditTrail = savedInstanceState.getStringArrayList("AUDIT_TRAIL");
             runTests = savedInstanceState.getIntegerArrayList("RUN_TESTS");
+
         }
         //if there is no saved state
         else{
@@ -119,7 +130,23 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             information.setText(hc.getStart());
             auditTrail.add("Patient Arrives: " + information.getText().toString() + "\n");
             runTests = new ArrayList<Integer>();
+            showWelcome();
         }
+        dashboardDiagnoses.setText("Total Diagnoses: " + totalDiagnose);
+        dashboardMoves.setText("Total Moves: " + totalMoves);
+    }
+    AlertDialog alertDialog;
+    private void showWelcome(){
+        alertDialog = new AlertDialog.Builder(HealthCaseTestActivity.this).create();
+        alertDialog.setTitle("Note");
+        alertDialog.setMessage("Remember..you can view test results again without affecting your total moves or accuracy. Don't forget to view Your Doctor's Pad because it will contain messages that will help you remember your progress.");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -156,6 +183,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
     public void diagnose(View view){
          newFragment = new DiagnosisDialog();
          newFragment.show(getFragmentManager(), "diagnosis");
+
     }
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, String diagnosis) {
@@ -172,7 +200,9 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             startActivity(resultsIntent);
         }else{
             Toast.makeText(this, "Diagnosis incorrect.", Toast.LENGTH_SHORT).show();
-            auditTrail.add("Incorrect Diagnosis: " + diagnosis.toLowerCase() +"\n");
+            auditTrail.add("Incorrect Diagnosis: " + diagnosis.toLowerCase() + "\n");
+            dashboardDiagnoses.setText("Total Diagnoses: " + totalDiagnose);
+
         }
     }
     @Override
@@ -186,79 +216,93 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             information.setText("");
+
             int id = item.getItemId();
             if (id==3) {
-                title.setText("Past Medical History:");
-
+                title.setText("Past Medical History");
+                //if there are more points
                 if (pastHistCount<=hc.getHistory().getPastHistory().size()-1) {
 
                     information.append(hc.getHistory().getPastHistory().get(pastHistCount).toString() + "\n");
-                    pastHistCount++;
+                    auditTrail.add("Past Medical History: " + information.getText().toString());
+                    item.setTitle("(More)" + title.getText());
+                    totalMoves+=1;
 
+                    pastHistCount++;
                 }
                 else
                 {
                     information.append(hc.getHistory().getPastHistory().get(hc.getHistory().getPastHistory().size() - 1).toString() + "\n");
+                    item.setTitle("(Empty)" + title.getText());
+
                 }
-                auditTrail.add("Past Medical History: " + information.getText().toString());
+                //if there are no more points
 
             }
             else if (id==4) {
-                title.setText("Recent Medical History:");
+                title.setText("Recent Medical History");
+                //if there are more points
                 if (recentHistCount <= hc.getHistory().getRecentHistory().size() - 1) {
                     information.append(hc.getHistory().getRecentHistory().get(recentHistCount).toString() + "\n");
-                    auditTrail.add(information.getText().toString());
+                    auditTrail.add("Recent Medical History: " + information.getText().toString());
+                    item.setTitle("(More)" + title.getText());
+                    totalMoves+=1;
+
                     recentHistCount++;
 
                 } else {
                     information.append(hc.getHistory().getRecentHistory().get(hc.getHistory().getRecentHistory().size() - 1).toString() + "\n");
-
+                    item.setTitle("(Empty)" + title.getText());
                 }
-                auditTrail.add("Recent Medical History: " + information.getText().toString());
 
             }
             else if (id==5) {
-                title.setText("Past Medical Tests:");
+                title.setText("Past Medical Tests");
 
                 if (pastTestCount<=hc.getHistory().getPastTests().size()-1) {
 
                     information.append(hc.getHistory().getPastTests().get(pastTestCount).toString() + "\n");
-                    auditTrail.add(information.getText().toString());
+                    auditTrail.add("Past Medical Tests: " + information.getText().toString());
+                    item.setTitle("(More)" + title.getText());
+                    totalMoves+=1;
+
                     pastTestCount++;
 
                 }
                 else
                 {
                     information.append(hc.getHistory().getPastTests().get(hc.getHistory().getPastTests().size() - 1).toString() + "\n");
+                    item.setTitle("(Empty)" + title.getText());
 
                 }
-                auditTrail.add("Past Medical Tests: " +  information.getText().toString());
 
             }
              else if (id == 6) {
-                title.setText("Past Treatments:");
+                title.setText("Past Treatments");
                 if (pastTreatmentCount<=hc.getHistory().getPastTreatments().size()-1) {
 
                     information.append(hc.getHistory().getPastTreatments().get(pastTreatmentCount).toString() + "\n");
-                    auditTrail.add(information.getText().toString());
+                    auditTrail.add("Past Treatment History: " + information.getText().toString());
+                    item.setTitle("(More)" + title.getText());
+                    totalMoves+=1;
+
                     pastTreatmentCount++;
 
                 }
                 else
                 {
-                    information.append(hc.getHistory().getPastTreatments().get(hc.getHistory().getPastTreatments().size()-1).toString() + "\n");
+                    information.append(hc.getHistory().getPastTreatments().get(hc.getHistory().getPastTreatments().size() - 1).toString() + "\n");
+                    item.setTitle("(Empty)" + title.getText());
+
                 }
-                auditTrail.add("Past Treatment History: " + information.getText().toString());
             }
+            dashboardMoves.setText("Total Moves: " + totalMoves);
+
             //asking a question again increases moves, they should check 'what we know'
-            if (!item.getTitle().toString().contains("More")){
-                item.setTitle("(More)" + item.getTitle());
-            }
-            totalMoves+=1;
             return false;
     }
     };
-
+    boolean explainResults = false;
     //test is chosen. if images, load images from storage into an array. pass the array to the popup.
     private PopupMenu.OnMenuItemClickListener testMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
@@ -276,7 +320,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             //if there are results
             if (!(hc.getTests().get(id).getResults()==null))
             {
-                information.append(hc.getTests().get(id).getName().toString()+" results"+
+                information.append("Results"+
                         ":\n");
                 information.append(hc.getTests().get(id).getResults().get(0) + "\n");
 
@@ -312,10 +356,12 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
                     imageNames[i] = tempImages.get(i).getName();
                 }
                 // files = imageNames;
-                DialogFragment newFragment = TestImageDialog.newInstance(imagePath, imageNames);
+                DialogFragment newFragment = TestImageDialog.newInstance(imagePath, imageNames,item.getTitle().toString());
                 newFragment.show(getFragmentManager(), "dialog");
             }
             item.setIcon(R.drawable.ic_done_black_24dp);
+            dashboardMoves.setText("Total Moves: " + totalMoves);
+
             return false;
         }
     };

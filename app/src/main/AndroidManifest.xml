@@ -37,14 +37,10 @@
             android:name=".MyStatisticsActivity"
             android:label="@string/title_activity_my_statistics" >
         </activity>
-
+        <!--android:label="@string/title_activity_health_case_test"-->
         <activity
             android:name=".HealthCaseTestActivity"
-            android:label="@string/title_activity_health_case_test"
-            android:parentActivityName=".ChooseCaseActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.csc3003.healthcaser.ChooseCaseActivity" />
+            >
         </activity>
         <activity
             android:name=".HealthCaseTestResultActivity"
