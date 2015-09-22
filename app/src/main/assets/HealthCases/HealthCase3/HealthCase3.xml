@@ -2,19 +2,37 @@
    <diagnosis>Diagnosis: Disseminated Cryptococcosis.</diagnosis>
    <history>
       <pastHistory>
-         <string> no past history</string>
+         <string>1. Hypothyroidism.</string>
+
+         <string>2. Chronic Obstructive Pulmonary Disease(COPD)</string>
+
+         <string>3. Coronary atherosclerosis treated with bypass surgery.</string>
+
+         <string>4. Multiple transient cerebral ischemic attacks treated with vertebrobasilar angioplasty.</string>
+
+         <string>5. Repairs of an abdominal aortic aneurysm.</string>
+
+         <string>6. Bilateral iliac artery aneurysm repairs.</string>
+
+
+
 
       </pastHistory>
       <pastTests>
-         <string> no past tests </string>
+         <string>1. Left orchiectomy for epididymitis and orchitis.</string>
+         <string>2. Chest X-ray. </string>
 
       </pastTests>
       <pastTreatments>
-         <string>No past Treatment</string>
+         <string>1. Nitroglycerin for chest pain.</string>
+         <string>2. Treatment for gouty arthritis.</string>
+         <string>3. Both joints injected with corticosteroids without relief of symptoms.</string>
 
       </pastTreatments>
       <recentHistory>
-         <string> No recent history</string>
+         <string>1. Several stenoses in the coronary arteries</string>
+         <string>2. Masses present on his left wrist and right elbow for about six months prior to admission.</string>
+         <string>3. Intermittent joint pain. </string>
 
       </recentHistory>
    </history>

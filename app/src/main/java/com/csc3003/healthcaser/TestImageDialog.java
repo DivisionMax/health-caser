@@ -23,9 +23,10 @@ import java.io.InputStream;
  */
 public class TestImageDialog extends DialogFragment {
     int count;
-    public static TestImageDialog newInstance(String imagePath,String[] imageNames) {
+    public static TestImageDialog newInstance(String imagePath,String[] imageNames, String test) {
         TestImageDialog frag = new TestImageDialog();
         Bundle args = new Bundle();
+        args.putString("TEST", test);
         args.putStringArray("imageNames", imageNames);
         args.putString("imagePath", imagePath);
         frag.setArguments(args);
@@ -39,6 +40,7 @@ public class TestImageDialog extends DialogFragment {
 
         String[] imageNames = getArguments().getStringArray("imageNames");
         String imagePath = getArguments().getString("imagePath");
+        String test = getArguments().getString("TEST");
         final Drawable[] d = new Drawable[imageNames.length];
 
         for (int i = 0; i < imageNames.length; i++) {
@@ -52,7 +54,7 @@ public class TestImageDialog extends DialogFragment {
         testResults.setImageDrawable(d[count]);
         //object doesn't change. image drawables mutates
         builder.setView(content)
-                .setTitle(R.string.test_popup_title)
+                .setTitle(test + " Visuals")
                 .setNegativeButton(R.string.test_popup_close, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dismiss();
