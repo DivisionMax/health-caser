@@ -16,7 +16,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * Adapted from Alans code.
+ * Adapted from Alan's code.
  * Created by charles on 8/21/2015.
  *
  */
@@ -39,17 +39,7 @@ public class HCFileManager {
         return new File(internalPath).listFiles();
 
     }
-
-//    public void testReturnFileList()
-//    {
-//        File[] fileArr = returnFileList();
-//
-//        for (int i = 0; i < fileArr.length; i++)
-//        {
-//            Log.e("fileList", fileArr[i].getName());
-//        }
-//
-//    }
+    //Serializes a HealthCase object, writing it to a XML file.
     public boolean writeHealthCaseToXMLFilePath(Object hc,String fileName)
     {
         boolean status = false;
@@ -58,13 +48,10 @@ public class HCFileManager {
 
         try {
             serializer.write( hc , xmlFile);
-
             status = true;
-
         }
         catch (Exception e)
         {
-
             status = false;
         }
 
@@ -76,7 +63,6 @@ public class HCFileManager {
             while((oneByte = fis.read()) != -1)
             {
                 output = output + ""+(char)oneByte ;
-
             }
             Log.e("filecontents",output );
         }
@@ -88,28 +74,23 @@ public class HCFileManager {
         return status;
 
     }
-
+    //Deserializer. Constructs a HealthCase object using
+    //a health case XML file
     public HealthCase readHealthCaseFromXMLFile(String fileName)
     {
         Serializer serializer = new Persister();
-
         HealthCase hc1;
-
         File xmlFile = new File(internalPath + fileName);
         Log.i("xml file path", xmlFile.toString());
         try
         {
             hc1 = serializer.read(HealthCase.class,xmlFile);
-
             return hc1;
         }
         catch (Exception e)
         {
             Log.e ("HCFileManagerError",e.toString() );
             return null;
-
         }
-
-
     }
 }

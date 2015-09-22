@@ -22,6 +22,8 @@ import java.util.ArrayList;
 /**
  * Created by GavinW on 2015-09-06.
  */
+//Used in the 'Your Doctor Pad' pop-up, which shows all
+    //the information the user has discovered up to that point
 public class AuditTrailDialog extends DialogFragment {
 
     public static AuditTrailDialog newInstance(ArrayList<String> input) {

@@ -32,58 +32,25 @@ public class MyStatisticsActivity extends ActionBarActivity {
         averageDiagnoseAccuracyDisplay = (TextView)findViewById(R.id.average_diagnose_accuracy_data);
         averageDiagnoseMoveRatioDisplay = (TextView)findViewById(R.id.average_diagnose_move_ratio_data);
         totalHealthCasesCompletedDisplay = (TextView)findViewById(R.id.total_health_cases_completed_data);
-
         UserDBHandler userStatDB = new UserDBHandler(this, null, null, 1);
-
         //get current user name
         SharedPreferences settings = getSharedPreferences(LoginActivity.PREFS_HC, 0);
         String strEmail = settings.getString(LoginActivity.PREFS_HC_CURRENTUSER, "Not found");
-
-        //Log.e("sql",userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_TOTAL_MOVES)+"");
-
         //only look up the user statistics if he or she has any
         if(userStatDB.countRecords(strEmail)!=0) {
             //get and calculate the relevant stats
             averageNumberOfMoves = userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_TOTAL_MOVES);
-
-            //float averageDiagnose = userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_TOTAL_DIAGNOSE);
-            //float totalDiagnose = userStatDB.getSumStatistic(strEmail, UserDBHandler.COLUMN_TOTAL_DIAGNOSE);
             totalHealthCasesCompleted = userStatDB.countRecords(strEmail);
             averageDiagnoseAccuracy =  userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_DIAGNOSIS_ACCURACY);
             float totalMove = userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_TOTAL_MOVES);
-
-
             averageDiagnoseMoveRatio =  userStatDB.getAverageStatistic(strEmail, UserDBHandler.COLUMN_DIAGNOSE_MOVE_RATIO);
-
             averageNumberOfMovesDisplay.setText(df.format(averageNumberOfMoves) + "");
             averageDiagnoseMoveRatioDisplay.setText(df.format(averageDiagnoseMoveRatio) + "");
             averageDiagnoseAccuracyDisplay.setText(df.format(averageDiagnoseAccuracy) + "");
             totalHealthCasesCompletedDisplay.setText(df.format(totalHealthCasesCompleted) + "");
 
         }
-        //for now this is pointless but in preparation for later when we send intents with data
-        //Intent intent = getIntent();
-        //String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
-//        GraphView graph = (GraphView) findViewById(R.id.UsageLineGraph);
-//        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-//                new DataPoint(0, 1),
-//                new DataPoint(1, 5),
-//                new DataPoint(2, 3),
-//                new DataPoint(3, 2),
-//                new DataPoint(4, 6)
-//        });
-//        graph.addSeries(series);
-//
-//        GraphView graph1 = (GraphView) findViewById(R.id.CategoryBarChart);
-//        BarGraphSeries<DataPoint> seriesBar = new BarGraphSeries<DataPoint>(new DataPoint[] {
-//                new DataPoint(0, -1),
-//                new DataPoint(1, 5),
-//                new DataPoint(2, 3),
-//                new DataPoint(3, 2),
-//                new DataPoint(4, 6)
-//        });
-//        graph1.addSeries(seriesBar);
     }
     public void viewHealthCasesStats(View view) {
         Intent chooseCase = new Intent(this, ChooseCaseActivity.class);

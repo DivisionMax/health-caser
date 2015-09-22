@@ -204,53 +204,32 @@ public class UserDBHandler extends SQLiteOpenHelper {
         }
     }
     public int countRecords (String userName ) {
-
-
         String query = "Select COUNT(*) FROM " + TABLE_USERSTATS + " WHERE " + COLUMN_USER + " =  \"" + userName + "\"";
-
         SQLiteDatabase db = this.getWritableDatabase();
-
         Cursor cursor = db.rawQuery(query, null);
-
         int count ;
-
         if (cursor.moveToFirst()) {
-
-
             cursor.moveToFirst();
             count =  Integer.parseInt(cursor.getString(0));
             cursor.close();
-
-
         }
         else
         {
             count =0;
         }
-
-
         db.close();
-
         return count;
     }
     public float getSumStatistic(String username, String statistic)
     {
         String query = "Select SUM( "+statistic+  ") FROM " + TABLE_USERSTATS + " WHERE " + COLUMN_USER + " =  \"" + username + "\"";
-
         SQLiteDatabase db = this.getWritableDatabase();
-
         Cursor cursor = db.rawQuery(query, null);
-
         float sumStatisticF ;
-
         if (cursor.moveToFirst()) {
-
-
             cursor.moveToFirst();
             sumStatisticF =  Float.parseFloat(cursor.getString(0));
             cursor.close();
-
-
         }
         else
         {

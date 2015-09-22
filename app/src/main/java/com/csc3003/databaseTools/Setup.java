@@ -13,11 +13,12 @@ import java.io.OutputStream;
  * Created by charles on 9/19/2015.
  */
 public class Setup {
-
+    //Copies the contents of the 'assets' folder to a given file path
+    //using 'copyAsset', 'copyFile' and recursion
     public static boolean copyAssetFolder(AssetManager assetManager,
                                            String fromAssetPath, String toPath) {
         try {
-            String[] files = assetManager.list(fromAssetPath); //list the default bundlded health cases
+            String[] files = assetManager.list(fromAssetPath); //list the default bundled health cases
             new File(toPath).mkdirs();
             boolean res = true;
             for (String file : files)

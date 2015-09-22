@@ -37,12 +37,10 @@ public class TestImageDialog extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View content = inflater.inflate(R.layout.alert_test_results, null);
-
         String[] imageNames = getArguments().getStringArray("imageNames");
         String imagePath = getArguments().getString("imagePath");
         String test = getArguments().getString("TEST");
         final Drawable[] d = new Drawable[imageNames.length];
-
         for (int i = 0; i < imageNames.length; i++) {
             d[i] = Drawable.createFromPath(imagePath + "/" + imageNames[i]);
         }

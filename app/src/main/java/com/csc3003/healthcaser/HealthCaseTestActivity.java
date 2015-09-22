@@ -220,7 +220,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             int id = item.getItemId();
             if (id==3) {
                 title.setText("Past Medical History");
-                //if there are more points
+                //if there are more points, display them to the screen
                 if (pastHistCount<=hc.getHistory().getPastHistory().size()-1) {
 
                     information.append(hc.getHistory().getPastHistory().get(pastHistCount).toString() + "\n");
@@ -241,7 +241,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             }
             else if (id==4) {
                 title.setText("Recent Medical History");
-                //if there are more points
+                //if there are more points, display them to the screen
                 if (recentHistCount <= hc.getHistory().getRecentHistory().size() - 1) {
                     information.append(hc.getHistory().getRecentHistory().get(recentHistCount).toString() + "\n");
                     auditTrail.add("Recent Medical History: " + information.getText().toString());
@@ -298,7 +298,7 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             }
             dashboardMoves.setText("Total Moves: " + totalMoves);
 
-            //asking a question again increases moves, they should check 'what we know'
+            //asking a question again increases moves, they should check 'Your Doctor Pad'
             return false;
     }
     };
@@ -390,7 +390,6 @@ public class HealthCaseTestActivity extends ActionBarActivity implements Diagnos
             askMenu.getMenu().add(groupId, itemIdpt, order, pastTest);
             askMenu.getMenu().add(groupId, itemIdptr, order, pastTreatments);
             askMenu.setOnMenuItemClickListener(askMenuListener);
-
             setupAskMenu = true;
         }
 

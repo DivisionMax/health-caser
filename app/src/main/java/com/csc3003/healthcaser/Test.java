@@ -21,7 +21,6 @@ public class Test {
     private ArrayList<String> results;
     @Element
     private String name;
-
     public Test()
     {
         images = new ArrayList<Image>();

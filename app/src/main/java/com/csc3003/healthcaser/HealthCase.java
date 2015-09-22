@@ -47,7 +47,6 @@ public class HealthCase {
         }
     }
 
-
     public void setDiagnosis(String diagnosis) {
         this.diagnosis = diagnosis;
     }
@@ -55,7 +54,6 @@ public class HealthCase {
     public History getHistory() {
         return history;
     }
-
 
     public ArrayList<Test> getTests() {
         return tests;

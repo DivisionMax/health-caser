@@ -14,21 +14,14 @@ public class Image{
     private String description;
     @Element(required = false)
     private String name;
-    //@Element(required = false)
-   // private Test relatedTest;
     public Image(){}
-
-
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public void setName(String n)
     {
         name=n;
     }
-
     public String getName()
     {
         return name;

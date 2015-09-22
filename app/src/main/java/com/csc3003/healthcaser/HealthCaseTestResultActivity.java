@@ -80,8 +80,6 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
             }else{
                 diagnoseMoveRatio = totalDiagnose/totalMoves;
             }
-
-
             //insert record
             userStatDB.addNewStatsRecord( strEmail , (int)totalMoves, diagnoseAccuracy, diagnoseMoveRatio, currentDate );
             //testing
@@ -90,10 +88,8 @@ public class HealthCaseTestResultActivity extends ActionBarActivity {
         firstDiagnoseDisplay = (TextView)findViewById(R.id.first_diagnose_data);
         diagnoseAccuracyDisplay = (TextView)findViewById(R.id.diagnose_accuracy_data);
         diagnoseMoveRatioDisplay = (TextView)findViewById(R.id.diagnose_move_ratio_data);
-
         NumberFormat nf = NumberFormat.getInstance();
         NumberFormat percentageFormat = NumberFormat.getPercentInstance();
-
         totalMovesDisplay.setText(nf.format(totalMoves) + "");
         firstDiagnoseDisplay.setText(nf.format(firstDiagnose) + "");
         diagnoseAccuracyDisplay.setText(percentageFormat.format(diagnoseAccuracy) + "");

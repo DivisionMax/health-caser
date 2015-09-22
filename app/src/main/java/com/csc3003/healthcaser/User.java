@@ -6,13 +6,8 @@ package com.csc3003.healthcaser;
 public class User {
     private String username;
     private String password;
-    private boolean loggedIn;
-    private String state;
 
-    public User()
-    {
-
-    }
+    public User() {}
 
     public void setUsername(String username)
     {
@@ -33,22 +28,5 @@ public class User {
     {
         return password;
     }
-
-    public void setState(String state)
-    {
-        this.state=state;
-    }
-
-    public String State()
-    {
-        return state;
-    }
-    //Check user is in the correct state
-    public boolean takeHealthCase()
-    {
-        if ((!(state.equals("takingTest"))) && loggedIn)
-            return true;
-        return false;
-        //doSomething
-    }
+    
 }

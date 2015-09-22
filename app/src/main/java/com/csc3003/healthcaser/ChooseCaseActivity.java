@@ -80,7 +80,7 @@ public class ChooseCaseActivity extends ActionBarActivity {
         //this will check if there is a HealthCases Folder in the external Directory.
         String externalHCFolderPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/HealthCases";
         File externalfile = new File(externalHCFolderPath);
-        //the userh as an external sd card
+        //the user has an external sd card
         if( isExternalStorageReadable())
         {
             if(externalfile.exists()) {

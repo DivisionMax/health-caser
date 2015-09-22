@@ -29,13 +29,10 @@ public class LoginActivity extends Activity {
     EditText email, password;
     String emailStr, passwordStr;
     UserDBHandler userDB;
-
     final int duration = Toast.LENGTH_SHORT;
     Intent intent;
-
     public static final String PREFS_HC = "HC";
     public static final String PREFS_HC_CURRENTUSER = "currentUser";
-
     SharedPreferences settings ;
     SharedPreferences.Editor editor;
 
@@ -46,9 +43,7 @@ public class LoginActivity extends Activity {
         editor = settings.edit();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         userDB = new UserDBHandler(this, null, null, 1);
-
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         password.setTypeface(email.getTypeface());
@@ -64,7 +59,6 @@ public class LoginActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//         Inflate the menu; this adds items to the action bar if it is present.
            getMenuInflater().inflate(R.menu.menu_login, menu);
             return true;
     }
@@ -87,7 +81,6 @@ public class LoginActivity extends Activity {
     public void login(View view) {
         emailStr = email.getText().toString().toLowerCase();
         passwordStr = password.getText().toString();
-//        redirect(); //TEMP. REMOVE THIS LINE AND UNCOMMENT THE CODE BELOW
         if(emailStr.equals("")||passwordStr.equals(""))
         {
             //Adapted from http://developer.android.com/guide/topics/ui/notifiers/toasts.html
@@ -155,7 +148,6 @@ public class LoginActivity extends Activity {
             }
         }
     }
-    //Remove code repetition
     AlertDialog alertDialog;
     private void successfulLoginOrRegistration(String username, String message){
         alertDialog = new AlertDialog.Builder(LoginActivity.this).create();

@@ -41,21 +41,18 @@ public class History {
             recentHistory.add(rHistory.get(i));
         }
     }
-
     public void setPastTests(ArrayList<String> pt) {
         for (int i=0;i<pt.size();i++)
         {
             pastTests.add(pt.get(i));
         }
     }
-
     public void setPastTreatments(ArrayList<String> ptr) {
         for (int i=0;i<ptr.size();i++)
         {
             pastTreatments.add(ptr.get(i));
         }
     }
-
     public ArrayList<String> getPastTreatments() {
         return pastTreatments;
     }
